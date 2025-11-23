@@ -10,7 +10,6 @@ const withNextra = nextra({
 })
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
   images: {
     unoptimized: true
   },

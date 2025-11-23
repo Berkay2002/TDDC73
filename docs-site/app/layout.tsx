@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
-import { VersionSwitcher } from '@/components/VersionSwitcher'
+import { VersionSwitcher, versions } from '@/components/VersionSwitcher'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Primitive UI - Flutter GUI Library from Scratch',
-  description: 'A Flutter GUI library built entirely from scratch using only CustomPaint, Canvas, GestureDetector, and custom render objects.',
+  title: 'Primitive UI - Flutter GUI Library',
+  description: 'A Flutter GUI library built entirely using only CustomPaint, Canvas, GestureDetector, and custom render objects.',
   keywords: ['Flutter', 'UI Library', 'CustomPaint', 'Canvas', 'Primitive', 'Widgets'],
   authors: [{ name: 'Primitive UI Team' }],
   openGraph: {
@@ -21,10 +21,13 @@ export const metadata: Metadata = {
 const navbar = (
   <Navbar
     logo={
-      <div className="flex items-center gap-2">
+      <div className="flex items-center">
         <span className="font-bold text-xl">Primitive UI</span>
-        <span className="text-xs bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">
-          v0.0.1
+        <span
+          className="text-xs bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded"
+          style={{ marginLeft: '0.5rem' }}
+        >
+          {versions[0].label}
         </span>
       </div>
     }
