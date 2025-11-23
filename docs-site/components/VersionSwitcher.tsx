@@ -1,18 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-export interface Version {
-  label: string
-  value: string
-  path: string
-}
-
-export const versions: Version[] = [
-  { label: 'v0.0.1', value: '0.0.1', path: '/docs' },
-  // Future versions will be added here
-  // { label: 'v0.1.0', value: '0.1.0', path: '/v0.1.0/docs' },
-]
+import { Version, versions } from '@/lib/versions'
 
 export function VersionSwitcher() {
   const [currentVersion] = useState<Version>(versions[0])
