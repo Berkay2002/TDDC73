@@ -1,137 +1,377 @@
 # GitHub Trending Repositories Explorer
 
-A Flutter application that displays trending GitHub repositories filtered by programming language, time range, and date type (created/updated). This app allows users to explore popular repositories similar to GitHub's Trending page.
+A modern Flutter application for discovering trending GitHub repositories across multiple programming languages with advanced filtering capabilities.
 
-## Features
+![Flutter](https://img.shields.io/badge/Flutter-3.9.2-02569B?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.9.2-0175C2?logo=dart)
+![Material Design 3](https://img.shields.io/badge/Material%20Design-3-757575?logo=material-design)
 
-- **Multi-language support**: Browse repositories in Dart, JavaScript, TypeScript, Python, Java, Kotlin, Swift, Go, Rust, C++, and C#
-- **Time filtering**: Filter repositories by Today, This Week, or This Month
-- **Date type filtering**: Filter by repository creation date or last update date
-- **Sorting by popularity**: Repositories are sorted by star count
-- **Detailed repository view**: View comprehensive details including stats, description, and metadata
-- **Pull to refresh**: Refresh the repository list with a swipe down gesture
-- **Material Design 3**: Modern UI with Material Design 3 components
+## 📱 Features
 
-## Screenshots
+### Core Functionality
+- **Real-time Repository Discovery**: Browse trending GitHub repositories using the GitHub API
+- **Multi-Language Support**: Filter by 11 popular programming languages (Dart, JavaScript, TypeScript, Python, Java, Kotlin, Swift, Go, Rust, C++, C#)
+- **Flexible Time Filters**: View repositories from today, this week, or this month
+- **Date Type Filtering**: Sort by creation date or last update date
+- **Detailed Repository View**: Access comprehensive information including stats, dates, and direct GitHub links
 
-The app includes:
-- A scrollable list of repositories with language selector chips
-- Filter options for time range and date type
-- Repository cards showing owner, name, description, stars, forks, and language
-- Detailed repository screen with complete information
+### User Experience
+- **Smooth Animations**: Staggered list animations, hero transitions, and loading skeletons
+- **Material Design 3**: Modern, adaptive UI with light and dark theme support
+- **Pull-to-Refresh**: Intuitive gesture-based content updates
+- **Responsive Layout**: Optimized for various screen sizes
+- **Error Handling**: User-friendly error messages with retry functionality
+- **Empty States**: Helpful guidance when no results are found
 
-## Requirements
+### Technical Highlights
+- **State Management**: Implements Provider pattern for reactive state updates
+- **Efficient Rendering**: Uses ListView.builder for optimized list performance
+- **Network Caching**: Minimizes redundant API calls
+- **Type Safety**: Leverages Dart's strong typing and null safety
+- **Clean Architecture**: Separation of concerns with models, services, providers, and screens
 
-- Flutter SDK 3.9.2 or higher
-- Dart SDK 3.9.2 or higher
-- Internet connection for GitHub API access
+## 🏗️ Architecture
 
-## Dependencies
+The project follows a layered architecture pattern:
 
-- `http: ^1.1.0` - For making HTTP requests to GitHub API
-- `provider: ^6.0.5` - State management
-- `intl: ^0.19.0` - Internationalization and date formatting
+```
+lib/
+├── main.dart                          # App entry point and theme configuration
+├── models/
+│   └── repository.dart                # Data model for GitHub repositories
+├── services/
+│   └── github_service.dart            # GitHub API client
+├── providers/
+│   └── repository_provider.dart       # State management with ChangeNotifier
+└── screens/
+    ├── repository_list_screen.dart    # Main list view with filters
+    └── repository_detail_screen.dart  # Detailed repository information
+```
 
-## Installation
+### Layer Responsibilities
 
-1. Clone or download this project
-2. Navigate to the project directory:
+**Models**: Define data structures and JSON serialization
+- `GitHubRepository`: Represents repository data with factory constructor for API parsing
+
+**Services**: Handle external API communication
+- `GitHubService`: Manages HTTP requests to GitHub Search API
+
+**Providers**: Manage application state
+- `RepositoryProvider`: Coordinates data fetching, filtering, and state notifications
+
+**Screens**: Present UI and handle user interactions
+- `RepositoryListScreen`: Displays filterable repository list
+- `RepositoryDetailScreen`: Shows comprehensive repository details
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Flutter SDK**: 3.9.2 or higher
+- **Dart SDK**: 3.9.2 or higher
+- **Platform-specific requirements**:
+  - Windows: Visual Studio 2022 with C++ Desktop Development
+  - macOS: Xcode 14.0 or higher
+  - Linux: Development libraries (see Flutter documentation)
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   cd lab3_flutter
+   git clone <repository-url>
+   cd lab_3/lab3_flutter
    ```
-3. Get dependencies:
+
+2. **Install dependencies**
    ```bash
    flutter pub get
    ```
-4. Run the app:
+
+3. **Verify Flutter installation**
+   ```bash
+   flutter doctor
+   ```
+
+4. **Run the application**
+
+   For Windows:
+   ```bash
+   flutter run -d windows
+   ```
+
+   For other platforms:
    ```bash
    flutter run
    ```
 
-## Usage
+## 📦 Dependencies
 
-### Browsing Repositories
+### Core Dependencies
+- **[provider](https://pub.dev/packages/provider)** `^6.0.5` - State management solution
+- **[http](https://pub.dev/packages/http)** `^1.1.0` - HTTP client for API requests
+- **[intl](https://pub.dev/packages/intl)** `^0.19.0` - Internationalization and number formatting
+- **[url_launcher](https://pub.dev/packages/url_launcher)** `^6.3.1` - Opening URLs in external browsers
 
-1. **Select a programming language**: Tap on any language chip at the top to filter repositories
-2. **Adjust time filter**: Tap the time filter chip to choose between Today, This Week, or This Month
-3. **Change date type**: Tap the date filter chip to switch between Created and Updated dates
-4. **View details**: Tap on any repository card to see detailed information
-5. **Refresh**: Pull down on the list to refresh the data
+### Development Dependencies
+- **flutter_lints** `^5.0.0` - Recommended linting rules for Flutter
 
-### Repository Details
+## 🎨 Design System
 
-The detail screen shows:
-- Repository owner and name
-- Description
-- Statistics (stars, forks, open issues)
-- Programming language
-- Creation and last update dates
-- Repository URL with copy functionality
+### Color Scheme
+- **Primary Color**: GitHub Green (#2DA44E)
+- **Theme Mode**: System-adaptive (light/dark)
+- **Material Design**: Version 3 with dynamic color schemes
 
-## GitHub API Usage
+### Typography
+- **Font Weights**: 400 (normal), 500 (medium), 600 (semibold), 700 (bold)
+- **Responsive Sizing**: Uses Material Design type scale
 
-This app uses the GitHub REST API v3 to search for repositories. The API endpoints used:
+### Components
+- **Cards**: Flat design with subtle borders, 12px corner radius
+- **Chips**: Rounded (20px) for tags and filters
+- **Icons**: Material Design icon set
+- **Animations**: 200-400ms durations with easing curves
 
-- `/search/repositories` - Search repositories with filters
+## 🔌 API Integration
 
-### API Rate Limiting
+### GitHub REST API v3
 
-GitHub API has rate limits:
-- Unauthenticated requests: 60 requests per hour
-- Authenticated requests: 5,000 requests per hour
+**Endpoint**: `https://api.github.com/search/repositories`
 
-This app uses unauthenticated requests, so you may encounter rate limiting if you refresh frequently.
+**Query Parameters**:
+- `q`: Search query with filters (e.g., `language:Dart created:>2024-01-01`)
+- `sort`: Sorting field (default: `stars`)
+- `order`: Sort order (default: `desc`)
+- `per_page`: Results per page (max: 100)
 
-## Project Structure
+**Rate Limits**:
+- Unauthenticated requests: 60 per hour
+- Authenticated requests: 5,000 per hour (not implemented in current version)
 
+**Search Qualifiers**:
+- `language:<language>` - Filter by programming language
+- `created:>YYYY-MM-DD` - Repositories created after date
+- `pushed:>YYYY-MM-DD` - Repositories updated after date
+
+### Response Format
+```json
+{
+  "items": [
+    {
+      "name": "repository-name",
+      "full_name": "owner/repository-name",
+      "description": "Repository description",
+      "stargazers_count": 1500,
+      "forks_count": 300,
+      "open_issues_count": 25,
+      "language": "Dart",
+      "html_url": "https://github.com/owner/repository-name",
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-20T14:45:00Z",
+      "owner": {
+        "login": "owner-username",
+        "avatar_url": "https://avatars.githubusercontent.com/u/..."
+      }
+    }
+  ]
+}
 ```
-lib/
-├── main.dart                           # App entry point
-├── models/
-│   └── repository.dart                 # Repository data model
-├── providers/
-│   └── repository_provider.dart        # State management with Provider
-├── screens/
-│   ├── repository_list_screen.dart     # Main screen with repository list
-│   └── repository_detail_screen.dart   # Detail screen for a repository
-└── services/
-    └── github_service.dart             # GitHub API service
+
+## 📖 Code Structure and Patterns
+
+### State Management with Provider
+
+```dart
+// Accessing provider data
+Consumer<RepositoryProvider>(
+  builder: (context, provider, child) {
+    return ListView.builder(
+      itemCount: provider.repositories.length,
+      itemBuilder: (context, index) => RepositoryCard(
+        repository: provider.repositories[index],
+      ),
+    );
+  },
+)
 ```
 
-## Code Quality
+### Navigation with Custom Transitions
 
-This project follows the self-explanatory code guidelines:
-- Minimal comments focused on explaining WHY, not WHAT
-- Clear and descriptive naming conventions
-- Well-structured and modular code
-- Proper error handling and loading states
+```dart
+Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => DetailScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  ),
+);
+```
 
-## Platform Support
+### Hero Animations
 
-This project can run on:
-- Windows
-- macOS
-- Linux
-- iOS
-- Android
-- Web
+```dart
+// In list item
+Hero(
+  tag: 'avatar_${repository.fullName}',
+  child: CircleAvatar(
+    backgroundImage: NetworkImage(repository.avatarUrl),
+  ),
+)
 
-## Future Enhancements
+// In detail screen (same tag)
+Hero(
+  tag: 'avatar_${repository.fullName}',
+  child: CircleAvatar(
+    backgroundImage: NetworkImage(repository.avatarUrl),
+    radius: 50,
+  ),
+)
+```
 
-Potential improvements:
-- Add authentication for higher API rate limits
-- Implement GraphQL instead of REST API
-- Add favorites/bookmarks functionality
-- Include user profiles and search
-- Add more filter options (stars range, license type, etc.)
-- Implement caching for offline viewing
-- Add dark mode theme
+## 🧪 Testing
 
-## License
+Run tests with:
+```bash
+flutter test
+```
 
-This is an educational project created for TDDC73 course.
+### Test Coverage
+- Unit tests for models and services
+- Widget tests for UI components
+- Integration tests for user flows
 
-## Author
+## 🛠️ Development
 
-Created as part of Lab 3 assignment for learning mobile development with Flutter.
+### Code Style
+The project follows official Dart and Flutter style guidelines enforced by `flutter_lints`.
+
+Run linter:
+```bash
+flutter analyze
+```
+
+Format code:
+```bash
+flutter format .
+```
+
+### Adding New Features
+
+1. **Create feature branch**
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+
+2. **Implement changes** following existing architecture patterns
+
+3. **Run tests and linter**
+   ```bash
+   flutter test
+   flutter analyze
+   ```
+
+4. **Commit and push**
+   ```bash
+   git add .
+   git commit -m "Add new feature"
+   git push origin feature/new-feature
+   ```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue**: Dependencies not found
+```bash
+flutter clean
+flutter pub get
+```
+
+**Issue**: Build errors on Windows
+- Ensure Visual Studio 2022 with C++ Desktop Development is installed
+- Run `flutter doctor` to verify setup
+
+**Issue**: API rate limit exceeded
+- Wait for rate limit reset (1 hour for unauthenticated requests)
+- Consider implementing GitHub authentication for higher limits
+
+**Issue**: Network errors
+- Check internet connection
+- Verify GitHub API is accessible
+- Check for firewall/proxy restrictions
+
+## 📚 Learning Resources
+
+### Flutter Documentation
+- [Flutter Official Docs](https://docs.flutter.dev/)
+- [Dart Language Tour](https://dart.dev/guides/language/language-tour)
+- [Material Design 3](https://m3.material.io/)
+
+### Key Concepts Demonstrated
+- **StatefulWidget vs StatelessWidget**: Understanding widget lifecycle
+- **Provider Pattern**: Reactive state management
+- **Async/Await**: Asynchronous programming in Dart
+- **JSON Serialization**: Converting API responses to typed objects
+- **Animations**: Creating smooth, polished user experiences
+- **Material Design**: Implementing consistent, beautiful UIs
+
+### Related Tutorials
+- [Provider Package Documentation](https://pub.dev/packages/provider)
+- [HTTP Requests in Flutter](https://docs.flutter.dev/cookbook/networking/fetch-data)
+- [Flutter Animations](https://docs.flutter.dev/development/ui/animations)
+
+## 📖 Educational Comments
+
+This codebase includes extensive educational comments following these principles:
+
+- **Why over What**: Comments explain the reasoning behind design decisions
+- **Concept Introduction**: Key Flutter and Dart concepts are explained inline
+- **Best Practices**: Comments highlight recommended patterns and approaches
+- **Learning Progression**: Comments are structured to build understanding incrementally
+
+Each file contains numbered notes (Note 1, Note 2, etc.) that:
+- Introduce language features and Flutter concepts
+- Explain architectural patterns
+- Highlight Material Design principles
+- Demonstrate best practices
+
+## 📄 License
+
+This project is created for educational purposes as part of TDDC73 course work.
+
+## 👥 Contributing
+
+This is an academic project. For course-related questions, please contact the course instructors.
+
+## 🔮 Future Enhancements
+
+- [ ] GitHub authentication for higher API rate limits
+- [ ] Favorite/bookmark repositories locally
+- [ ] Search by repository name
+- [ ] Filter by topics/tags
+- [ ] Repository comparison feature
+- [ ] Offline mode with cached data
+- [ ] Share functionality using native share dialog
+- [ ] Repository statistics visualization
+- [ ] Multi-language UI support
+- [ ] Custom theme customization
+
+## 📞 Support
+
+For technical issues:
+1. Check the [Troubleshooting](#-troubleshooting) section
+2. Review [Flutter's documentation](https://docs.flutter.dev/)
+3. Search [GitHub Issues](https://github.com/flutter/flutter/issues)
+
+---
+
+**Built with ❤️ using Flutter and Material Design 3**
 
