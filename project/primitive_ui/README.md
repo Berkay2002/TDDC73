@@ -19,6 +19,14 @@ Instead of using high-level widgets like `Button`, `Card`, `Column`, `Row`, or `
 
 This approach provides deep insight into how Flutter's rendering engine works and demonstrates the fundamental concepts behind every widget you use in Flutter.
 
+## Accessibility
+
+Primitive UI components are designed to be accessible and WAI-ARIA compliant where applicable. All interactive components use Flutter's `Semantics` widget to expose:
+- **Roles**: Buttons, sliders, switches, and containers.
+- **States**: Toggled, enabled/disabled, values.
+- **Actions**: Tap, increase, decrease.
+- **Labels**: Custom semantic labels via `semanticsLabel`.
+
 ---
 
 ## Components

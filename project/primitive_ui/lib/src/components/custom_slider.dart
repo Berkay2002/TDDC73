@@ -38,6 +38,12 @@ class CustomSlider extends StatefulWidget {
   /// The height of the track.
   final double trackHeight;
 
+  /// Semantic label for accessibility
+  final String? semanticsLabel;
+
+  /// Step size for semantic actions (increase/decrease). Defaults to 10% of the range.
+  final double? semanticsStep;
+
   const CustomSlider({
     super.key,
     required this.value,
@@ -51,6 +57,8 @@ class CustomSlider extends StatefulWidget {
     this.thumbColor,
     this.thumbRadius = 10.0,
     this.trackHeight = 4.0,
+    this.semanticsLabel,
+    this.semanticsStep,
   }) : assert(value >= min && value <= max, 'Value must be between min and max'),
        assert(min < max, 'Min must be less than max');
 
@@ -120,6 +128,28 @@ class _CustomSliderState extends State<CustomSlider> {
     }
   }
 
+  void _increaseValue() {
+    if (widget.onChanged == null) return;
+    final double step = widget.semanticsStep ?? ((widget.max - widget.min) / 10);
+    final double newValue = (widget.value + step).clamp(widget.min, widget.max);
+    if (newValue != widget.value) {
+      widget.onChanged!(newValue);
+    }
+  }
+
+  void _decreaseValue() {
+    if (widget.onChanged == null) return;
+    final double step = widget.semanticsStep ?? ((widget.max - widget.min) / 10);
+    final double newValue = (widget.value - step).clamp(widget.min, widget.max);
+    if (newValue != widget.value) {
+      widget.onChanged!(newValue);
+    }
+  }
+
+  String _formatPercentage(double value) {
+    return '${((value - widget.min) / (widget.max - widget.min) * 100).round()}%';
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -130,27 +160,40 @@ class _CustomSliderState extends State<CustomSlider> {
             : 200.0;
         final double height = widget.thumbRadius * 2;
 
-        return GestureDetector(
-          onHorizontalDragStart: (details) => 
-              _handleDragStart(details, BoxConstraints(maxWidth: width)),
-          onHorizontalDragUpdate: (details) =>
-              _handleDragUpdate(details, BoxConstraints(maxWidth: width)),
-          onHorizontalDragEnd: _handleDragEnd,
-          onTapDown: (details) =>
-              _handleTapDown(details, BoxConstraints(maxWidth: width)),
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: CustomPaint(
-              painter: _SliderPainter(
-                value: widget.value,
-                min: widget.min,
-                max: widget.max,
-                activeColor: widget.activeColor,
-                inactiveColor: widget.inactiveColor,
-                thumbColor: widget.thumbColor ?? widget.activeColor,
-                thumbRadius: widget.thumbRadius,
-                trackHeight: widget.trackHeight,
+        final double step = widget.semanticsStep ?? ((widget.max - widget.min) / 10);
+        final double increasedVal = (widget.value + step).clamp(widget.min, widget.max);
+        final double decreasedVal = (widget.value - step).clamp(widget.min, widget.max);
+
+        return Semantics(
+          slider: true,
+          label: widget.semanticsLabel ?? 'Slider',
+          value: _formatPercentage(widget.value),
+          increasedValue: _formatPercentage(increasedVal),
+          decreasedValue: _formatPercentage(decreasedVal),
+          onIncrease: _increaseValue,
+          onDecrease: _decreaseValue,
+          child: GestureDetector(
+            onHorizontalDragStart: (details) => 
+                _handleDragStart(details, BoxConstraints(maxWidth: width)),
+            onHorizontalDragUpdate: (details) =>
+                _handleDragUpdate(details, BoxConstraints(maxWidth: width)),
+            onHorizontalDragEnd: _handleDragEnd,
+            onTapDown: (details) =>
+                _handleTapDown(details, BoxConstraints(maxWidth: width)),
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: CustomPaint(
+                painter: _SliderPainter(
+                  value: widget.value,
+                  min: widget.min,
+                  max: widget.max,
+                  activeColor: widget.activeColor,
+                  inactiveColor: widget.inactiveColor,
+                  thumbColor: widget.thumbColor ?? widget.activeColor,
+                  thumbRadius: widget.thumbRadius,
+                  trackHeight: widget.trackHeight,
+                ),
               ),
             ),
           ),

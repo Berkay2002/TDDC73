@@ -54,6 +54,8 @@ CustomSlider({
   double trackHeight = 4.0,
   ValueChanged<double>? onChangeStart,
   ValueChanged<double>? onChangeEnd,
+  String? semanticsLabel,
+  double? semanticsStep,
 })
 ```
 
@@ -138,6 +140,20 @@ CustomSlider({
       default: 'null',
       description: 'Called when the user is done selecting a new value'
     },
+    {
+      name: 'semanticsLabel',
+      type: 'String?',
+      required: false,
+      default: 'null',
+      description: 'Accessibility label (defaults to "Slider")'
+    },
+    {
+      name: 'semanticsStep',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Value step for keyboard actions (defaults to 10% of range)'
+    }
   ]}
 />
 
@@ -214,7 +230,6 @@ This component demonstrates the core concept of "unidirectional data flow" in UI
 **Known Limitations:**
 - Width must be bounded by parent (e.g., inside a SizedBox or constrained column) or it defaults to 200.0.
 - No support for divisions or discrete values yet.
-- No semantic labels built-in.
 </Callout>
 
 ## Related Components

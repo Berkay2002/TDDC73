@@ -32,6 +32,9 @@ class CustomToggleSwitch extends StatefulWidget {
   /// Height of the switch
   final double height;
 
+  /// Semantic label for accessibility
+  final String? semanticsLabel;
+
   const CustomToggleSwitch({
     super.key,
     required this.value,
@@ -40,6 +43,7 @@ class CustomToggleSwitch extends StatefulWidget {
     this.inactiveColor = const Color(0xFF9E9E9E), // Grey
     this.width = 50.0,
     this.height = 30.0,
+    this.semanticsLabel,
   }) : assert(
          width > height,
          'Width must exceed height for proper switch appearance',
@@ -107,22 +111,28 @@ class _CustomToggleSwitchState extends State<CustomToggleSwitch>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      label: widget.semanticsLabel ?? 'Toggle switch',
+      toggled: widget.value,
+      enabled: true,
       onTap: _handleTap,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: AnimatedBuilder(
-          animation: _animation,
-          builder: (context, child) {
-            return CustomPaint(
-              painter: _ToggleSwitchPainter(
-                animationValue: _animation.value,
-                activeColor: widget.activeColor,
-                inactiveColor: widget.inactiveColor,
-              ),
-            );
-          },
+      child: GestureDetector(
+        onTap: _handleTap,
+        child: SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) {
+              return CustomPaint(
+                painter: _ToggleSwitchPainter(
+                  animationValue: _animation.value,
+                  activeColor: widget.activeColor,
+                  inactiveColor: widget.inactiveColor,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -37,6 +37,9 @@ class CustomCard extends StatefulWidget {
   /// Callback when the card is tapped
   final VoidCallback? onTap;
 
+  /// Semantic label for accessibility
+  final String? semanticsLabel;
+
   const CustomCard({
     super.key,
     required this.child,
@@ -46,6 +49,7 @@ class CustomCard extends StatefulWidget {
     this.shadowColor = const Color(0xFF000000), // Black
     this.padding = const EdgeInsets.all(16.0),
     this.onTap,
+    this.semanticsLabel,
   }) : assert(elevation >= 0.0, 'Elevation cannot be negative'),
        assert(borderRadius >= 0.0, 'Border radius cannot be negative');
 
@@ -80,19 +84,25 @@ class _CustomCardState extends State<CustomCard> {
     final double effectiveElevation =
         _isPressed ? (widget.elevation / 2) : widget.elevation;
 
-    return GestureDetector(
-      onTap: widget.onTap,
-      onTapDown: _handleTapDown,
-      onTapUp: _handleTapUp,
-      onTapCancel: _handleTapCancel,
-      child: CustomPaint(
-        painter: _CardPainter(
-          color: widget.color,
-          borderRadius: widget.borderRadius,
-          elevation: effectiveElevation,
-          shadowColor: widget.shadowColor,
+    return Semantics(
+      label: widget.semanticsLabel,
+      button: widget.onTap != null,
+      enabled: widget.onTap != null,
+      container: true,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        child: CustomPaint(
+          painter: _CardPainter(
+            color: widget.color,
+            borderRadius: widget.borderRadius,
+            elevation: effectiveElevation,
+            shadowColor: widget.shadowColor,
+          ),
+          child: _CardLayout(padding: widget.padding, child: widget.child),
         ),
-        child: _CardLayout(padding: widget.padding, child: widget.child),
       ),
     );
   }

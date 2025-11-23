@@ -44,6 +44,7 @@ CustomCard({
   Color shadowColor = const Color(0xFF000000),
   EdgeInsets padding = const EdgeInsets.all(16.0),
   VoidCallback? onTap,
+  String? semanticsLabel,
 })
 ```
 
@@ -99,6 +100,13 @@ CustomCard({
       required: false,
       default: 'null',
       description: 'Callback invoked when the card is tapped. Provides visual feedback.'
+    },
+    {
+      name: 'semanticsLabel',
+      type: 'String?',
+      required: false,
+      default: 'null',
+      description: 'Accessibility label for screen readers'
     }
   ]}
 />

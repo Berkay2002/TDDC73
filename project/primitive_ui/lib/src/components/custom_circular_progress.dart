@@ -20,12 +20,16 @@ class CustomCircularProgress extends StatefulWidget {
   /// The size of the indicator.
   final double size;
 
+  /// Semantic label for accessibility
+  final String? semanticsLabel;
+
   const CustomCircularProgress({
     super.key,
     this.value,
     this.color = const Color(0xFF2196F3),
     this.strokeWidth = 4.0,
     this.size = 40.0,
+    this.semanticsLabel,
   }) : assert(value == null || (value >= 0.0 && value <= 1.0), 'Value must be between 0.0 and 1.0');
 
   @override
@@ -66,21 +70,26 @@ class _CustomCircularProgressState extends State<CustomCircularProgress>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size,
-      height: widget.size,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return CustomPaint(
-            painter: _CircularProgressPainter(
-              progress: widget.value ?? _controller.value,
-              isIndeterminate: widget.value == null,
-              color: widget.color,
-              strokeWidth: widget.strokeWidth,
-            ),
-          );
-        },
+    return Semantics(
+      value: widget.value != null ? '${(widget.value! * 100).round()}%' : null,
+      label: widget.semanticsLabel ?? (widget.value == null ? 'Loading' : 'Progress'),
+      readOnly: true,
+      child: SizedBox(
+        width: widget.size,
+        height: widget.size,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return CustomPaint(
+              painter: _CircularProgressPainter(
+                progress: widget.value ?? _controller.value,
+                isIndeterminate: widget.value == null,
+                color: widget.color,
+                strokeWidth: widget.strokeWidth,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

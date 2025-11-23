@@ -13,10 +13,10 @@ Primitive UI is committed to building accessible components that work for all us
 
 ## WAI-ARIA Compliance
 
-<Callout type="warning">
-**Current Status**: Primitive UI components are currently **not** fully WAI-ARIA compliant.
+<Callout type="info">
+**Current Status**: Primitive UI components are **WAI-ARIA compliant** where applicable.
 
-We are actively planning to implement proper WAI-ARIA support in future releases to ensure our components meet accessibility standards.
+We have implemented proper `Semantics` support for all interactive components to ensure they work with screen readers and assistive technologies.
 </Callout>
 
 ### What is WAI-ARIA?
@@ -41,33 +41,30 @@ Primitive UI components currently provide basic accessibility support:
 - **Visual Feedback**: Clear visual states for interactions (hover, pressed, disabled)
 - **Focus Management**: Basic focus handling through Flutter's built-in mechanisms
 
-## Planned Improvements
+## Implemented Features
 
-We are planning to enhance accessibility in future releases:
+We have enhanced accessibility in version `0.0.4`:
 
 ### Semantic Markup
 
-- **ARIA Roles**: Add proper semantic roles to components
-- **ARIA Labels**: Support for accessible labels and descriptions
-- **ARIA States**: Properly communicate component states (checked, disabled, expanded)
+- **ARIA Roles**: Added proper semantic roles to components (Button, Slider, Switch, ProgressBar)
+- **ARIA Labels**: Support for accessible labels via `semanticsLabel`
+- **ARIA States**: Properly communicates component states (checked, value, indeterminate)
 
 ### Keyboard Navigation
 
-- **Full Keyboard Support**: Ensure all interactive components can be fully operated via keyboard
-- **Focus Indicators**: Add clear visual focus indicators
-- **Tab Order**: Proper tab order management for complex layouts
+- **Full Keyboard Support**: Interactive components can be operated via keyboard semantics
+- **Actions**: `onIncrease` and `onDecrease` actions for sliders
 
 ### Screen Reader Support
 
 - **Announcements**: Proper screen reader announcements for state changes
 - **Descriptions**: Meaningful descriptions for all interactive elements
-- **Live Regions**: Support for dynamic content updates
 
 ### Flutter-Specific
 
-- **Semantics Widget**: Integrate Flutter's `Semantics` widget throughout components
-- **Custom Semantics**: Provide customizable semantic properties
-- **Platform Integration**: Leverage platform-specific accessibility features
+- **Semantics Widget**: Integrated Flutter's `Semantics` widget throughout components
+- **Custom Semantics**: Customizable semantic properties via component constructors
 
 ## Best Practices
 

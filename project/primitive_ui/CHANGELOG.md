@@ -1,3 +1,11 @@
+## 0.0.4
+
+* **Accessibility**: Added WAI-ARIA compliant semantics to interactive components.
+* **CustomCard**: Added `semanticsLabel` and semantic button/container roles.
+* **CustomToggleSwitch**: Added `semanticsLabel` and semantic switch role (`toggled`).
+* **CustomSlider**: Added `semanticsLabel`, `semanticsStep` and semantic slider role with increment/decrement actions.
+* **CustomCircularProgress**: Added `semanticsLabel` and semantic progress indicator support.
+
 ## 0.0.3
 
 * **VStack**: Added `CustomFlexible` and `CustomExpanded` support for flex layouts.

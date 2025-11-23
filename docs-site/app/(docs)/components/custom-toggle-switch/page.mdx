@@ -57,6 +57,7 @@ CustomToggleSwitch({
   Color inactiveColor = const Color(0xFF9E9E9E),
   double width = 50.0,
   double height = 30.0,
+  String? semanticsLabel,
 })
 ```
 
@@ -105,6 +106,13 @@ CustomToggleSwitch({
       required: false,
       default: '30.0',
       description: 'Total height of the switch'
+    },
+    {
+      name: 'semanticsLabel',
+      type: 'String?',
+      required: false,
+      default: 'null',
+      description: 'Accessibility label (defaults to "Toggle switch")'
     }
   ]}
 />

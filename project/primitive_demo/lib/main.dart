@@ -26,6 +26,7 @@ import 'package:primitive_demo/demos/custom_circular_progress_demo.dart';
 import 'package:primitive_demo/demos/v_stack_demo.dart';
 import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
 import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
+import 'package:primitive_demo/demos/accessibility_demo.dart';
 
 void main() {
   runApp(const PrimitiveUIDemo());
@@ -185,6 +186,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
               );
             },
             child: const Text('ZStack Positioned Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccessibilityDemo(),
+                ),
+              );
+            },
+            child: const Text('Accessibility Demo (v0.0.4)'),
           ),
         ],
       ),
@@ -725,7 +737,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 16)),
+          Expanded(
+            child: Text(label, style: const TextStyle(fontSize: 16)),
+          ),
           CustomToggleSwitch(
             value: value,
             onChanged: onChanged,
