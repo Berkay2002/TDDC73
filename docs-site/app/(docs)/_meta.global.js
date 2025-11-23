@@ -31,5 +31,7 @@ export default {
       'rendering-pipeline': 'Rendering Pipeline',
       'design-decisions': 'Design Decisions'
     }
-  }
+  },
+  accessibility: 'Accessibility',
+  releases: 'Releases'
 }

@@ -54,6 +54,7 @@ The workspace consists of three main parts relevant to this workflow:
 2.  **Update `CHANGELOG.md`**:
     *   Add a new section for the version.
     *   List the new component and any other changes.
+    *   Follow the existing format with version headers and bullet points.
 
 3.  **Update `README.md`**:
     *   Add the new component to the "Available Components" list.
@@ -102,6 +103,25 @@ The workspace consists of three main parts relevant to this workflow:
     *   Edit: `docs-site/app/(docs)/_meta.global.js`
     *   Action: Add the component ID and Title to the `components` -> `items` object. Ensure it is sorted alphabetically or logically.
 
+4.  **Update Releases Page**:
+    *   Edit: `docs-site/app/(docs)/releases/page.mdx`
+    *   Action: Add a new release section at the top of the page with:
+        *   Version number and date
+        *   Badge indicating "Latest" version
+        *   New component card with emoji, title, description, and code snippet
+        *   Update the version history table
+    *   Template for new component card:
+        ```mdx
+        <div className="flex items-start gap-4 p-4 rounded-lg bg-linear-to-r from-[color]-50 to-[color]-50 dark:from-[color]-950/30 dark:to-[color]-950/20 border border-[color]-200 dark:border-[color]-800">
+          <span className="text-2xl shrink-0">[emoji]</span>
+          <div>
+            <h4 className="text-base font-semibold text-[color]-900 dark:text-[color]-100 mb-1">[ComponentName]</h4>
+            <p className="text-sm text-[color]-800 dark:text-[color]-200 mb-2">[Description]</p>
+            <code className="text-xs bg-[color]-100 dark:bg-[color]-900/50 px-2 py-1 rounded">[CodeExample]</code>
+          </div>
+        </div>
+        ```
+
 ---
 
 ## Phase 5: Demo Application (`primitive_demo`)
@@ -127,5 +147,7 @@ The workspace consists of three main parts relevant to this workflow:
 - [ ] `CHANGELOG.md` updated
 - [ ] `README.md` updated
 - [ ] `docs-site` MDX page created
+- [ ] `docs-site` component index updated
 - [ ] `docs-site` navigation (`_meta.global.js`) updated
+- [ ] `docs-site` releases page updated with new version
 - [ ] `primitive_demo` page created and registered
