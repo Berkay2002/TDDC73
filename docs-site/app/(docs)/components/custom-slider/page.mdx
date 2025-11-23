@@ -1,0 +1,130 @@
+---
+title: CustomSlider
+description: A slider component built from scratch using CustomPaint and GestureDetector.
+---
+
+import { ApiTable } from '@/components/ApiTable'
+
+# CustomSlider
+
+A slider component for selecting a value from a range. It demonstrates how to handle continuous drag gestures and map them to a value range, rendering the result with custom painting.
+
+## Basic Usage
+
+```dart
+double _value = 0.5;
+
+CustomSlider(
+  value: _value,
+  onChanged: (newValue) {
+    setState(() {
+      _value = newValue;
+    });
+  },
+)
+```
+
+## API Reference
+
+### Constructor
+
+```dart
+CustomSlider({
+  Key? key,
+  required double value,
+  ValueChanged<double>? onChanged,
+  double min = 0.0,
+  double max = 1.0,
+  Color activeColor = const Color(0xFF2196F3),
+  Color inactiveColor = const Color(0xFFE0E0E0),
+  double thumbRadius = 10.0,
+  double trackHeight = 4.0,
+})
+```
+
+### Properties
+
+<ApiTable
+  data={[
+    {
+      name: 'value',
+      type: 'double',
+      description: 'The currently selected value for this slider.',
+    },
+    {
+      name: 'onChanged',
+      type: 'ValueChanged<double>?',
+      description: 'Called during a drag when the user is selecting a new value.',
+    },
+    {
+      name: 'min',
+      type: 'double',
+      description: 'The minimum value the user can select. Defaults to 0.0.',
+    },
+    {
+      name: 'max',
+      type: 'double',
+      description: 'The maximum value the user can select. Defaults to 1.0.',
+    },
+    {
+      name: 'activeColor',
+      type: 'Color',
+      description: 'The color of the track up to the thumb, and the thumb itself.',
+    },
+    {
+      name: 'inactiveColor',
+      type: 'Color',
+      description: 'The color of the track after the thumb.',
+    },
+    {
+      name: 'thumbRadius',
+      type: 'double',
+      description: 'The radius of the thumb shape.',
+    },
+    {
+      name: 'trackHeight',
+      type: 'double',
+      description: 'The thickness of the track.',
+    },
+  ]}
+/>
+
+## Examples
+
+### Custom Range and Colors
+
+```dart
+CustomSlider(
+  value: _volume,
+  min: 0.0,
+  max: 100.0,
+  activeColor: Colors.purple,
+  inactiveColor: Colors.purple.withOpacity(0.2),
+  onChanged: (value) {
+    setState(() => _volume = value);
+  },
+)
+```
+
+### Large Thumb
+
+```dart
+CustomSlider(
+  value: _progress,
+  thumbRadius: 16.0,
+  trackHeight: 8.0,
+  onChanged: (value) {
+    setState(() => _progress = value);
+  },
+)
+```
+
+## Implementation Details
+
+The `CustomSlider` is implemented using:
+
+1.  **`GestureDetector`**: Specifically `onHorizontalDragUpdate` and `onTapDown`. These callbacks provide the global position of the interaction.
+2.  **Coordinate Mapping**: The component converts the global touch position to a local position using `RenderBox.globalToLocal`. It then calculates the percentage of the drag along the track width.
+3.  **`CustomPaint`**: A `CustomPainter` draws two lines (active and inactive track) and a circle (thumb) based on the current value.
+
+This component demonstrates the core concept of "unidirectional data flow" in UI: the gesture updates the state, which triggers a rebuild, which passes the new value to the painter.

@@ -23,7 +23,7 @@ This approach provides deep insight into how Flutter's rendering engine works an
 
 ## Components
 
-Primitive UI includes 4 core components: 2 UI components and 2 layout components.
+Primitive UI includes 7 core components: 4 UI components and 3 layout components.
 
 ### UI Components
 
@@ -146,14 +146,104 @@ CustomToggleSwitch(
 **Animation Behavior:**
 - Tap triggers 200ms animation with `easeInOut` curve
 - Thumb smoothly slides between positions
+// ...existing code...
 - Colors interpolate during transition
 - Callback fires immediately on tap (doesn't wait for animation)
 
 ---
 
+#### 3. CustomSlider
+
+A slider component for selecting a value from a range.
+
+**Constructor:**
+```dart
+CustomSlider({
+  Key? key,
+  required double value,
+  ValueChanged<double>? onChanged,
+  double min = 0.0,
+  double max = 1.0,
+  Color activeColor = const Color(0xFF2196F3),
+  Color inactiveColor = const Color(0xFFE0E0E0),
+  double thumbRadius = 10.0,
+  double trackHeight = 4.0,
+})
+```
+
+**Parameters:**
+- `value` (required): Current value
+- `onChanged`: Callback when value changes
+- `min`: Minimum value (default: 0.0)
+- `max`: Maximum value (default: 1.0)
+- `activeColor`: Color of the active track and thumb
+- `inactiveColor`: Color of the inactive track
+- `thumbRadius`: Radius of the thumb
+- `trackHeight`: Height of the track
+
+**Example Usage:**
+```dart
+CustomSlider(
+  value: _currentValue,
+  min: 0.0,
+  max: 100.0,
+  onChanged: (value) {
+    setState(() => _currentValue = value);
+  },
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` for track and thumb rendering
+- `GestureDetector` handles drag updates to calculate value
+- Maps pixel position to value range
+
+---
+
+#### 4. CustomCircularProgress
+
+An indeterminate circular progress indicator.
+
+**Constructor:**
+```dart
+CustomCircularProgress({
+  Key? key,
+  Color color = const Color(0xFF2196F3),
+  double strokeWidth = 4.0,
+  double size = 40.0,
+})
+```
+
+**Parameters:**
+- `color`: Color of the indicator
+- `strokeWidth`: Width of the stroke
+- `size`: Diameter of the indicator
+
+**Example Usage:**
+```dart
+CustomCircularProgress(
+  color: Colors.purple,
+  size: 50.0,
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` to draw arcs
+- `AnimationController` rotates the canvas
+- Demonstrates continuous animation with custom painting
+
+---
+
 ### Layout Components
 
-#### 3. VStack
+#### 5. VStack
+// ...existing code...
+
+---
+
+### Layout Components
+
+#### 5. VStack
 
 A layout component that arranges children vertically with configurable spacing and alignment.
 
@@ -164,6 +254,7 @@ VStack({
   required List<Widget> children,
   double spacing = 0.0,
   VStackAlignment alignment = VStackAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
 ```
@@ -172,6 +263,7 @@ VStack({
 - `children` (required): List of widgets to arrange vertically
 - `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
 - `alignment`: How to align children horizontally (default: start)
+- `mainAxisAlignment`: How to distribute children vertically (default: start)
 - `mainAxisSize`: Whether to take maximum or minimum vertical space (default: max)
 
 **Alignment Options:**
@@ -200,6 +292,7 @@ VStack(
 VStack(
   spacing: 24.0,
   alignment: VStackAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center,
   children: [
     Icon(Icons.check_circle, size: 48, color: Colors.green),
     Text('Success!', style: TextStyle(fontSize: 24)),
@@ -218,13 +311,12 @@ VStack(
   ],
 )
 
-// Minimum vertical space
+// Space between children
 VStack(
-  spacing: 12.0,
-  mainAxisSize: MainAxisSize.min,
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
-    Text('Compact'),
-    Text('Layout'),
+    Text('Top'),
+    Text('Bottom'),
   ],
 )
 ```
@@ -238,12 +330,84 @@ VStack(
 **Layout Algorithm:**
 1. Measure each child with appropriate constraints
 2. Calculate total height (sum of child heights + spacing)
-3. Position children vertically with spacing
+3. Position children vertically with spacing and main axis distribution
 4. Apply horizontal alignment to each child
 
 ---
 
-#### 4. ZStack
+#### 6. HStack
+
+A layout component that arranges children horizontally with configurable spacing and alignment.
+
+**Constructor:**
+```dart
+HStack({
+  Key? key,
+  required List<Widget> children,
+  double spacing = 0.0,
+  HStackAlignment alignment = HStackAlignment.top,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  MainAxisSize mainAxisSize = MainAxisSize.max,
+})
+```
+
+**Parameters:**
+- `children` (required): List of widgets to arrange horizontally
+- `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
+- `alignment`: How to align children vertically (default: top)
+- `mainAxisAlignment`: How to distribute children horizontally (default: start)
+- `mainAxisSize`: Whether to take maximum or minimum horizontal space (default: max)
+
+**Alignment Options:**
+```dart
+enum HStackAlignment {
+  top,      // Align to the top edge
+  center,   // Center vertically
+  bottom,   // Align to the bottom edge
+  stretch,  // Stretch to fill vertical space
+}
+```
+
+**Example Usage:**
+```dart
+// Basic horizontal stack
+HStack(
+  spacing: 16.0,
+  children: [
+    Icon(Icons.star),
+    Text('4.5 Stars'),
+  ],
+)
+
+// Centered content
+HStack(
+  alignment: HStackAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    CircularProgressIndicator(),
+    SizedBox(width: 16),
+    Text('Loading...'),
+  ],
+)
+
+// Space between items
+HStack(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text('Left'),
+    Text('Right'),
+  ],
+)
+```
+
+**Implementation Details:**
+- Similar to `VStack` but operates on the horizontal axis
+- Custom `RenderBox` implementation
+- Handles RTL text direction automatically
+
+---
+
+#### 7. ZStack
 
 A layout component that layers children on top of each other (z-ordering/stacking).
 
@@ -368,6 +532,7 @@ All components are now available:
 - `CustomCard`
 - `CustomToggleSwitch`
 - `VStack` and `VStackAlignment`
+- `HStack` and `HStackAlignment`
 - `ZStack` and `StackFit`
 
 ---

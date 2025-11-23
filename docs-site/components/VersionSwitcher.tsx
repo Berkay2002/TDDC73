@@ -1,9 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Version, versions } from '@/lib/versions'
+import { Version, versions as defaultVersions } from '@/lib/versions'
 
-export function VersionSwitcher() {
+interface VersionSwitcherProps {
+  latestVersion?: string
+}
+
+export function VersionSwitcher({ latestVersion }: VersionSwitcherProps) {
+  const versions = latestVersion
+    ? [
+        { label: `v${latestVersion}`, value: latestVersion, path: '/docs' },
+        ...defaultVersions.filter(v => v.value !== latestVersion && v.path !== '/docs')
+      ]
+    : defaultVersions
+
   const [currentVersion] = useState<Version>(versions[0])
 
   return (

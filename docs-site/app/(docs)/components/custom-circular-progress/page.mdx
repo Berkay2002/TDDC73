@@ -1,0 +1,73 @@
+---
+title: CustomCircularProgress
+description: An indeterminate circular progress indicator built with CustomPaint and AnimationController.
+---
+
+import { ApiTable } from '@/components/ApiTable'
+
+# CustomCircularProgress
+
+An indeterminate circular progress indicator. This component demonstrates how to combine `CustomPaint` with an `AnimationController` to create continuous, smooth animations without using high-level widgets like `CircularProgressIndicator`.
+
+## Basic Usage
+
+```dart
+CustomCircularProgress()
+```
+
+## API Reference
+
+### Constructor
+
+```dart
+CustomCircularProgress({
+  Key? key,
+  Color color = const Color(0xFF2196F3),
+  double strokeWidth = 4.0,
+  double size = 40.0,
+})
+```
+
+### Properties
+
+<ApiTable
+  data={[
+    {
+      name: 'color',
+      type: 'Color',
+      description: 'The color of the progress indicator.',
+    },
+    {
+      name: 'strokeWidth',
+      type: 'double',
+      description: 'The width of the line used to draw the circle.',
+    },
+    {
+      name: 'size',
+      type: 'double',
+      description: 'The diameter of the progress indicator.',
+    },
+  ]}
+/>
+
+## Examples
+
+### Custom Size and Color
+
+```dart
+CustomCircularProgress(
+  color: Colors.orange,
+  size: 60.0,
+  strokeWidth: 6.0,
+)
+```
+
+## Implementation Details
+
+The `CustomCircularProgress` is implemented using:
+
+1.  **`AnimationController`**: A controller that repeats indefinitely (`repeat()`). This provides a value that changes from 0.0 to 1.0 over time.
+2.  **`AnimatedBuilder`**: Listens to the controller and rebuilds the `CustomPaint` widget on every frame.
+3.  **`CustomPaint`**: The painter rotates the canvas based on the animation value and draws an arc.
+
+In a more complex implementation, we could vary the arc length (sweep angle) to create the "worm" effect seen in Material Design. For this primitive implementation, we rotate a fixed arc to demonstrate the concept of animated custom painting.

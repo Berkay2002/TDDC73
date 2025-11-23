@@ -1,0 +1,356 @@
+---
+title: HStack
+description: A horizontal stack layout component with spacing and alignment
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+import { ApiTable } from '@/components/ApiTable'
+
+# HStack
+
+A horizontal stack layout component that arranges its children horizontally with configurable spacing and alignment.
+
+## Overview
+
+`HStack` provides horizontal layout capabilities using only a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood without relying on `Row`, `Flexible`, or `Expanded`.
+
+<Callout type="info">
+**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`
+</Callout>
+
+## Basic Usage
+
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+HStack(
+  spacing: 16.0,
+  children: [
+    Text('First'),
+    Text('Second'),
+    Text('Third'),
+  ],
+)
+```
+
+## API Reference
+
+### Constructor
+
+```dart
+HStack({
+  Key? key,
+  required List<Widget> children,
+  double spacing = 0.0,
+  HStackAlignment alignment = HStackAlignment.top,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  MainAxisSize mainAxisSize = MainAxisSize.max,
+})
+```
+
+### Parameters
+
+<ApiTable
+  parameters={[
+    {
+      name: 'children',
+      type: 'List<Widget>',
+      required: true,
+      default: null,
+      description: 'The widgets to display in the horizontal stack'
+    },
+    {
+      name: 'spacing',
+      type: 'double',
+      required: false,
+      default: '0.0',
+      description: 'Horizontal spacing between children (must be >= 0)'
+    },
+    {
+      name: 'alignment',
+      type: 'HStackAlignment',
+      required: false,
+      default: 'HStackAlignment.top',
+      description: 'How to align children vertically'
+    },
+    {
+      name: 'mainAxisAlignment',
+      type: 'MainAxisAlignment',
+      required: false,
+      default: 'MainAxisAlignment.start',
+      description: 'How to align children horizontally'
+    },
+    {
+      name: 'mainAxisSize',
+      type: 'MainAxisSize',
+      required: false,
+      default: 'MainAxisSize.max',
+      description: 'Whether to take maximum or minimum horizontal space'
+    }
+  ]}
+/>
+
+### HStackAlignment Enum
+
+```dart
+enum HStackAlignment {
+  top,     // Align to top
+  center,  // Center children vertically
+  bottom,  // Align to bottom
+  stretch, // Stretch children to fill available height
+}
+```
+
+## Examples
+
+### Different Alignments
+
+<Tabs items={['Top', 'Center', 'Bottom', 'Stretch']}>
+  <Tabs.Tab>
+```dart
+HStack(
+  alignment: HStackAlignment.top,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  alignment: HStackAlignment.center,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  alignment: HStackAlignment.bottom,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  alignment: HStackAlignment.stretch,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, color: Colors.red),
+    Container(width: 50, color: Colors.green),
+    Container(width: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Main Axis Alignment
+
+<Tabs items={['Start', 'Center', 'End', 'Space Between']}>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.start,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.center,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.end,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Toolbar Layout
+
+```dart
+CustomCard(
+  child: HStack(
+    spacing: 16.0,
+    alignment: HStackAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        'Dashboard',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      HStack(
+        spacing: 8.0,
+        children: [
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+          CircleAvatar(child: Text('U')),
+        ],
+      ),
+    ],
+  ),
+)
+```
+
+## Implementation Details
+
+### Layout Algorithm
+
+The HStack layout process follows these steps:
+
+1. **Constraint Creation**: Based on alignment mode
+   - `stretch`: Force children to take full height
+   - Others: Allow children to size themselves
+
+2. **Child Measurement**: Layout each child and track dimensions
+   ```dart
+   child.layout(childConstraints, parentUsesSize: true);
+   maxHeight = max(maxHeight, child.size.height);
+   totalWidth += child.size.width;
+   ```
+
+3. **Spacing Calculation**: Add spacing between all children except the last
+   ```dart
+   if (childIndex < childCount - 1) {
+     totalWidth += spacing;
+   }
+   ```
+
+4. **Self-Sizing**: Determine HStack's own size
+   - `MainAxisSize.max`: Use maximum available width
+   - `MainAxisSize.min`: Use minimum width needed
+
+5. **Distribution**: Calculate spacing based on `MainAxisAlignment`
+   - `start`, `center`, `end`: Use fixed spacing
+   - `spaceBetween`, `spaceAround`, `spaceEvenly`: Distribute free space
+
+6. **Child Positioning**: Calculate vertical position based on alignment
+   ```dart
+   switch (alignment) {
+     case HStackAlignment.top:
+       y = 0.0;
+     case HStackAlignment.center:
+       y = (height - child.size.height) / 2;
+     // ...
+   }
+   ```
+
+### RTL Support
+
+HStack respects text direction for horizontal positioning:
+
+```dart
+if (textDirection == TextDirection.rtl) {
+   currentX = width - leadingSpace;
+   // ...
+   currentX -= child.size.width;
+   // ...
+   currentX -= betweenSpace;
+} else {
+   currentX = leadingSpace;
+   // ...
+   currentX += child.size.width + betweenSpace;
+}
+```
+
+### Intrinsic Dimensions
+
+HStack implements all intrinsic dimension methods:
+
+- `computeMinIntrinsicWidth`: Sum of children's min widths + spacing
+- `computeMaxIntrinsicWidth`: Sum of children's max widths + spacing
+- `computeMinIntrinsicHeight`: Maximum of children's min heights
+- `computeMaxIntrinsicHeight`: Maximum of children's max heights
+
+## Limitations
+
+<Callout type="warning">
+**Known Limitations:**
+- No support for `Flexible` or `Expanded` widgets
+- No built-in overflow handling (use `SingleChildScrollView` with `scrollDirection: Axis.horizontal` when needed)
+- No spacer or divider components built-in
+- All children are measured even if not visible
+</Callout>
+
+## Differences from Row
+
+| Feature | HStack | Row |
+|---------|--------|-----|
+| Flexible/Expanded | ❌ Not supported | ✅ Supported |
+| Baseline alignment | ❌ Not supported | ✅ Supported |
+| Text direction | ✅ Supported | ✅ Supported |
+| Intrinsic sizing | ✅ Implemented | ✅ Implemented |
+| Performance | Good for simple layouts | Optimized for all cases |
+
+## Best Practices
+
+### Use HStack When:
+- You need simple horizontal layouts
+- Learning how layout systems work
+- Building educational projects
+- Spacing between children is uniform
+
+### Use Row Instead When:
+- You need `Flexible` or `Expanded`
+- Complex layout requirements
+- Performance is critical with many children
+- Using baseline text alignment
+
+## Related Components
+
+- [VStack](/components/vstack) - For vertical layouts
+- [ZStack](/components/zstack) - For layered layouts
+
+## Source Code
+
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/h_stack.dart).

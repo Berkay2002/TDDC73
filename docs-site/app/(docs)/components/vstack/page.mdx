@@ -44,6 +44,7 @@ VStack({
   required List<Widget> children,
   double spacing = 0.0,
   VStackAlignment alignment = VStackAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
 ```
@@ -72,6 +73,13 @@ VStack({
       required: false,
       default: 'VStackAlignment.start',
       description: 'How to align children horizontally'
+    },
+    {
+      name: 'mainAxisAlignment',
+      type: 'MainAxisAlignment',
+      required: false,
+      default: 'MainAxisAlignment.start',
+      description: 'How to align children vertically'
     },
     {
       name: 'mainAxisSize',
@@ -147,6 +155,62 @@ VStack(
     Container(height: 50, color: Colors.red),
     Container(height: 50, color: Colors.green),
     Container(height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Main Axis Alignment
+
+<Tabs items={['Start', 'Center', 'End', 'Space Between']}>
+  <Tabs.Tab>
+```dart
+VStack(
+  mainAxisAlignment: MainAxisAlignment.start,
+  spacing: 8.0,
+  children: [
+    Container(width: 100, height: 50, color: Colors.red),
+    Container(width: 100, height: 50, color: Colors.green),
+    Container(width: 100, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+VStack(
+  mainAxisAlignment: MainAxisAlignment.center,
+  spacing: 8.0,
+  children: [
+    Container(width: 100, height: 50, color: Colors.red),
+    Container(width: 100, height: 50, color: Colors.green),
+    Container(width: 100, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+VStack(
+  mainAxisAlignment: MainAxisAlignment.end,
+  spacing: 8.0,
+  children: [
+    Container(width: 100, height: 50, color: Colors.red),
+    Container(width: 100, height: 50, color: Colors.green),
+    Container(width: 100, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+VStack(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Container(width: 100, height: 50, color: Colors.red),
+    Container(width: 100, height: 50, color: Colors.green),
+    Container(width: 100, height: 50, color: Colors.blue),
   ],
 )
 ```
@@ -308,7 +372,11 @@ The VStack layout process follows these steps:
    - `MainAxisSize.max`: Use maximum available height
    - `MainAxisSize.min`: Use minimum height needed
 
-5. **Child Positioning**: Calculate horizontal position based on alignment
+5. **Distribution**: Calculate spacing based on `MainAxisAlignment`
+   - `start`, `center`, `end`: Use fixed spacing
+   - `spaceBetween`, `spaceAround`, `spaceEvenly`: Distribute free space
+
+6. **Child Positioning**: Calculate horizontal position based on alignment
    ```dart
    switch (alignment) {
      case VStackAlignment.start:

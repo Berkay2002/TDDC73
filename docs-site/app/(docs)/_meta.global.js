@@ -10,6 +10,9 @@ export default {
     items: {
       'custom-card': 'CustomCard',
       'custom-toggle-switch': 'CustomToggleSwitch',
+      'custom-slider': 'CustomSlider',
+      'custom-circular-progress': 'CustomCircularProgress',
+      'hstack': 'HStack',
       'vstack': 'VStack',
       'zstack': 'ZStack'
     }

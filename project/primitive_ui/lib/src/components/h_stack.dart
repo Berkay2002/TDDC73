@@ -2,32 +2,32 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import '../utils/intrinsic_helpers.dart';
 
-/// Alignment options for VStack children.
-enum VStackAlignment {
-  /// Align children to the start (left in LTR, right in RTL).
-  start,
+/// Alignment options for HStack children.
+enum HStackAlignment {
+  /// Align children to the top.
+  top,
 
-  /// Center children horizontally.
+  /// Center children vertically.
   center,
 
-  /// Align children to the end (right in LTR, left in RTL).
-  end,
+  /// Align children to the bottom.
+  bottom,
 
-  /// Stretch children to fill available width.
+  /// Stretch children to fill available height.
   stretch,
 }
 
-/// A vertical stack layout component built using only CustomMultiChildLayout.
+/// A horizontal stack layout component built using only CustomMultiChildLayout.
 ///
-/// VStack arranges its children vertically with configurable spacing and alignment.
+/// HStack arranges its children horizontally with configurable spacing and alignment.
 /// This is a primitive implementation that doesn't use Column, Row, or other
 /// high-level layout widgets.
 ///
 /// Example:
 /// ```dart
-/// VStack(
+/// HStack(
 ///   spacing: 16.0,
-///   alignment: VStackAlignment.center,
+///   alignment: HStackAlignment.center,
 ///   children: [
 ///     Text('First'),
 ///     Text('Second'),
@@ -35,13 +35,13 @@ enum VStackAlignment {
 ///   ],
 /// )
 /// ```
-class VStack extends StatelessWidget {
-  /// Creates a vertical stack.
-  const VStack({
+class HStack extends StatelessWidget {
+  /// Creates a horizontal stack.
+  const HStack({
     super.key,
     required this.children,
     this.spacing = 0.0,
-    this.alignment = VStackAlignment.start,
+    this.alignment = HStackAlignment.top,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
   }) : assert(spacing >= 0.0, 'Spacing must be non-negative');
@@ -49,16 +49,16 @@ class VStack extends StatelessWidget {
   /// The widgets to display in the stack.
   final List<Widget> children;
 
-  /// The vertical spacing between children.
+  /// The horizontal spacing between children.
   final double spacing;
 
-  /// How to align children horizontally.
-  final VStackAlignment alignment;
-
   /// How to align children vertically.
+  final HStackAlignment alignment;
+
+  /// How to align children horizontally.
   final MainAxisAlignment mainAxisAlignment;
 
-  /// Whether to take up maximum or minimum vertical space.
+  /// Whether to take up maximum or minimum horizontal space.
   final MainAxisSize mainAxisSize;
 
   @override
@@ -67,7 +67,7 @@ class VStack extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return _VStackLayout(
+    return _HStackLayout(
       spacing: spacing,
       alignment: alignment,
       mainAxisAlignment: mainAxisAlignment,
@@ -78,8 +78,8 @@ class VStack extends StatelessWidget {
 }
 
 /// Internal widget that uses CustomMultiChildLayout for the actual layout.
-class _VStackLayout extends MultiChildRenderObjectWidget {
-  const _VStackLayout({
+class _HStackLayout extends MultiChildRenderObjectWidget {
+  const _HStackLayout({
     required this.spacing,
     required this.alignment,
     required this.mainAxisAlignment,
@@ -88,13 +88,13 @@ class _VStackLayout extends MultiChildRenderObjectWidget {
   });
 
   final double spacing;
-  final VStackAlignment alignment;
+  final HStackAlignment alignment;
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _RenderVStack(
+    return _RenderHStack(
       spacing: spacing,
       alignment: alignment,
       mainAxisAlignment: mainAxisAlignment,
@@ -104,7 +104,7 @@ class _VStackLayout extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderVStack renderObject) {
+  void updateRenderObject(BuildContext context, _RenderHStack renderObject) {
     renderObject
       ..spacing = spacing
       ..alignment = alignment
@@ -114,17 +114,17 @@ class _VStackLayout extends MultiChildRenderObjectWidget {
   }
 }
 
-/// Custom render object for VStack layout.
+/// Custom render object for HStack layout.
 ///
 /// This implementation manually calculates child positions and sizes
 /// without using Flexible, Expanded, or other high-level layout helpers.
-class _RenderVStack extends RenderBox
+class _RenderHStack extends RenderBox
     with
-        ContainerRenderObjectMixin<RenderBox, _VStackParentData>,
-        RenderBoxContainerDefaultsMixin<RenderBox, _VStackParentData> {
-  _RenderVStack({
+        ContainerRenderObjectMixin<RenderBox, _HStackParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _HStackParentData> {
+  _RenderHStack({
     required double spacing,
-    required VStackAlignment alignment,
+    required HStackAlignment alignment,
     required MainAxisAlignment mainAxisAlignment,
     required MainAxisSize mainAxisSize,
     required TextDirection textDirection,
@@ -142,9 +142,9 @@ class _RenderVStack extends RenderBox
     markNeedsLayout();
   }
 
-  VStackAlignment _alignment;
-  VStackAlignment get alignment => _alignment;
-  set alignment(VStackAlignment value) {
+  HStackAlignment _alignment;
+  HStackAlignment get alignment => _alignment;
+  set alignment(HStackAlignment value) {
     if (_alignment == value) return;
     _alignment = value;
     markNeedsLayout();
@@ -176,8 +176,8 @@ class _RenderVStack extends RenderBox
 
   @override
   void setupParentData(RenderBox child) {
-    if (child.parentData is! _VStackParentData) {
-      child.parentData = _VStackParentData();
+    if (child.parentData is! _HStackParentData) {
+      child.parentData = _HStackParentData();
     }
   }
 
@@ -189,22 +189,22 @@ class _RenderVStack extends RenderBox
       return;
     }
 
-    // Measure all children and calculate total height
-    double maxWidth = 0.0;
-    double totalChildrenHeight = 0.0;
+    // Measure all children and calculate total width
+    double maxHeight = 0.0;
+    double totalChildrenWidth = 0.0;
     RenderBox? child = firstChild;
 
     while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
+      final childParentData = child.parentData! as _HStackParentData;
 
       // Create constraints based on alignment
       BoxConstraints childConstraints;
-      if (alignment == VStackAlignment.stretch) {
-        // Force child to take full width
+      if (alignment == HStackAlignment.stretch) {
+        // Force child to take full height
         childConstraints = BoxConstraints(
-          minWidth: constraints.maxWidth,
+          minWidth: 0,
           maxWidth: constraints.maxWidth,
-          minHeight: 0,
+          minHeight: constraints.maxHeight,
           maxHeight: constraints.maxHeight,
         );
       } else {
@@ -219,27 +219,27 @@ class _RenderVStack extends RenderBox
 
       child.layout(childConstraints, parentUsesSize: true);
 
-      maxWidth = maxWidth > child.size.width ? maxWidth : child.size.width;
-      totalChildrenHeight += child.size.height;
+      maxHeight = maxHeight > child.size.height ? maxHeight : child.size.height;
+      totalChildrenWidth += child.size.width;
 
       child = childParentData.nextSibling;
     }
 
-    // Calculate total height including spacing
-    double totalHeightWithSpacing = totalChildrenHeight;
+    // Calculate total width including spacing
+    double totalWidthWithSpacing = totalChildrenWidth;
     if (childCount > 1) {
-      totalHeightWithSpacing += spacing * (childCount - 1);
+      totalWidthWithSpacing += spacing * (childCount - 1);
     }
 
     // Determine our own size
-    final double width = constraints.maxWidth;
-    final double height = mainAxisSize == MainAxisSize.max
-        ? (constraints.hasBoundedHeight
-              ? constraints.maxHeight
-              : totalHeightWithSpacing)
-        : totalHeightWithSpacing.clamp(
-            constraints.minHeight,
-            constraints.maxHeight,
+    final double height = constraints.maxHeight;
+    final double width = mainAxisSize == MainAxisSize.max
+        ? (constraints.hasBoundedWidth
+              ? constraints.maxWidth
+              : totalWidthWithSpacing)
+        : totalWidthWithSpacing.clamp(
+            constraints.minWidth,
+            constraints.maxWidth,
           );
 
     size = Size(width, height);
@@ -248,8 +248,8 @@ class _RenderVStack extends RenderBox
     double leadingSpace = 0.0;
     double betweenSpace = spacing;
 
-    if (mainAxisSize == MainAxisSize.max && height > totalHeightWithSpacing) {
-      final double freeSpace = height - totalChildrenHeight;
+    if (mainAxisSize == MainAxisSize.max && width > totalWidthWithSpacing) {
+      final double freeSpace = width - totalChildrenWidth;
 
       switch (mainAxisAlignment) {
         case MainAxisAlignment.start:
@@ -257,11 +257,11 @@ class _RenderVStack extends RenderBox
           betweenSpace = spacing;
           break;
         case MainAxisAlignment.end:
-          leadingSpace = height - totalHeightWithSpacing;
+          leadingSpace = width - totalWidthWithSpacing;
           betweenSpace = spacing;
           break;
         case MainAxisAlignment.center:
-          leadingSpace = (height - totalHeightWithSpacing) / 2.0;
+          leadingSpace = (width - totalWidthWithSpacing) / 2.0;
           betweenSpace = spacing;
           break;
         case MainAxisAlignment.spaceBetween:
@@ -279,36 +279,44 @@ class _RenderVStack extends RenderBox
       }
     }
 
-    // Position children vertically
-    double currentY = leadingSpace;
+    // Position children horizontally
+    double currentX = leadingSpace;
+
+    // Handle RTL
+    if (textDirection == TextDirection.rtl) {
+      currentX = width - leadingSpace;
+    }
+
     child = firstChild;
 
     while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
+      final childParentData = child.parentData! as _HStackParentData;
 
-      // Calculate horizontal position based on alignment
-      double x;
+      // Calculate vertical position based on alignment
+      double y;
       switch (alignment) {
-        case VStackAlignment.start:
-          x = textDirection == TextDirection.ltr
-              ? 0.0
-              : width - child.size.width;
+        case HStackAlignment.top:
+          y = 0.0;
           break;
-        case VStackAlignment.center:
-          x = (width - child.size.width) / 2;
+        case HStackAlignment.center:
+          y = (height - child.size.height) / 2;
           break;
-        case VStackAlignment.end:
-          x = textDirection == TextDirection.ltr
-              ? width - child.size.width
-              : 0.0;
+        case HStackAlignment.bottom:
+          y = height - child.size.height;
           break;
-        case VStackAlignment.stretch:
-          x = 0.0;
+        case HStackAlignment.stretch:
+          y = 0.0;
           break;
       }
 
-      childParentData.offset = Offset(x, currentY);
-      currentY += child.size.height + betweenSpace;
+      if (textDirection == TextDirection.rtl) {
+        currentX -= child.size.width;
+        childParentData.offset = Offset(currentX, y);
+        currentX -= betweenSpace;
+      } else {
+        childParentData.offset = Offset(currentX, y);
+        currentX += child.size.width + betweenSpace;
+      }
 
       child = childParentData.nextSibling;
     }
@@ -316,46 +324,46 @@ class _RenderVStack extends RenderBox
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    return computeMinIntrinsicWidthFromChildren(firstChild, double.infinity);
+    double width = 0.0;
+    int childIndex = 0;
+    RenderBox? child = firstChild;
+    while (child != null) {
+      final childParentData = child.parentData! as _HStackParentData;
+      width += child.getMinIntrinsicWidth(height);
+      if (childIndex < childCount - 1) {
+        width += spacing;
+      }
+      childIndex++;
+      child = childParentData.nextSibling;
+    }
+    return width;
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    return computeMaxIntrinsicWidthFromChildren(firstChild, double.infinity);
+    double width = 0.0;
+    int childIndex = 0;
+    RenderBox? child = firstChild;
+    while (child != null) {
+      final childParentData = child.parentData! as _HStackParentData;
+      width += child.getMaxIntrinsicWidth(height);
+      if (childIndex < childCount - 1) {
+        width += spacing;
+      }
+      childIndex++;
+      child = childParentData.nextSibling;
+    }
+    return width;
   }
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    double height = 0.0;
-    int childIndex = 0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
-      height += child.getMinIntrinsicHeight(width);
-      if (childIndex < childCount - 1) {
-        height += spacing;
-      }
-      childIndex++;
-      child = childParentData.nextSibling;
-    }
-    return height;
+    return computeMinIntrinsicHeightFromChildren(firstChild, double.infinity);
   }
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    double height = 0.0;
-    int childIndex = 0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
-      height += child.getMaxIntrinsicHeight(width);
-      if (childIndex < childCount - 1) {
-        height += spacing;
-      }
-      childIndex++;
-      child = childParentData.nextSibling;
-    }
-    return height;
+    return computeMaxIntrinsicHeightFromChildren(firstChild, double.infinity);
   }
 
   @override
@@ -369,5 +377,5 @@ class _RenderVStack extends RenderBox
   }
 }
 
-/// Parent data for VStack children.
-class _VStackParentData extends ContainerBoxParentData<RenderBox> {}
+/// Parent data for HStack children.
+class _HStackParentData extends ContainerBoxParentData<RenderBox> {}

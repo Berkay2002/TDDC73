@@ -1,6 +1,6 @@
 name: primitive_ui
 description: "A primitive-based Flutter GUI library built from scratch using only CustomPaint, Canvas, and GestureDetector."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/yourusername/primitive_ui
 
 environment:

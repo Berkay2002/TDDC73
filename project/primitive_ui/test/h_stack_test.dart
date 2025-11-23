@@ -4,22 +4,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
 void main() {
-  group('VStack', () {
+  group('HStack', () {
     testWidgets('renders empty children list', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: VStack(children: [])),
+          home: Scaffold(body: HStack(children: [])),
         ),
       );
 
       // Should render a SizedBox.shrink
-      expect(find.byType(VStack), findsOneWidget);
+      expect(find.byType(HStack), findsOneWidget);
     });
 
     testWidgets('renders single child', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: VStack(children: [Text('Single')])),
+          home: Scaffold(body: HStack(children: [Text('Single')])),
         ),
       );
 
@@ -30,7 +30,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               children: [Text('First'), Text('Second'), Text('Third')],
             ),
           ),
@@ -48,7 +48,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               spacing: spacing,
               children: [
                 SizedBox(height: 50, width: 100),
@@ -59,15 +59,15 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.spacing, equals(spacing));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.spacing, equals(spacing));
     });
 
     testWidgets('no spacing with spacing = 0.0', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               spacing: 0.0,
               children: [
                 SizedBox(height: 50, width: 100),
@@ -78,124 +78,86 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.spacing, equals(0.0));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.spacing, equals(0.0));
     });
   });
 
-  group('VStack - Alignment', () {
-    testWidgets('VStackAlignment.start in LTR', (tester) async {
+  group('HStack - Alignment', () {
+    testWidgets('HStackAlignment.top', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
-              alignment: VStackAlignment.start,
+            body: HStack(
+              alignment: HStackAlignment.top,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.start));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.alignment, equals(HStackAlignment.top));
     });
 
-    testWidgets('VStackAlignment.center', (tester) async {
+    testWidgets('HStackAlignment.center', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
-              alignment: VStackAlignment.center,
+            body: HStack(
+              alignment: HStackAlignment.center,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.center));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.alignment, equals(HStackAlignment.center));
     });
 
-    testWidgets('VStackAlignment.end in LTR', (tester) async {
+    testWidgets('HStackAlignment.bottom', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
-              alignment: VStackAlignment.end,
+            body: HStack(
+              alignment: HStackAlignment.bottom,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.end));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.alignment, equals(HStackAlignment.bottom));
     });
 
-    testWidgets('VStackAlignment.stretch fills width', (tester) async {
+    testWidgets('HStackAlignment.stretch fills height', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 200,
-              child: VStack(
-                alignment: VStackAlignment.stretch,
-                children: [Container(height: 50, color: Colors.red)],
+              height: 200,
+              child: HStack(
+                alignment: HStackAlignment.stretch,
+                children: [Container(width: 50, color: Colors.red)],
               ),
             ),
           ),
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.stretch));
-    });
-
-    testWidgets('RTL reverses start alignment', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              body: VStack(
-                alignment: VStackAlignment.start,
-                children: [SizedBox(height: 50, width: 100)],
-              ),
-            ),
-          ),
-        ),
-      );
-
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.start));
-    });
-
-    testWidgets('RTL reverses end alignment', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              body: VStack(
-                alignment: VStackAlignment.end,
-                children: [SizedBox(height: 50, width: 100)],
-              ),
-            ),
-          ),
-        ),
-      );
-
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.end));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.alignment, equals(HStackAlignment.stretch));
     });
   });
 
-  group('VStack - MainAxisSize', () {
-    testWidgets('MainAxisSize.max fills available height', (tester) async {
+  group('HStack - MainAxisSize', () {
+    testWidgets('MainAxisSize.max fills available width', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               mainAxisSize: MainAxisSize.max,
               children: [SizedBox(height: 50, width: 100)],
             ),
@@ -203,15 +165,15 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisSize, equals(MainAxisSize.max));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisSize, equals(MainAxisSize.max));
     });
 
     testWidgets('MainAxisSize.min wraps content', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               mainAxisSize: MainAxisSize.min,
               children: [SizedBox(height: 50, width: 100)],
             ),
@@ -219,26 +181,26 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisSize, equals(MainAxisSize.min));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisSize, equals(MainAxisSize.min));
     });
   });
 
-  group('VStack - Edge Cases', () {
+  group('HStack - Edge Cases', () {
     test('throws assertion error for negative spacing', () {
       expect(
-        () => VStack(spacing: -10.0, children: const [Text('Invalid')]),
+        () => HStack(spacing: -10.0, children: const [Text('Invalid')]),
         throwsAssertionError,
       );
     });
 
-    testWidgets('handles nested VStacks', (tester) async {
+    testWidgets('handles nested HStacks', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               children: [
-                VStack(children: [Text('Nested 1'), Text('Nested 2')]),
+                HStack(children: [Text('Nested 1'), Text('Nested 2')]),
                 Text('Outer'),
               ],
             ),
@@ -251,43 +213,43 @@ void main() {
       expect(find.text('Outer'), findsOneWidget);
     });
 
-    testWidgets('correct total height with spacing', (tester) async {
-      const childHeight = 50.0;
+    testWidgets('correct total width with spacing', (tester) async {
+      const childWidth = 50.0;
       const spacing = 10.0;
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: VStack(
+            body: HStack(
               mainAxisSize: MainAxisSize.min,
               spacing: spacing,
               children: const [
-                SizedBox(height: childHeight, width: 100),
-                SizedBox(height: childHeight, width: 100),
-                SizedBox(height: childHeight, width: 100),
+                SizedBox(height: 100, width: childWidth),
+                SizedBox(height: 100, width: childWidth),
+                SizedBox(height: 100, width: childWidth),
               ],
             ),
           ),
         ),
       );
 
-      final vstackRenderBox = tester.renderObject<RenderBox>(
-        find.byType(VStack),
+      final hstackRenderBox = tester.renderObject<RenderBox>(
+        find.byType(HStack),
       );
 
-      // Total height = 3 children * 50 + 2 spacings * 10 = 170
-      expect(vstackRenderBox.size.height, equals(170.0));
+      // Total width = 3 children * 50 + 2 spacings * 10 = 170
+      expect(hstackRenderBox.size.width, equals(170.0));
     });
   });
 
-  group('VStack - MainAxisAlignment', () {
+  group('HStack - MainAxisAlignment', () {
     testWidgets('MainAxisAlignment.start', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              height: 300,
-              child: VStack(
+              width: 300,
+              child: HStack(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [SizedBox(key: Key('child'), height: 50, width: 100)],
               ),
@@ -296,16 +258,15 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisAlignment, equals(MainAxisAlignment.start));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisAlignment, equals(MainAxisAlignment.start));
 
-      // Verify position by finding the child render object
       final childRenderBox = tester.renderObject<RenderBox>(
         find.byKey(const Key('child')),
       );
       final parentData =
           childRenderBox.parentData as ContainerBoxParentData<RenderBox>;
-      expect(parentData.offset.dy, equals(0.0));
+      expect(parentData.offset.dx, equals(0.0));
     });
 
     testWidgets('MainAxisAlignment.end', (tester) async {
@@ -313,8 +274,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              height: 300,
-              child: VStack(
+              width: 300,
+              child: HStack(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [SizedBox(key: Key('child'), height: 50, width: 100)],
               ),
@@ -323,16 +284,16 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisAlignment, equals(MainAxisAlignment.end));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisAlignment, equals(MainAxisAlignment.end));
 
       final childRenderBox = tester.renderObject<RenderBox>(
         find.byKey(const Key('child')),
       );
       final parentData =
           childRenderBox.parentData as ContainerBoxParentData<RenderBox>;
-      // 300 - 50 = 250
-      expect(parentData.offset.dy, equals(250.0));
+      // 300 - 100 = 200
+      expect(parentData.offset.dx, equals(200.0));
     });
 
     testWidgets('MainAxisAlignment.center', (tester) async {
@@ -340,8 +301,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              height: 300,
-              child: VStack(
+              width: 300,
+              child: HStack(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [SizedBox(key: Key('child'), height: 50, width: 100)],
               ),
@@ -350,16 +311,16 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisAlignment, equals(MainAxisAlignment.center));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisAlignment, equals(MainAxisAlignment.center));
 
       final childRenderBox = tester.renderObject<RenderBox>(
         find.byKey(const Key('child')),
       );
       final parentData =
           childRenderBox.parentData as ContainerBoxParentData<RenderBox>;
-      // (300 - 50) / 2 = 125
-      expect(parentData.offset.dy, equals(125.0));
+      // (300 - 100) / 2 = 100
+      expect(parentData.offset.dx, equals(100.0));
     });
 
     testWidgets('MainAxisAlignment.spaceBetween', (tester) async {
@@ -367,8 +328,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              height: 300,
-              child: VStack(
+              width: 300,
+              child: HStack(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(key: Key('child1'), height: 50, width: 100),
@@ -380,8 +341,8 @@ void main() {
         ),
       );
 
-      final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.mainAxisAlignment, equals(MainAxisAlignment.spaceBetween));
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.mainAxisAlignment, equals(MainAxisAlignment.spaceBetween));
 
       final firstChild = tester.renderObject<RenderBox>(
         find.byKey(const Key('child1')),
@@ -395,9 +356,9 @@ void main() {
       final secondParentData =
           secondChild.parentData as ContainerBoxParentData<RenderBox>;
 
-      expect(firstParentData.offset.dy, equals(0.0));
-      // 300 - 50 = 250
-      expect(secondParentData.offset.dy, equals(250.0));
+      expect(firstParentData.offset.dx, equals(0.0));
+      // 300 - 100 = 200
+      expect(secondParentData.offset.dx, equals(200.0));
     });
   });
 }

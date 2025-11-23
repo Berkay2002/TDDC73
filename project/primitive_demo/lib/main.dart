@@ -21,6 +21,8 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
+import 'package:primitive_demo/demos/custom_slider_demo.dart';
+import 'package:primitive_demo/demos/custom_circular_progress_demo.dart';
 
 void main() {
   runApp(const PrimitiveUIDemo());
@@ -99,8 +101,56 @@ class _DemoHomePageState extends State<DemoHomePage> {
 
             // SECTION 6: Combined components in practical patterns
             _buildCombinedExample(),
+
+            // SECTION 7: New Components
+            _buildNewComponentsSection(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildNewComponentsSection(BuildContext context) {
+    return CustomCard(
+      color: _darkMode ? Colors.grey[850]! : Colors.white,
+      elevation: 2.0,
+      borderRadius: 12.0,
+      padding: const EdgeInsets.all(20.0),
+      child: VStack(
+        spacing: 16.0,
+        alignment: VStackAlignment.stretch,
+        children: [
+          Text(
+            'New Components (v0.0.2)',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: _darkMode ? Colors.white : Colors.black87,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CustomSliderDemo(),
+                ),
+              );
+            },
+            child: const Text('CustomSlider Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CustomCircularProgressDemo(),
+                ),
+              );
+            },
+            child: const Text('CustomCircularProgress Demo'),
+          ),
+        ],
       ),
     );
   }

@@ -12,4 +12,7 @@ library;
 export 'src/components/custom_card.dart';
 export 'src/components/custom_toggle_switch.dart';
 export 'src/components/v_stack.dart';
+export 'src/components/h_stack.dart';
 export 'src/components/z_stack.dart';
+export 'src/components/custom_slider.dart';
+export 'src/components/custom_circular_progress.dart';
