@@ -1,6 +1,5 @@
 import type { NextConfig } from 'next'
 import nextra from 'nextra'
-import { versions } from './lib/versions'
 
 const withNextra = nextra({
   latex: true,
@@ -20,14 +19,6 @@ const nextConfig: NextConfig = {
     resolveAlias: {
       'next-mdx-import-source-file': './mdx-components.tsx'
     }
-  },
-  async rewrites() {
-    return versions
-      .filter((v) => v.destination)
-      .map((v) => ({
-        source: `${v.path}/:path*`,
-        destination: `${v.destination}/:path*`
-      }))
   }
 }
 

@@ -17,6 +17,10 @@ export function VersionSwitcher({ latestVersion }: VersionSwitcherProps) {
 
   const [currentVersion] = useState<Version>(versions[0])
 
+  if (versions.length <= 1) {
+    return null
+  }
+
   return (
     <div className="flex items-center gap-2">
       <select
