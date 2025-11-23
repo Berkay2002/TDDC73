@@ -3,8 +3,14 @@ import 'package:flutter/widgets.dart';
 
 /// A custom circular progress indicator built using [CustomPaint] and [AnimationController].
 ///
-/// This component renders a spinning arc to indicate an indeterminate progress state.
+/// This component renders a spinning arc to indicate an indeterminate progress state,
+/// or a fixed arc for determinate progress.
 class CustomCircularProgress extends StatefulWidget {
+  /// The current progress value, between 0.0 and 1.0.
+  ///
+  /// If null, the indicator is indeterminate and spins.
+  final double? value;
+
   /// The color of the progress arc.
   final Color color;
 
@@ -16,10 +22,11 @@ class CustomCircularProgress extends StatefulWidget {
 
   const CustomCircularProgress({
     super.key,
+    this.value,
     this.color = const Color(0xFF2196F3),
     this.strokeWidth = 4.0,
     this.size = 40.0,
-  });
+  }) : assert(value == null || (value >= 0.0 && value <= 1.0), 'Value must be between 0.0 and 1.0');
 
   @override
   State<CustomCircularProgress> createState() => _CustomCircularProgressState();
@@ -35,7 +42,20 @@ class _CustomCircularProgressState extends State<CustomCircularProgress>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
-    )..repeat();
+    );
+    if (widget.value == null) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void didUpdateWidget(CustomCircularProgress oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value == null && !_controller.isAnimating) {
+      _controller.repeat();
+    } else if (widget.value != null && _controller.isAnimating) {
+      _controller.stop();
+    }
   }
 
   @override
@@ -54,7 +74,8 @@ class _CustomCircularProgressState extends State<CustomCircularProgress>
         builder: (context, child) {
           return CustomPaint(
             painter: _CircularProgressPainter(
-              progress: _controller.value,
+              progress: widget.value ?? _controller.value,
+              isIndeterminate: widget.value == null,
               color: widget.color,
               strokeWidth: widget.strokeWidth,
             ),
@@ -67,11 +88,13 @@ class _CustomCircularProgressState extends State<CustomCircularProgress>
 
 class _CircularProgressPainter extends CustomPainter {
   final double progress;
+  final bool isIndeterminate;
   final Color color;
   final double strokeWidth;
 
   _CircularProgressPainter({
     required this.progress,
+    required this.isIndeterminate,
     required this.color,
     required this.strokeWidth,
   });
@@ -87,45 +110,34 @@ class _CircularProgressPainter extends CustomPainter {
     final double center = size.width / 2;
     final double radius = (size.width - strokeWidth) / 2;
 
-    // We want the arc to grow and shrink while rotating
-    // This mimics the Material design progress indicator behavior roughly
-
-    // Rotate the whole canvas based on progress
     canvas.save();
     canvas.translate(center, center);
-    canvas.rotate(progress * 2 * math.pi);
 
-    // Draw the arc
-    // The sweep angle can vary to create the "worm" effect
-    // For simplicity in this primitive version, we can just do a fixed arc that rotates
-    // Or we can do a simple varying arc.
-
-    // Let's do a simple fixed arc for now as a "primitive" implementation
-    // const double startAngle = -math.pi / 2;
-    // const double sweepAngle = 3 * math.pi / 2; // 270 degrees
-
-    // canvas.drawArc(
-    //   Rect.fromCircle(center: Offset.zero, radius: radius),
-    //   startAngle,
-    //   sweepAngle,
-    //   false,
-    //   paint,
-    // );
-
-    // Better: "Worm" effect
-    // 0.0 -> 0.5: Head moves faster than tail (growing)
-    // 0.5 -> 1.0: Tail moves faster than head (shrinking)
-
-    // This is a bit complex for a "primitive" demo, but let's try a simplified version.
-    // Just a rotating arc of 270 degrees is fine for a basic primitive.
-
-    canvas.drawArc(
-      Rect.fromCircle(center: Offset.zero, radius: radius),
-      0.0,
-      math.pi * 1.5,
-      false,
-      paint,
-    );
+    if (isIndeterminate) {
+        // Rotate the whole canvas based on animation value
+        canvas.rotate(progress * 2 * math.pi);
+        
+        // Fixed arc for indeterminate
+        canvas.drawArc(
+          Rect.fromCircle(center: Offset.zero, radius: radius),
+          0.0,
+          math.pi * 1.5,
+          false,
+          paint,
+        );
+    } else {
+        // Rotate -90 degrees to start from top
+        canvas.rotate(-math.pi / 2);
+        
+        // Draw arc based on progress value
+        canvas.drawArc(
+          Rect.fromCircle(center: Offset.zero, radius: radius),
+          0.0,
+          progress * 2 * math.pi,
+          false,
+          paint,
+        );
+    }
 
     canvas.restore();
   }
@@ -133,6 +145,7 @@ class _CircularProgressPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _CircularProgressPainter oldDelegate) {
     return oldDelegate.progress != progress ||
+        oldDelegate.isIndeterminate != isIndeterminate ||
         oldDelegate.color != color ||
         oldDelegate.strokeWidth != strokeWidth;
   }

@@ -1,17 +1,29 @@
 ---
 title: CustomSlider
-description: A slider component built from scratch using CustomPaint and GestureDetector.
+description: A slider component built from scratch using CustomPaint and GestureDetector
+asIndexPage: true
 ---
 
+import { Callout, Steps, Tabs } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
 
 # CustomSlider
 
 A slider component for selecting a value from a range. It demonstrates how to handle continuous drag gestures and map them to a value range, rendering the result with custom painting.
 
+## Overview
+
+`CustomSlider` provides a range selection interface using only primitive Flutter components. It tracks gestures to update a value and repaints the slider track and thumb accordingly.
+
+<Callout type="info">
+**Primitives Used:** `CustomPaint`, `Canvas`, `GestureDetector`
+</Callout>
+
 ## Basic Usage
 
 ```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
 double _value = 0.5;
 
 CustomSlider(
@@ -37,12 +49,15 @@ CustomSlider({
   double max = 1.0,
   Color activeColor = const Color(0xFF2196F3),
   Color inactiveColor = const Color(0xFFE0E0E0),
+  Color thumbColor = const Color(0xFFFFFFFF),
   double thumbRadius = 10.0,
   double trackHeight = 4.0,
+  ValueChanged<double>? onChangeStart,
+  ValueChanged<double>? onChangeEnd,
 })
 ```
 
-### Properties
+### Parameters
 
 <ApiTable
   parameters={[
@@ -51,64 +66,95 @@ CustomSlider({
       type: 'double',
       required: true,
       default: null,
-      description: 'The currently selected value for this slider.',
+      description: 'The currently selected value for this slider'
     },
     {
       name: 'onChanged',
       type: 'ValueChanged<double>?',
       required: false,
       default: 'null',
-      description: 'Called during a drag when the user is selecting a new value.',
+      description: 'Called during a drag when the user is selecting a new value'
     },
     {
       name: 'min',
       type: 'double',
       required: false,
       default: '0.0',
-      description: 'The minimum value the user can select.',
+      description: 'The minimum value the user can select'
     },
     {
       name: 'max',
       type: 'double',
       required: false,
       default: '1.0',
-      description: 'The maximum value the user can select.',
+      description: 'The maximum value the user can select'
     },
     {
       name: 'activeColor',
       type: 'Color',
       required: false,
       default: 'Color(0xFF2196F3)',
-      description: 'The color of the track up to the thumb, and the thumb itself.',
+      description: 'The color of the track up to the thumb'
     },
     {
       name: 'inactiveColor',
       type: 'Color',
       required: false,
       default: 'Color(0xFFE0E0E0)',
-      description: 'The color of the track after the thumb.',
+      description: 'The color of the track after the thumb'
+    },
+    {
+      name: 'thumbColor',
+      type: 'Color',
+      required: false,
+      default: 'Color(0xFFFFFFFF)',
+      description: 'The color of the thumb (circle)'
     },
     {
       name: 'thumbRadius',
       type: 'double',
       required: false,
       default: '10.0',
-      description: 'The radius of the thumb shape.',
+      description: 'The radius of the thumb shape'
     },
     {
       name: 'trackHeight',
       type: 'double',
       required: false,
       default: '4.0',
-      description: 'The thickness of the track.',
+      description: 'The thickness of the track'
+    },
+    {
+      name: 'onChangeStart',
+      type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
+      description: 'Called when the user starts selecting a new value'
+    },
+    {
+      name: 'onChangeEnd',
+      type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
+      description: 'Called when the user is done selecting a new value'
     },
   ]}
 />
 
 ## Examples
 
-### Custom Range and Colors
+### Custom Colors and Thumb
 
+<Tabs items={['Standard', 'Custom Colors', 'Custom Thumb']}>
+  <Tabs.Tab>
+```dart
+CustomSlider(
+  value: _value,
+  onChanged: (v) => setState(() => _value = v),
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
 ```dart
 CustomSlider(
   value: _volume,
@@ -116,21 +162,37 @@ CustomSlider(
   max: 100.0,
   activeColor: Colors.purple,
   inactiveColor: Colors.purple.withOpacity(0.2),
-  onChanged: (value) {
-    setState(() => _volume = value);
-  },
+  onChanged: (value) => setState(() => _volume = value),
 )
 ```
-
-### Large Thumb
-
+  </Tabs.Tab>
+  <Tabs.Tab>
 ```dart
 CustomSlider(
   value: _progress,
   thumbRadius: 16.0,
+  thumbColor: Colors.red,
   trackHeight: 8.0,
+  activeColor: Colors.red[200]!,
+  onChanged: (value) => setState(() => _progress = value),
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Handling Drag Events
+
+```dart
+CustomSlider(
+  value: _sliderValue,
   onChanged: (value) {
-    setState(() => _progress = value);
+    setState(() => _sliderValue = value);
+  },
+  onChangeStart: (value) {
+    print('Started dragging at $value');
+  },
+  onChangeEnd: (value) {
+    print('Finished dragging at $value');
   },
 )
 ```
@@ -139,8 +201,27 @@ CustomSlider(
 
 The `CustomSlider` is implemented using:
 
-1.  **`GestureDetector`**: Specifically `onHorizontalDragUpdate` and `onTapDown`. These callbacks provide the global position of the interaction.
+1.  **`GestureDetector`**: Specifically `onHorizontalDragUpdate`, `onHorizontalDragStart`, `onHorizontalDragEnd`, and `onTapDown`. These callbacks provide the global position of the interaction.
 2.  **Coordinate Mapping**: The component converts the global touch position to a local position using `RenderBox.globalToLocal`. It then calculates the percentage of the drag along the track width.
 3.  **`CustomPaint`**: A `CustomPainter` draws two lines (active and inactive track) and a circle (thumb) based on the current value.
+4.  **Shadows**: The thumb has a subtle shadow drawn using `BoxShadow` painting logic on the canvas.
 
 This component demonstrates the core concept of "unidirectional data flow" in UI: the gesture updates the state, which triggers a rebuild, which passes the new value to the painter.
+
+## Limitations
+
+<Callout type="warning">
+**Known Limitations:**
+- Width must be bounded by parent (e.g., inside a SizedBox or constrained column) or it defaults to 200.0.
+- No support for divisions or discrete values yet.
+- No semantic labels built-in.
+</Callout>
+
+## Related Components
+
+- [CustomCircularProgress](/components/custom-circular-progress) - Another value indicator
+- [CustomToggleSwitch](/components/custom-toggle-switch) - For boolean values
+
+## Source Code
+
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/custom_slider.dart).

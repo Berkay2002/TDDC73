@@ -266,14 +266,16 @@ VStack({
 - `mainAxisAlignment`: How to distribute children vertically (default: start)
 - `mainAxisSize`: Whether to take maximum or minimum vertical space (default: max)
 
-**Alignment Options:**
+**Flexible Children:**
+You can wrap children in `CustomFlexible` or `CustomExpanded` to control how they share available space, similar to `Column`.
+
 ```dart
-enum VStackAlignment {
-  start,    // Align to the left edge
-  center,   // Center horizontally
-  end,      // Align to the right edge
-  stretch,  // Stretch to fill horizontal space
-}
+VStack(
+  children: [
+    CustomExpanded(child: Container(color: Colors.red)),
+    Container(height: 50, color: Colors.blue),
+  ],
+)
 ```
 
 **Example Usage:**
@@ -325,7 +327,7 @@ VStack(
 - Custom `RenderBox` with `ContainerRenderObjectMixin`
 - Manual layout constraint calculations
 - Supports intrinsic sizing for proper nested layouts
-- No `Flexible` or `Expanded` support (out of scope for primitive implementation)
+- Supports `CustomFlexible` and `CustomExpanded` for proportional sizing
 
 **Layout Algorithm:**
 1. Measure each child with appropriate constraints
@@ -698,11 +700,6 @@ While `AnimationController` is a higher-level API, implementing animation timing
 - The key learning is connecting animation values to custom paint operations
 
 ### Trade-offs and Limitations
-
-**No Flexible/Expanded Support in VStack:**
-- Implementing flex layout would require significant complexity
-- The goal is demonstrating basic layout, not full flex algorithm
-- Users can wrap children in `SizedBox` for fixed sizes
 
 **No Positioned Support in ZStack:**
 - Unlike Flutter's `Stack`, we don't support absolute positioning

@@ -18,11 +18,7 @@ enum ZStackFit {
 /// A layered stack layout component built using only custom render objects.
 ///
 /// ZStack layers its children on top of each other (z-ordering) with
-/// configurable alignment. This is a primitive implementation that doesn't
-/// use Flutter's Stack or Positioned widgets.
-///
-/// Children are painted in the order they appear in the list, so the last
-/// child appears on top.
+/// configurable alignment. It supports positioned children via [CustomPositioned].
 ///
 /// Example:
 /// ```dart
@@ -30,7 +26,11 @@ enum ZStackFit {
 ///   alignment: Alignment.center,
 ///   children: [
 ///     Container(width: 100, height: 100, color: Colors.red),
-///     Container(width: 50, height: 50, color: Colors.blue),
+///     CustomPositioned(
+///       right: 10,
+///       top: 10,
+///       child: Icon(Icons.close),
+///     ),
 ///   ],
 /// )
 /// ```
@@ -58,12 +58,70 @@ class ZStack extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    if (children.length == 1) {
-      return children[0];
-    }
-
     return _ZStackLayout(alignment: alignment, fit: fit, children: children);
   }
+}
+
+/// A widget that controls where a child of a [ZStack] is positioned.
+class CustomPositioned extends ParentDataWidget<_ZStackParentData> {
+  const CustomPositioned({
+    super.key,
+    this.left,
+    this.top,
+    this.right,
+    this.bottom,
+    this.width,
+    this.height,
+    required super.child,
+  });
+
+  final double? left;
+  final double? top;
+  final double? right;
+  final double? bottom;
+  final double? width;
+  final double? height;
+
+  @override
+  void applyParentData(RenderObject renderObject) {
+    final _ZStackParentData parentData = renderObject.parentData! as _ZStackParentData;
+    bool needsLayout = false;
+
+    if (parentData.left != left) {
+      parentData.left = left;
+      needsLayout = true;
+    }
+    if (parentData.top != top) {
+      parentData.top = top;
+      needsLayout = true;
+    }
+    if (parentData.right != right) {
+      parentData.right = right;
+      needsLayout = true;
+    }
+    if (parentData.bottom != bottom) {
+      parentData.bottom = bottom;
+      needsLayout = true;
+    }
+    if (parentData.width != width) {
+      parentData.width = width;
+      needsLayout = true;
+    }
+    if (parentData.height != height) {
+      parentData.height = height;
+      needsLayout = true;
+    }
+
+    if (needsLayout) {
+      final targetParent = renderObject.parent;
+      if (targetParent is RenderObject) {
+        targetParent.markNeedsLayout();
+      }
+    }
+  }
+
+  @override
+  Type get debugTypicalAncestorWidgetClass => ZStack;
 }
 
 /// Internal widget that uses a custom render object for the actual layout.
@@ -96,10 +154,6 @@ class _ZStackLayout extends MultiChildRenderObjectWidget {
 }
 
 /// Custom render object for ZStack layout.
-///
-/// This implementation manually layers children on top of each other,
-/// calculating positions based on alignment without using Positioned
-/// or other high-level layout helpers.
 class _RenderZStack extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, _ZStackParentData>,
@@ -145,74 +199,144 @@ class _RenderZStack extends RenderBox
 
   @override
   void performLayout() {
-    // If no children, size to zero
+    // If no children, size to zero or min constraints
     if (childCount == 0) {
       size = constraints.smallest;
       return;
     }
-
-    // Determine constraints for children based on fit mode
-    BoxConstraints childConstraints;
+    
+    // First, resolve global non-positioned constraints
+    BoxConstraints nonPositionedConstraints;
     switch (fit) {
       case ZStackFit.loose:
-        childConstraints = constraints.loosen();
+        nonPositionedConstraints = constraints.loosen();
         break;
       case ZStackFit.expand:
-        childConstraints = BoxConstraints.tight(constraints.biggest);
+        nonPositionedConstraints = BoxConstraints.tight(constraints.biggest);
         break;
       case ZStackFit.passthrough:
-        childConstraints = constraints;
+        nonPositionedConstraints = constraints;
         break;
     }
 
-    // Layout all children and find the maximum size
     double maxWidth = 0.0;
     double maxHeight = 0.0;
+    
+    // Measure non-positioned children first to help determine stack size (if loose)
     RenderBox? child = firstChild;
-
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
-      child.layout(childConstraints, parentUsesSize: true);
-
-      maxWidth = maxWidth > child.size.width ? maxWidth : child.size.width;
-      maxHeight = maxHeight > child.size.height ? maxHeight : child.size.height;
-
-      child = childParentData.nextSibling;
+    while(child != null) {
+        final childParentData = child.parentData! as _ZStackParentData;
+        
+        if (!childParentData.isPositioned) {
+             child.layout(nonPositionedConstraints, parentUsesSize: true);
+             maxWidth = maxWidth > child.size.width ? maxWidth : child.size.width;
+             maxHeight = maxHeight > child.size.height ? maxHeight : child.size.height;
+        }
+        child = childParentData.nextSibling;
     }
-
-    // Determine our own size
-    // If fit is expand, use the constraints' biggest size
-    // Otherwise, use the maximum child size constrained by our constraints
+    
+    // Determine stack size
+    Size stackSize;
     if (fit == ZStackFit.expand) {
-      size = constraints.biggest;
+      stackSize = constraints.biggest;
     } else {
-      size = constraints.constrain(Size(maxWidth, maxHeight));
+      stackSize = constraints.constrain(Size(maxWidth, maxHeight));
     }
+    size = stackSize;
 
-    // Resolve alignment for text direction
-    final resolvedAlignment = alignment.resolve(textDirection);
-
-    // Position all children based on alignment
+    // Now layout positioned children and position everyone
     child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
+    while(child != null) {
+        final childParentData = child.parentData! as _ZStackParentData;
+        
+        if (childParentData.isPositioned) {
+             // Calculate constraints for positioned child
+             double? width = childParentData.width;
+             double? height = childParentData.height;
+             double? top = childParentData.top;
+             double? bottom = childParentData.bottom;
+             double? left = childParentData.left;
+             double? right = childParentData.right;
+             
+             // If horizontally constrained (left & right, or width)
+             double minW = 0.0;
+             double maxW = double.infinity;
+             
+             if (width != null) {
+                 minW = maxW = width;
+             } else if (left != null && right != null) {
+                 minW = maxW = size.width - left - right;
+             } else {
+                 maxW = size.width - (left ?? 0) - (right ?? 0);
+             }
+             
+             double minH = 0.0;
+             double maxH = double.infinity;
+             
+             if (height != null) {
+                 minH = maxH = height;
+             } else if (top != null && bottom != null) {
+                 minH = maxH = size.height - top - bottom;
+             } else {
+                 maxH = size.height - (top ?? 0) - (bottom ?? 0);
+             }
+             
+             child.layout(BoxConstraints(
+                 minWidth: minW.clamp(0, size.width), 
+                 maxWidth: maxW.clamp(0, size.width),
+                 minHeight: minH.clamp(0, size.height), 
+                 maxHeight: maxH.clamp(0, size.height)
+             ), parentUsesSize: true);
+             
+             // Calculate offset
+             double x = 0.0;
+             double y = 0.0;
+             
+             if (left != null) {
+                 x = left;
+             } else if (right != null) {
+                 x = size.width - right - child.size.width;
+             } else {
+                 // Center horizontally if indeterminate? Or default 0?
+                 // Standard Stack defaults to 0 if aligned top/left.
+                 // We need to respect alignment if not fully positioned?
+                 // Usually positioned children ignore alignment.
+                 // If only top is set, x is 0? 
+                 // Let's assume standard behavior: if not positioned on an axis, align to start (0).
+                 x = 0.0;
+             }
+             
+             if (top != null) {
+                 y = top;
+             } else if (bottom != null) {
+                 y = size.height - bottom - child.size.height;
+             } else {
+                 y = 0.0;
+             }
+             
+             childParentData.offset = Offset(x, y);
 
-      // Calculate position based on alignment
-      final double dx = resolvedAlignment
-          .alongOffset(size - child.size as Offset)
-          .dx;
-      final double dy = resolvedAlignment
-          .alongOffset(size - child.size as Offset)
-          .dy;
+        } else {
+            // Position non-positioned child
+            // It was already laid out
+            final resolvedAlignment = alignment.resolve(textDirection);
+            final double dx = resolvedAlignment
+                .alongOffset(size - child.size as Offset)
+                .dx;
+            final double dy = resolvedAlignment
+                .alongOffset(size - child.size as Offset)
+                .dy;
 
-      childParentData.offset = Offset(dx, dy);
-
-      child = childParentData.nextSibling;
+            childParentData.offset = Offset(dx, dy);
+        }
+        
+        child = childParentData.nextSibling;
     }
   }
 
   @override
   double computeMinIntrinsicWidth(double height) {
+      // Simplified: positioned children usually don't contribute to intrinsic size
     return computeMinIntrinsicWidthFromChildren(firstChild, height);
   }
 
@@ -233,6 +357,7 @@ class _RenderZStack extends RenderBox
 
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+     // Hit test in reverse order (top to bottom)
     return defaultHitTestChildren(result, position: position);
   }
 
@@ -243,4 +368,19 @@ class _RenderZStack extends RenderBox
 }
 
 /// Parent data for ZStack children.
-class _ZStackParentData extends ContainerBoxParentData<RenderBox> {}
+class _ZStackParentData extends ContainerBoxParentData<RenderBox> {
+  double? left;
+  double? top;
+  double? right;
+  double? bottom;
+  double? width;
+  double? height;
+
+  bool get isPositioned =>
+      left != null ||
+      top != null ||
+      right != null ||
+      bottom != null ||
+      width != null ||
+      height != null;
+}

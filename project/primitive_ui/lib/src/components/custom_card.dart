@@ -5,15 +5,17 @@ import 'package:flutter/rendering.dart';
 ///
 /// Features:
 /// - Rounded corners (customizable border radius)
-/// - Shadow/elevation effect
+/// - Shadow/elevation effect (customizable color)
 /// - Custom background color
 /// - Padding for child content
+/// - Tap interaction with visual feedback
 ///
 /// This component uses only primitive Flutter APIs:
 /// - CustomPaint for rendering
 /// - Canvas for drawing
 /// - CustomSingleChildLayout for child positioning
-class CustomCard extends StatelessWidget {
+/// - GestureDetector for interaction
+class CustomCard extends StatefulWidget {
   /// The child widget to display inside the card
   final Widget child;
 
@@ -26,8 +28,14 @@ class CustomCard extends StatelessWidget {
   /// Elevation (shadow depth)
   final double elevation;
 
+  /// Color of the shadow
+  final Color shadowColor;
+
   /// Padding around the child
   final EdgeInsets padding;
+
+  /// Callback when the card is tapped
+  final VoidCallback? onTap;
 
   const CustomCard({
     super.key,
@@ -35,19 +43,57 @@ class CustomCard extends StatelessWidget {
     this.color = const Color(0xFFFFFFFF), // White
     this.borderRadius = 8.0,
     this.elevation = 2.0,
+    this.shadowColor = const Color(0xFF000000), // Black
     this.padding = const EdgeInsets.all(16.0),
+    this.onTap,
   }) : assert(elevation >= 0.0, 'Elevation cannot be negative'),
        assert(borderRadius >= 0.0, 'Border radius cannot be negative');
 
   @override
+  State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  bool _isPressed = false;
+
+  void _handleTapDown(TapDownDetails details) {
+    if (widget.onTap != null) {
+      setState(() => _isPressed = true);
+    }
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    if (widget.onTap != null) {
+      setState(() => _isPressed = false);
+    }
+  }
+
+  void _handleTapCancel() {
+    if (widget.onTap != null) {
+      setState(() => _isPressed = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _CardPainter(
-        color: color,
-        borderRadius: borderRadius,
-        elevation: elevation,
+    // Reduce elevation when pressed to simulate depth
+    final double effectiveElevation =
+        _isPressed ? (widget.elevation / 2) : widget.elevation;
+
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      onTapCancel: _handleTapCancel,
+      child: CustomPaint(
+        painter: _CardPainter(
+          color: widget.color,
+          borderRadius: widget.borderRadius,
+          elevation: effectiveElevation,
+          shadowColor: widget.shadowColor,
+        ),
+        child: _CardLayout(padding: widget.padding, child: widget.child),
       ),
-      child: _CardLayout(padding: padding, child: child),
     );
   }
 }
@@ -57,6 +103,7 @@ class _CardPainter extends CustomPainter {
   final Color color;
   final double borderRadius;
   final double elevation;
+  final Color shadowColor;
 
   // Material Design elevation scale - controls shadow opacity
   static const double _kShadowOpacityDivisor = 24.0;
@@ -68,6 +115,7 @@ class _CardPainter extends CustomPainter {
     required this.color,
     required this.borderRadius,
     required this.elevation,
+    required this.shadowColor,
   });
 
   @override
@@ -82,18 +130,18 @@ class _CardPainter extends CustomPainter {
     if (elevation > 0) {
       final Path shadowPath = Path()..addRRect(cardRect);
 
-      // Calculate shadow color based on elevation
-      // Higher elevation = darker shadow
+      // Calculate shadow opacity based on elevation
       final double shadowOpacity = (elevation / _kShadowOpacityDivisor).clamp(
         0.0,
         _kMaxShadowOpacity,
       );
-      final Color shadowColor = Color.fromRGBO(0, 0, 0, shadowOpacity);
+      
+      final Color effectiveShadowColor = shadowColor.withValues(alpha: shadowOpacity);
 
       // Draw shadow using drawShadow
       canvas.drawShadow(
         shadowPath,
-        shadowColor,
+        effectiveShadowColor,
         elevation,
         true, // Transparent occluder
       );
@@ -111,7 +159,8 @@ class _CardPainter extends CustomPainter {
   bool shouldRepaint(_CardPainter oldDelegate) {
     return oldDelegate.color != color ||
         oldDelegate.borderRadius != borderRadius ||
-        oldDelegate.elevation != elevation;
+        oldDelegate.elevation != elevation ||
+        oldDelegate.shadowColor != shadowColor;
   }
 }
 

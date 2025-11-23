@@ -1,6 +1,6 @@
 ---
 title: CustomCard
-description: A container widget with shadow, rounded corners, and padding - all rendered using Canvas
+description: A container widget with shadow, rounded corners, padding, and tap interaction
 asIndexPage: true
 ---
 
@@ -9,14 +9,14 @@ import { ApiTable } from '@/components/ApiTable'
 
 # CustomCard
 
-A container widget with shadow, rounded corners, and padding - all rendered using `CustomPaint` and `Canvas`.
+A container widget with shadow, rounded corners, and padding - all rendered using `CustomPaint` and `Canvas`. Now supports custom shadow colors and tap interactions.
 
 ## Overview
 
-`CustomCard` provides a Material-style card appearance using only primitive Flutter components. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch without relying on Flutter's built-in `Card` widget.
+`CustomCard` provides a Material-style card appearance using only primitive Flutter components. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch without relying on Flutter's built-in `Card` widget. It also includes basic tap interaction with visual feedback (elevation reduction).
 
 <Callout type="info">
-**Primitives Used:** `CustomPaint`, `Canvas`, `RenderShiftedBox`
+**Primitives Used:** `CustomPaint`, `Canvas`, `RenderShiftedBox`, `GestureDetector`
 </Callout>
 
 ## Basic Usage
@@ -26,6 +26,7 @@ import 'package:primitive_ui/primitive_ui.dart';
 
 CustomCard(
   child: Text('Hello World'),
+  onTap: () => print('Card tapped!'),
 )
 ```
 
@@ -40,7 +41,9 @@ CustomCard({
   Color color = const Color(0xFFFFFFFF),
   double borderRadius = 8.0,
   double elevation = 2.0,
+  Color shadowColor = const Color(0xFF000000),
   EdgeInsets padding = const EdgeInsets.all(16.0),
+  VoidCallback? onTap,
 })
 ```
 
@@ -77,20 +80,34 @@ CustomCard({
       description: 'Shadow depth in logical pixels (must be >= 0)'
     },
     {
+      name: 'shadowColor',
+      type: 'Color',
+      required: false,
+      default: 'Color(0xFF000000)',
+      description: 'Color of the shadow (e.g., Colors.blue.shade800)'
+    },
+    {
       name: 'padding',
       type: 'EdgeInsets',
       required: false,
       default: 'EdgeInsets.all(16.0)',
       description: 'Internal spacing around the child widget'
+    },
+    {
+      name: 'onTap',
+      type: 'VoidCallback?',
+      required: false,
+      default: 'null',
+      description: 'Callback invoked when the card is tapped. Provides visual feedback.'
     }
   ]}
 />
 
 ## Examples
 
-### Different Elevations
+### Different Elevations and Custom Shadow
 
-<Tabs items={['Low', 'Medium', 'High']}>
+<Tabs items={['Low', 'Medium', 'High', 'Custom Shadow']}>
   <Tabs.Tab>
 ```dart
 CustomCard(
@@ -115,7 +132,30 @@ CustomCard(
 )
 ```
   </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+CustomCard(
+  elevation: 6.0,
+  shadowColor: Colors.blue.shade800, // Custom shadow color
+  child: Text('Blue Shadow Card'),
+)
+```
+  </Tabs.Tab>
 </Tabs>
+
+### Tap Interaction
+
+```dart
+CustomCard(
+  onTap: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Card tapped!')),
+    );
+  },
+  elevation: 4.0,
+  child: Center(child: Text('Tap me to see a snackbar!')),
+)
+```
 
 ### Custom Styling
 
@@ -172,19 +212,21 @@ CustomCard(
 
 The `CustomCard` uses a multi-layered rendering approach:
 
-1. **Custom Painter** (`_CardPainter`) handles the visual rendering
-2. **Custom Layout** (`_RenderCardLayout`) manages child positioning with padding
-3. **Canvas Operations** draw the shadow and rounded rectangle
+1. **Custom Painter** (`_CardPainter`) handles the visual rendering (including customizable shadow color).
+2. **Custom Layout** (`_RenderCardLayout`) manages child positioning with padding.
+3. **Canvas Operations** draw the shadow and rounded rectangle.
+4. **GestureDetector** handles tap events, providing visual feedback by temporarily reducing elevation.
 
 ### Shadow Calculation
 
-Shadow opacity is calculated based on elevation using the Material Design scale:
+Shadow opacity is calculated based on elevation using the Material Design scale, and now respects the `shadowColor` parameter:
 
 ```dart
 final double shadowOpacity = (elevation / 24.0).clamp(0.0, 0.3);
+final Color effectiveShadowColor = shadowColor.withOpacity(shadowOpacity);
 ```
 
-This ensures that higher elevations produce darker shadows, with a maximum opacity of 0.3 to prevent overly dark shadows.
+This ensures that higher elevations produce darker shadows, with a maximum opacity of 0.3, and the shadow's hue is determined by `shadowColor`.
 
 ### Layout System
 
@@ -201,7 +243,8 @@ The `shouldRepaint()` method only returns `true` when visual properties change:
 bool shouldRepaint(_CardPainter oldDelegate) {
   return oldDelegate.color != color ||
       oldDelegate.borderRadius != borderRadius ||
-      oldDelegate.elevation != elevation;
+      oldDelegate.elevation != elevation ||
+      oldDelegate.shadowColor != shadowColor;
 }
 ```
 
@@ -220,32 +263,12 @@ GridView.builder(
   itemBuilder: (context, index) {
     return CustomCard(
       elevation: 2.0,
+      onTap: () => print('Card $index tapped!'),
       child: Center(child: Text('Card $index')),
     );
   },
 )
 ```
-
-### Interactive Card
-
-```dart
-GestureDetector(
-  onTap: () => print('Card tapped'),
-  child: CustomCard(
-    elevation: 2.0,
-    child: Text('Tap me!'),
-  ),
-)
-```
-
-## Limitations
-
-<Callout type="warning">
-**Known Limitations:**
-- Shadow extends beyond the card bounds by the elevation amount - ensure parent has sufficient padding
-- No built-in ink splash or ripple effects (use `GestureDetector` separately)
-- Shadow color is always black with varying opacity (no custom shadow colors)
-</Callout>
 
 ## Related Components
 

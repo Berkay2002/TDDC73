@@ -1,6 +1,5 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import '../utils/intrinsic_helpers.dart';
 
 /// Alignment options for VStack children.
 enum VStackAlignment {
@@ -30,7 +29,9 @@ enum VStackAlignment {
 ///   alignment: VStackAlignment.center,
 ///   children: [
 ///     Text('First'),
-///     Text('Second'),
+///     CustomExpanded(
+///       child: Container(color: Colors.red),
+///     ),
 ///     Text('Third'),
 ///   ],
 /// )
@@ -75,6 +76,68 @@ class VStack extends StatelessWidget {
       children: children,
     );
   }
+}
+
+/// A widget that controls how a child of a [VStack] flexes.
+class CustomFlexible extends ParentDataWidget<_VStackParentData> {
+  /// Creates a widget that controls how a child of a [VStack] flexes.
+  const CustomFlexible({
+    super.key,
+    this.flex = 1,
+    this.fit = FlexFit.loose,
+    required super.child,
+  });
+
+  /// The flex factor to use for this child.
+  ///
+  /// If null or 0, the child is inflexible and determines its own size.
+  /// If non-zero, the child can be flexible and its size is determined by
+  /// the ratio of its flex factor to the sum of all flex factors.
+  final int flex;
+
+  /// How a flexible child is inscribed into the available space.
+  ///
+  /// If [FlexFit.tight], the child is forced to fill the available space.
+  /// If [FlexFit.loose], the child can be smaller than the available space.
+  final FlexFit fit;
+
+  @override
+  void applyParentData(RenderObject renderObject) {
+    final _VStackParentData parentData = renderObject.parentData! as _VStackParentData;
+    bool needsLayout = false;
+
+    if (parentData.flex != flex) {
+      parentData.flex = flex;
+      needsLayout = true;
+    }
+
+    if (parentData.fit != fit) {
+      parentData.fit = fit;
+      needsLayout = true;
+    }
+
+    if (needsLayout) {
+      final targetParent = renderObject.parent;
+      if (targetParent is RenderObject) {
+        targetParent.markNeedsLayout();
+      }
+    }
+  }
+
+  @override
+  Type get debugTypicalAncestorWidgetClass => VStack;
+}
+
+/// A widget that forces a child of a [VStack] to fill the available space.
+///
+/// This is a shorthand for [CustomFlexible] with [FlexFit.tight].
+class CustomExpanded extends CustomFlexible {
+  /// Creates a widget that forces a child of a [VStack] to fill the available space.
+  const CustomExpanded({
+    super.key,
+    super.flex,
+    required super.child,
+  }) : super(fit: FlexFit.tight);
 }
 
 /// Internal widget that uses CustomMultiChildLayout for the actual layout.
@@ -183,149 +246,214 @@ class _RenderVStack extends RenderBox
 
   @override
   void performLayout() {
-    // If no children, size to zero
+    // If no children, size to zero or min constraints
     if (childCount == 0) {
       size = constraints.smallest;
       return;
     }
 
-    // Measure all children and calculate total height
-    double maxWidth = 0.0;
-    double totalChildrenHeight = 0.0;
+    double totalNonFlexHeight = 0.0;
+    int totalFlex = 0;
+    
+    // Pass 1: Measure non-flex children and count flex
     RenderBox? child = firstChild;
-
     while (child != null) {
       final childParentData = child.parentData! as _VStackParentData;
-
-      // Create constraints based on alignment
-      BoxConstraints childConstraints;
-      if (alignment == VStackAlignment.stretch) {
-        // Force child to take full width
-        childConstraints = BoxConstraints(
-          minWidth: constraints.maxWidth,
-          maxWidth: constraints.maxWidth,
-          minHeight: 0,
-          maxHeight: constraints.maxHeight,
-        );
+      final int flex = childParentData.flex ?? 0;
+      
+      if (flex > 0) {
+        totalFlex += flex;
       } else {
-        // Allow child to size itself
-        childConstraints = BoxConstraints(
-          minWidth: 0,
-          maxWidth: constraints.maxWidth,
-          minHeight: 0,
-          maxHeight: constraints.maxHeight,
-        );
+        // Measure fixed child
+        BoxConstraints childConstraints;
+        if (alignment == VStackAlignment.stretch) {
+          childConstraints = BoxConstraints(
+            minWidth: constraints.maxWidth,
+            maxWidth: constraints.maxWidth,
+            minHeight: 0,
+            maxHeight: constraints.maxHeight,
+          );
+        } else {
+          childConstraints = BoxConstraints(
+            minWidth: 0,
+            maxWidth: constraints.maxWidth,
+            minHeight: 0,
+            maxHeight: constraints.maxHeight,
+          );
+        }
+        child.layout(childConstraints, parentUsesSize: true);
+        totalNonFlexHeight += child.size.height;
       }
-
-      child.layout(childConstraints, parentUsesSize: true);
-
-      maxWidth = maxWidth > child.size.width ? maxWidth : child.size.width;
-      totalChildrenHeight += child.size.height;
-
       child = childParentData.nextSibling;
     }
 
-    // Calculate total height including spacing
-    double totalHeightWithSpacing = totalChildrenHeight;
-    if (childCount > 1) {
-      totalHeightWithSpacing += spacing * (childCount - 1);
+    // Total spacing is calculated between all children (flex or not)
+    final double totalSpacing = childCount > 1 ? spacing * (childCount - 1) : 0.0;
+    
+    final double availableHeight = constraints.maxHeight;
+    final bool canFlex = constraints.hasBoundedHeight;
+
+    double flexSpace = 0.0;
+    if (canFlex && totalFlex > 0) {
+        flexSpace = (availableHeight - totalNonFlexHeight - totalSpacing).clamp(0.0, double.infinity);
     }
 
-    // Determine our own size
-    final double width = constraints.maxWidth;
-    final double height = mainAxisSize == MainAxisSize.max
-        ? (constraints.hasBoundedHeight
-              ? constraints.maxHeight
-              : totalHeightWithSpacing)
-        : totalHeightWithSpacing.clamp(
-            constraints.minHeight,
-            constraints.maxHeight,
-          );
+    double maxWidth = 0.0;
+    double measuredTotalHeight = 0.0;
 
-    size = Size(width, height);
-
-    // Calculate distribution parameters
-    double leadingSpace = 0.0;
-    double betweenSpace = spacing;
-
-    if (mainAxisSize == MainAxisSize.max && height > totalHeightWithSpacing) {
-      final double freeSpace = height - totalChildrenHeight;
-
-      switch (mainAxisAlignment) {
-        case MainAxisAlignment.start:
-          leadingSpace = 0.0;
-          betweenSpace = spacing;
-          break;
-        case MainAxisAlignment.end:
-          leadingSpace = height - totalHeightWithSpacing;
-          betweenSpace = spacing;
-          break;
-        case MainAxisAlignment.center:
-          leadingSpace = (height - totalHeightWithSpacing) / 2.0;
-          betweenSpace = spacing;
-          break;
-        case MainAxisAlignment.spaceBetween:
-          leadingSpace = 0.0;
-          betweenSpace = childCount > 1 ? freeSpace / (childCount - 1) : 0.0;
-          break;
-        case MainAxisAlignment.spaceAround:
-          betweenSpace = childCount > 0 ? freeSpace / childCount : 0.0;
-          leadingSpace = betweenSpace / 2.0;
-          break;
-        case MainAxisAlignment.spaceEvenly:
-          betweenSpace = childCount > 0 ? freeSpace / (childCount + 1) : 0.0;
-          leadingSpace = betweenSpace;
-          break;
-      }
-    }
-
-    // Position children vertically
-    double currentY = leadingSpace;
+    // Pass 2: Measure flex children
     child = firstChild;
-
     while (child != null) {
       final childParentData = child.parentData! as _VStackParentData;
+      final int flex = childParentData.flex ?? 0;
 
-      // Calculate horizontal position based on alignment
+      if (flex > 0) {
+        double childHeight = 0.0;
+        if (totalFlex > 0) {
+             childHeight = (flexSpace * flex) / totalFlex;
+        }
+
+        BoxConstraints childConstraints;
+        
+        double minW = (alignment == VStackAlignment.stretch) ? constraints.maxWidth : 0.0;
+        double maxW = constraints.maxWidth;
+        
+        if (childParentData.fit == FlexFit.tight) {
+            childConstraints = BoxConstraints(
+                minWidth: minW, maxWidth: maxW,
+                minHeight: childHeight, maxHeight: childHeight
+            );
+        } else {
+             childConstraints = BoxConstraints(
+                minWidth: minW, maxWidth: maxW,
+                minHeight: 0.0, maxHeight: childHeight
+            );
+        }
+        
+        child.layout(childConstraints, parentUsesSize: true);
+      }
+      
+      maxWidth = maxWidth > child.size.width ? maxWidth : child.size.width;
+      measuredTotalHeight += child.size.height;
+      
+      child = childParentData.nextSibling;
+    }
+    
+    measuredTotalHeight += totalSpacing;
+
+    // Determine final size
+    double finalHeight;
+    if (canFlex && totalFlex > 0) {
+        finalHeight = availableHeight;
+    } else {
+        finalHeight = mainAxisSize == MainAxisSize.max 
+            ? (constraints.hasBoundedHeight ? constraints.maxHeight : measuredTotalHeight)
+            : measuredTotalHeight;
+    }
+    
+    // Ensure finalHeight respects constraints
+    finalHeight = finalHeight.clamp(constraints.minHeight, constraints.maxHeight);
+    
+    size = Size(constraints.maxWidth, finalHeight);
+
+    // Positioning
+    double freeSpace = size.height - measuredTotalHeight;
+    double leadingSpace = 0.0;
+    double betweenSpace = spacing;
+    
+    // Only distribute free space via MainAxisAlignment if we didn't flex to fill it
+    // Or if flex didn't consume it all (e.g. all loose flex).
+    // In standard Column, MainAxisAlignment works if there is remaining space.
+    if (freeSpace > 0) {
+       switch (mainAxisAlignment) {
+          case MainAxisAlignment.start:
+            leadingSpace = 0.0;
+            break;
+          case MainAxisAlignment.end:
+            leadingSpace = freeSpace;
+            break;
+          case MainAxisAlignment.center:
+            leadingSpace = freeSpace / 2.0;
+            break;
+          case MainAxisAlignment.spaceBetween:
+            leadingSpace = 0.0;
+            betweenSpace = spacing + (childCount > 1 ? freeSpace / (childCount - 1) : 0.0);
+            break;
+          case MainAxisAlignment.spaceAround:
+             double s = childCount > 0 ? freeSpace / childCount : 0.0;
+             betweenSpace = spacing + s;
+             leadingSpace = s / 2.0;
+             break;
+          case MainAxisAlignment.spaceEvenly:
+             double s = childCount > 0 ? freeSpace / (childCount + 1) : 0.0;
+             betweenSpace = spacing + s;
+             leadingSpace = s;
+             break;
+       }
+    }
+    
+    double currentY = leadingSpace;
+    child = firstChild;
+    while(child != null) {
+      final childParentData = child.parentData! as _VStackParentData;
+      
       double x;
       switch (alignment) {
         case VStackAlignment.start:
           x = textDirection == TextDirection.ltr
               ? 0.0
-              : width - child.size.width;
+              : size.width - child.size.width;
           break;
         case VStackAlignment.center:
-          x = (width - child.size.width) / 2;
+          x = (size.width - child.size.width) / 2;
           break;
         case VStackAlignment.end:
           x = textDirection == TextDirection.ltr
-              ? width - child.size.width
+              ? size.width - child.size.width
               : 0.0;
           break;
         case VStackAlignment.stretch:
           x = 0.0;
           break;
       }
-
+      
       childParentData.offset = Offset(x, currentY);
       currentY += child.size.height + betweenSpace;
-
       child = childParentData.nextSibling;
     }
   }
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    return computeMinIntrinsicWidthFromChildren(firstChild, double.infinity);
+    // Simplified: Intrinsic sizing with flex is complex. 
+    // We defer to children.
+    double width = 0.0;
+    RenderBox? child = firstChild;
+    while (child != null) {
+        final childParentData = child.parentData! as _VStackParentData;
+        double w = child.getMinIntrinsicWidth(height);
+        if (w > width) width = w;
+        child = childParentData.nextSibling;
+    }
+    return width;
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    return computeMaxIntrinsicWidthFromChildren(firstChild, double.infinity);
+    double width = 0.0;
+    RenderBox? child = firstChild;
+    while (child != null) {
+        final childParentData = child.parentData! as _VStackParentData;
+        double w = child.getMaxIntrinsicWidth(height);
+        if (w > width) width = w;
+        child = childParentData.nextSibling;
+    }
+    return width;
   }
 
   @override
   double computeMinIntrinsicHeight(double width) {
+    // Does not account for flex shrinking
     double height = 0.0;
     int childIndex = 0;
     RenderBox? child = firstChild;
@@ -343,7 +471,7 @@ class _RenderVStack extends RenderBox
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    double height = 0.0;
+     double height = 0.0;
     int childIndex = 0;
     RenderBox? child = firstChild;
     while (child != null) {
@@ -370,4 +498,10 @@ class _RenderVStack extends RenderBox
 }
 
 /// Parent data for VStack children.
-class _VStackParentData extends ContainerBoxParentData<RenderBox> {}
+class _VStackParentData extends ContainerBoxParentData<RenderBox> {
+    int? flex;
+    FlexFit fit = FlexFit.tight;
+
+    @override
+    String toString() => '${super.toString()}; flex=$flex; fit=$fit';
+}

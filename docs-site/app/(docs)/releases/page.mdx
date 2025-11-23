@@ -9,9 +9,29 @@ Primitive UI releases and their changelogs.
 
 ---
 
-## November 23, 2025
+## November 23, 2025 (v0.0.3)
 
-### Version 0.0.2 <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Latest</span>
+### Version 0.0.3 <span className="text-sm font-normal text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5 rounded-full ml-2">Latest</span>
+
+<div className="flex items-start gap-4 p-6 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 my-8">
+  <span className="text-2xl shrink-0">✨</span>
+  <div>
+    <h4 className="text-base font-semibold text-indigo-900 dark:text-indigo-100 mb-1">Feature Enhancements & Layout Updates</h4>
+    <p className="text-sm text-indigo-800 dark:text-indigo-200 mb-2">Significant updates across several components, introducing flexible layouts, absolute positioning, improved interaction, and new progress indicator capabilities.</p>
+    <code className="text-xs bg-indigo-100 dark:bg-indigo-900/50 px-2 py-1 rounded">CustomFlexible / CustomPositioned / DeterminateProgress</code>
+  </div>
+</div>
+
+- **CustomCard**: Added `shadowColor` and `onTap` (with visual feedback) support.
+- **HStack**: Introduced `HCustomFlexible` and `HCustomExpanded` for proportional sizing (flex layout).
+- **VStack**: Further enhanced with `CustomFlexible` and `CustomExpanded` for robust flex layout.
+- **ZStack**: Added `CustomPositioned` support for absolute positioning within the stack.
+- **CustomSlider**: Enhanced with `onChangeStart`, `onChangeEnd` callbacks, and `thumbColor` customization.
+- **CustomCircularProgress**: Now supports determinate progress (pass a `value` between 0.0 and 1.0) alongside indeterminate mode.
+
+## November 23, 2025 (v0.0.2)
+
+### Version 0.0.2
 
 - Added `HStack` layout: A horizontal stack layout with alignment options
 - Added `MainAxisAlignment` support to `VStack` and `HStack` for distributing free space (start, center, end, spaceBetween, spaceAround, spaceEvenly)

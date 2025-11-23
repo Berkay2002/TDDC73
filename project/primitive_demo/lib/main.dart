@@ -23,6 +23,9 @@ import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 import 'package:primitive_demo/demos/custom_slider_demo.dart';
 import 'package:primitive_demo/demos/custom_circular_progress_demo.dart';
+import 'package:primitive_demo/demos/v_stack_demo.dart';
+import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
+import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
 
 void main() {
   runApp(const PrimitiveUIDemo());
@@ -121,7 +124,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         alignment: VStackAlignment.stretch,
         children: [
           Text(
-            'New Components (v0.0.2)',
+            'New Components (v0.0.3)',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -149,6 +152,39 @@ class _DemoHomePageState extends State<DemoHomePage> {
               );
             },
             child: const Text('CustomCircularProgress Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VStackDemo(),
+                ),
+              );
+            },
+            child: const Text('VStack Flexible Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HStackFlexDemo(),
+                ),
+              );
+            },
+            child: const Text('HStack Flex Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ZStackPositionedDemo(),
+                ),
+              );
+            },
+            child: const Text('ZStack Positioned Demo'),
           ),
         ],
       ),

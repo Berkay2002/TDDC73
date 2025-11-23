@@ -17,11 +17,20 @@ class CustomSlider extends StatefulWidget {
   /// Called when the value of the slider changes.
   final ValueChanged<double>? onChanged;
 
+  /// Called when the user starts selecting a new value.
+  final ValueChanged<double>? onChangeStart;
+
+  /// Called when the user is done selecting a new value.
+  final ValueChanged<double>? onChangeEnd;
+
   /// The color of the active track and thumb.
   final Color activeColor;
 
   /// The color of the inactive track.
   final Color inactiveColor;
+
+  /// The color of the thumb. Defaults to [activeColor].
+  final Color? thumbColor;
 
   /// The radius of the thumb.
   final double thumbRadius;
@@ -33,19 +42,32 @@ class CustomSlider extends StatefulWidget {
     super.key,
     required this.value,
     this.onChanged,
+    this.onChangeStart,
+    this.onChangeEnd,
     this.min = 0.0,
     this.max = 1.0,
     this.activeColor = const Color(0xFF2196F3),
     this.inactiveColor = const Color(0xFFE0E0E0),
+    this.thumbColor,
     this.thumbRadius = 10.0,
     this.trackHeight = 4.0,
-  }) : assert(value >= min && value <= max);
+  }) : assert(value >= min && value <= max, 'Value must be between min and max'),
+       assert(min < max, 'Min must be less than max');
 
   @override
   State<CustomSlider> createState() => _CustomSliderState();
 }
 
 class _CustomSliderState extends State<CustomSlider> {
+  bool _isDragging = false;
+
+  void _handleDragStart(DragStartDetails details, BoxConstraints constraints) {
+    _isDragging = true;
+    if (widget.onChangeStart != null) {
+      widget.onChangeStart!(widget.value);
+    }
+  }
+
   void _handleDragUpdate(
     DragUpdateDetails details,
     BoxConstraints constraints,
@@ -56,8 +78,6 @@ class _CustomSliderState extends State<CustomSlider> {
     final double localDx = box.globalToLocal(details.globalPosition).dx;
     final double width = constraints.maxWidth;
 
-    // Account for padding/thumb radius if necessary, but for simplicity we map 0..width
-    // A more robust implementation would inset by thumbRadius.
     final double effectiveWidth = width - (widget.thumbRadius * 2);
     final double relativeDx = localDx - widget.thumbRadius;
 
@@ -68,6 +88,13 @@ class _CustomSliderState extends State<CustomSlider> {
 
     if (newValue != widget.value) {
       widget.onChanged!(newValue);
+    }
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    _isDragging = false;
+    if (widget.onChangeEnd != null) {
+      widget.onChangeEnd!(widget.value);
     }
   }
 
@@ -87,6 +114,9 @@ class _CustomSliderState extends State<CustomSlider> {
 
     if (newValue != widget.value) {
       widget.onChanged!(newValue);
+      if (widget.onChangeEnd != null) {
+        widget.onChangeEnd!(newValue);
+      }
     }
   }
 
@@ -101,8 +131,11 @@ class _CustomSliderState extends State<CustomSlider> {
         final double height = widget.thumbRadius * 2;
 
         return GestureDetector(
+          onHorizontalDragStart: (details) => 
+              _handleDragStart(details, BoxConstraints(maxWidth: width)),
           onHorizontalDragUpdate: (details) =>
               _handleDragUpdate(details, BoxConstraints(maxWidth: width)),
+          onHorizontalDragEnd: _handleDragEnd,
           onTapDown: (details) =>
               _handleTapDown(details, BoxConstraints(maxWidth: width)),
           child: SizedBox(
@@ -115,6 +148,7 @@ class _CustomSliderState extends State<CustomSlider> {
                 max: widget.max,
                 activeColor: widget.activeColor,
                 inactiveColor: widget.inactiveColor,
+                thumbColor: widget.thumbColor ?? widget.activeColor,
                 thumbRadius: widget.thumbRadius,
                 trackHeight: widget.trackHeight,
               ),
@@ -132,6 +166,7 @@ class _SliderPainter extends CustomPainter {
   final double max;
   final Color activeColor;
   final Color inactiveColor;
+  final Color thumbColor;
   final double thumbRadius;
   final double trackHeight;
 
@@ -141,6 +176,7 @@ class _SliderPainter extends CustomPainter {
     required this.max,
     required this.activeColor,
     required this.inactiveColor,
+    required this.thumbColor,
     required this.thumbRadius,
     required this.trackHeight,
   });
@@ -179,7 +215,7 @@ class _SliderPainter extends CustomPainter {
 
     // Draw thumb
     final Paint thumbPaint = Paint()
-      ..color = activeColor
+      ..color = thumbColor
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(Offset(thumbX, centerY), thumbRadius, thumbPaint);
@@ -199,6 +235,7 @@ class _SliderPainter extends CustomPainter {
         oldDelegate.max != max ||
         oldDelegate.activeColor != activeColor ||
         oldDelegate.inactiveColor != inactiveColor ||
+        oldDelegate.thumbColor != thumbColor ||
         oldDelegate.thumbRadius != thumbRadius ||
         oldDelegate.trackHeight != trackHeight;
   }
