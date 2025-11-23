@@ -10,9 +10,9 @@ const config: DocsThemeConfig = {
     </div>
   ),
   project: {
-    link: 'https://github.com/yourusername/primitive_ui'
+    link: 'https://github.com/Berkay2002/TDDC73/tree/main/docs-site'
   },
-  docsRepositoryBase: 'https://github.com/yourusername/primitive_ui/tree/main',
+  docsRepositoryBase: 'https://github.com/Berkay2002/TDDC73/tree/main/docs-site',
   useNextSeoProps() {
     return {
       titleTemplate: '%s – Primitive UI'
