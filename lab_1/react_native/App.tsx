@@ -17,21 +17,17 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#009688" />
       
-      {/* Top Bar */}
       <View style={styles.topBar}>
         <Text style={styles.topBarTitle}>Example 3: React Native</Text>
       </View>
 
       <View style={styles.content}>
-        {/* Image */}
         <View style={styles.imageContainer}>
-             {/* Placeholder for the circular image */}
             <View style={styles.image}>
                 <Text>IMAGE</Text>
             </View>
         </View>
 
-        {/* Buttons Grid */}
         <View style={styles.buttonGrid}>
           <View style={styles.row}>
             <TouchableOpacity style={styles.button}>
@@ -51,7 +47,6 @@ const App = () => {
           </View>
         </View>
 
-        {/* Email Input */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -95,8 +90,8 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
-    borderRadius: 75, // Circular
-    backgroundColor: '#ddd', // Placeholder color
+    borderRadius: 75,
+    backgroundColor: '#ddd',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: '#ff4081', // Pink-ish underline like in the example
+    borderBottomColor: '#ff4081',
     paddingVertical: 4,
     fontSize: 16,
   },

@@ -39,25 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Image
               const SizedBox(height: 32),
               Container(
                 width: 150,
                 height: 150,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.grey, // Placeholder color
-                  // image: DecorationImage(
-                  //   image: AssetImage('assets/logo.png'),
-                  //   fit: BoxFit.cover,
-                  // ),
+                  color: Colors.grey,
                 ),
                 child: const Center(child: Text("IMAGE")),
               ),
               
               const SizedBox(height: 32),
 
-              // Buttons Grid
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -90,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
               const SizedBox(height: 64),
 
-              // Email Input
               Row(
                 children: [
                   const Text(
