@@ -10,8 +10,8 @@ interface VersionSwitcherProps {
 export function VersionSwitcher({ latestVersion }: VersionSwitcherProps) {
   const versions = latestVersion
     ? [
-        { label: `v${latestVersion}`, value: latestVersion, path: '/docs' },
-        ...defaultVersions.filter(v => v.value !== latestVersion && v.path !== '/docs')
+        { label: `v${latestVersion}`, value: latestVersion, path: '/' },
+        ...defaultVersions.filter(v => v.value !== latestVersion && v.path !== '/')
       ]
     : defaultVersions
 
