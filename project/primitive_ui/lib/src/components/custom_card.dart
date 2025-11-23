@@ -36,7 +36,8 @@ class CustomCard extends StatelessWidget {
     this.borderRadius = 8.0,
     this.elevation = 2.0,
     this.padding = const EdgeInsets.all(16.0),
-  });
+  }) : assert(elevation >= 0.0, 'Elevation cannot be negative'),
+       assert(borderRadius >= 0.0, 'Border radius cannot be negative');
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,12 @@ class _CardPainter extends CustomPainter {
   final Color color;
   final double borderRadius;
   final double elevation;
+
+  // Material Design elevation scale - controls shadow opacity
+  static const double _kShadowOpacityDivisor = 24.0;
+
+  // Maximum shadow opacity to prevent overly dark shadows
+  static const double _kMaxShadowOpacity = 0.3;
 
   _CardPainter({
     required this.color,
@@ -77,7 +84,10 @@ class _CardPainter extends CustomPainter {
 
       // Calculate shadow color based on elevation
       // Higher elevation = darker shadow
-      final double shadowOpacity = (elevation / 24.0).clamp(0.0, 0.3);
+      final double shadowOpacity = (elevation / _kShadowOpacityDivisor).clamp(
+        0.0,
+        _kMaxShadowOpacity,
+      );
       final Color shadowColor = Color.fromRGBO(0, 0, 0, shadowOpacity);
 
       // Draw shadow using drawShadow

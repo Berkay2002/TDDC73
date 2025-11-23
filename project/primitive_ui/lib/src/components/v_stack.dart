@@ -1,5 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import '../utils/intrinsic_helpers.dart';
 
 /// Alignment options for VStack children.
 enum VStackAlignment {
@@ -42,7 +43,7 @@ class VStack extends StatelessWidget {
     this.spacing = 0.0,
     this.alignment = VStackAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
-  });
+  }) : assert(spacing >= 0.0, 'Spacing must be non-negative');
 
   /// The widgets to display in the stack.
   final List<Widget> children;
@@ -261,28 +262,12 @@ class _RenderVStack extends RenderBox
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    double width = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
-      final childWidth = child.getMinIntrinsicWidth(double.infinity);
-      width = width > childWidth ? width : childWidth;
-      child = childParentData.nextSibling;
-    }
-    return width;
+    return computeMinIntrinsicWidthFromChildren(firstChild, double.infinity);
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    double width = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _VStackParentData;
-      final childWidth = child.getMaxIntrinsicWidth(double.infinity);
-      width = width > childWidth ? width : childWidth;
-      child = childParentData.nextSibling;
-    }
-    return width;
+    return computeMaxIntrinsicWidthFromChildren(firstChild, double.infinity);
   }
 
   @override

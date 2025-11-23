@@ -48,6 +48,9 @@ flutter build windows --debug
 
 ### Tests
 - `project/primitive_ui/test/custom_toggle_switch_test.dart`
+- `project/primitive_ui/test/custom_card_test.dart`
+- `project/primitive_ui/test/v_stack_test.dart`
+- `project/primitive_ui/test/z_stack_test.dart`
 
 ### Demo
 - `project/primitive_demo/lib/main.dart`
@@ -73,7 +76,7 @@ No issues found!
 
 **Tests (primitive_ui):**
 ```
-00:03 +14: All tests passed!
+00:04 +61: All tests passed!
 ```
 
 **Build (primitive_demo):**
@@ -136,10 +139,10 @@ ZStack(
 ## 📊 Project Statistics
 
 - **Components:** 4 (2 UI + 2 Layout)
-- **Lines of Code (Library):** 1,056
-- **Lines of Code (Tests):** 361
+- **Lines of Code (Library):** ~1,100
+- **Lines of Code (Tests):** ~900
 - **Lines of Code (Demo):** 653
-- **Test Cases:** 14 (all passing)
+- **Test Cases:** 61 (all passing)
 - **Documentation:** ~2,500 lines
 
 ---
@@ -207,7 +210,7 @@ flutter test
 - [x] 2 UI Components (CustomCard, CustomToggleSwitch)
 - [x] 2 Layout Components (VStack, ZStack)
 - [x] Primitive-only implementation (CustomPaint, Canvas, GestureDetector, RenderBox)
-- [x] UI Testing (14 tests for CustomToggleSwitch)
+- [x] UI Testing (61 comprehensive tests covering all components)
 - [x] Getting Started Guide (GETTING_STARTED_FLUTTER.md)
 - [x] README with design decisions (primitive_ui/README.md)
 
@@ -219,7 +222,7 @@ flutter test
 
 1. **Show project structure** in VS Code
 2. **Run static analysis** - show zero warnings
-3. **Run tests** - show all 14 passing
+3. **Run tests** - show all 61 passing
 4. **Launch demo app** - demonstrate all sections
 5. **Explain code** - show primitive implementation
 6. **Discuss documentation** - highlight key docs

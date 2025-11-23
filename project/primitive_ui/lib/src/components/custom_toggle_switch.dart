@@ -40,7 +40,11 @@ class CustomToggleSwitch extends StatefulWidget {
     this.inactiveColor = const Color(0xFF9E9E9E), // Grey
     this.width = 50.0,
     this.height = 30.0,
-  });
+  }) : assert(
+         width > height,
+         'Width must exceed height for proper switch appearance',
+       ),
+       assert(width > 0 && height > 0, 'Dimensions must be positive');
 
   @override
   State<CustomToggleSwitch> createState() => _CustomToggleSwitchState();
@@ -48,6 +52,9 @@ class CustomToggleSwitch extends StatefulWidget {
 
 class _CustomToggleSwitchState extends State<CustomToggleSwitch>
     with SingleTickerProviderStateMixin {
+  // Animation duration for smooth but responsive feel
+  static const int _kAnimationDurationMs = 200;
+
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -57,7 +64,7 @@ class _CustomToggleSwitchState extends State<CustomToggleSwitch>
 
     // Create animation controller for smooth sliding
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: _kAnimationDurationMs),
       vsync: this,
     );
 
@@ -128,6 +135,16 @@ class _ToggleSwitchPainter extends CustomPainter {
   final Color activeColor;
   final Color inactiveColor;
 
+  // Thumb radius ratio ensures visible thumb with comfortable tap target
+  static const double _kThumbRadiusRatio = 0.4;
+
+  // Subdued track color when inactive
+  static const double _kTrackOpacity = 0.5;
+
+  // Shadow properties for subtle depth effect
+  static const double _kShadowBlurRadius = 2.0;
+  static const double _kShadowYOffset = 1.0; // Simulates light from above
+
   _ToggleSwitchPainter({
     required this.animationValue,
     required this.activeColor,
@@ -141,7 +158,8 @@ class _ToggleSwitchPainter extends CustomPainter {
     final double trackRadius = trackHeight / 2;
 
     // Calculate thumb properties
-    final double thumbRadius = trackHeight * 0.4; // Slightly smaller than track
+    final double thumbRadius =
+        trackHeight * _kThumbRadiusRatio; // Slightly smaller than track
     final double thumbPadding = (trackHeight - thumbRadius * 2) / 2;
 
     // Calculate thumb X position based on animation
@@ -151,7 +169,7 @@ class _ToggleSwitchPainter extends CustomPainter {
 
     // Interpolate colors based on animation value
     final Color trackColor = Color.lerp(
-      inactiveColor.withValues(alpha: 0.5),
+      inactiveColor.withValues(alpha: _kTrackOpacity),
       activeColor,
       animationValue,
     )!;
@@ -182,10 +200,13 @@ class _ToggleSwitchPainter extends CustomPainter {
     final Paint shadowPaint = Paint()
       ..color =
           const Color(0x40000000) // Semi-transparent black
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
+      ..maskFilter = const MaskFilter.blur(
+        BlurStyle.normal,
+        _kShadowBlurRadius,
+      );
 
     canvas.drawCircle(
-      thumbCenter.translate(0, 1), // Offset shadow slightly down
+      thumbCenter.translate(0, _kShadowYOffset), // Offset shadow slightly down
       thumbRadius,
       shadowPaint,
     );

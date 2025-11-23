@@ -1,8 +1,9 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import '../utils/intrinsic_helpers.dart';
 
 /// How children should be sized to fit the stack.
-enum StackFit {
+enum ZStackFit {
   /// Children are constrained to the incoming stack constraints.
   loose,
 
@@ -39,7 +40,7 @@ class ZStack extends StatelessWidget {
     super.key,
     required this.children,
     this.alignment = Alignment.center,
-    this.fit = StackFit.loose,
+    this.fit = ZStackFit.loose,
   });
 
   /// The widgets to display in the stack.
@@ -49,7 +50,7 @@ class ZStack extends StatelessWidget {
   final AlignmentGeometry alignment;
 
   /// How to size children.
-  final StackFit fit;
+  final ZStackFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class _ZStackLayout extends MultiChildRenderObjectWidget {
   });
 
   final AlignmentGeometry alignment;
-  final StackFit fit;
+  final ZStackFit fit;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -105,7 +106,7 @@ class _RenderZStack extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderBox, _ZStackParentData> {
   _RenderZStack({
     required AlignmentGeometry alignment,
-    required StackFit fit,
+    required ZStackFit fit,
     required TextDirection textDirection,
   }) : _alignment = alignment,
        _fit = fit,
@@ -119,9 +120,9 @@ class _RenderZStack extends RenderBox
     markNeedsLayout();
   }
 
-  StackFit _fit;
-  StackFit get fit => _fit;
-  set fit(StackFit value) {
+  ZStackFit _fit;
+  ZStackFit get fit => _fit;
+  set fit(ZStackFit value) {
     if (_fit == value) return;
     _fit = value;
     markNeedsLayout();
@@ -153,13 +154,13 @@ class _RenderZStack extends RenderBox
     // Determine constraints for children based on fit mode
     BoxConstraints childConstraints;
     switch (fit) {
-      case StackFit.loose:
+      case ZStackFit.loose:
         childConstraints = constraints.loosen();
         break;
-      case StackFit.expand:
+      case ZStackFit.expand:
         childConstraints = BoxConstraints.tight(constraints.biggest);
         break;
-      case StackFit.passthrough:
+      case ZStackFit.passthrough:
         childConstraints = constraints;
         break;
     }
@@ -182,7 +183,7 @@ class _RenderZStack extends RenderBox
     // Determine our own size
     // If fit is expand, use the constraints' biggest size
     // Otherwise, use the maximum child size constrained by our constraints
-    if (fit == StackFit.expand) {
+    if (fit == ZStackFit.expand) {
       size = constraints.biggest;
     } else {
       size = constraints.constrain(Size(maxWidth, maxHeight));
@@ -212,54 +213,22 @@ class _RenderZStack extends RenderBox
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    double width = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
-      final childWidth = child.getMinIntrinsicWidth(height);
-      width = width > childWidth ? width : childWidth;
-      child = childParentData.nextSibling;
-    }
-    return width;
+    return computeMinIntrinsicWidthFromChildren(firstChild, height);
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    double width = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
-      final childWidth = child.getMaxIntrinsicWidth(height);
-      width = width > childWidth ? width : childWidth;
-      child = childParentData.nextSibling;
-    }
-    return width;
+    return computeMaxIntrinsicWidthFromChildren(firstChild, height);
   }
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    double height = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
-      final childHeight = child.getMinIntrinsicHeight(width);
-      height = height > childHeight ? height : childHeight;
-      child = childParentData.nextSibling;
-    }
-    return height;
+    return computeMinIntrinsicHeightFromChildren(firstChild, width);
   }
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    double height = 0.0;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final childParentData = child.parentData! as _ZStackParentData;
-      final childHeight = child.getMaxIntrinsicHeight(width);
-      height = height > childHeight ? height : childHeight;
-      child = childParentData.nextSibling;
-    }
-    return height;
+    return computeMaxIntrinsicHeightFromChildren(firstChild, width);
   }
 
   @override
