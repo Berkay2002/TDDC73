@@ -42,10 +42,7 @@ export default async function RootLayout({
       logo={
         <div className="flex items-center">
           <span className="font-bold text-xl">Primitive UI</span>
-          <span
-            className="text-xs bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded"
-            style={{ marginLeft: '0.5rem' }}
-          >
+          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded ml-2">
             v{latestVersion}
           </span>
         </div>
