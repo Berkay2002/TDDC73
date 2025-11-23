@@ -220,12 +220,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   String _formatCardNumber(String number, List<String> maskChars) {
     final result = StringBuffer();
     int numberIndex = 0;
-    
+
     for (int i = 0; i < maskChars.length; i++) {
       if (maskChars[i] == ' ') {
         result.write(' ');
       } else if (numberIndex < number.length) {
-        if (numberIndex > 4 && numberIndex < (widget.cardData.isAmex ? 11 : 12)) {
+        if (numberIndex > 4 &&
+            numberIndex < (widget.cardData.isAmex ? 11 : 12)) {
           result.write('*');
         } else {
           result.write(number[numberIndex]);
