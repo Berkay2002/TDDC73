@@ -1,0 +1,468 @@
+---
+title: Primitives Explained
+description: Understanding the primitive components that power Primitive UI
+---
+
+import { Callout } from 'nextra/components'
+
+# Primitives Explained
+
+Learn about the foundational building blocks used in Primitive UI and why building from primitives provides unique insights into Flutter's architecture.
+
+## What Are Primitives?
+
+In Flutter, **primitives** are the lowest-level building blocks of the UI framework - the fundamental pieces that higher-level widgets are built upon. Primitive UI uses only these core components:
+
+### Core Primitives
+
+1. **CustomPaint** - Provides a canvas for custom drawing
+2. **Canvas** - Low-level drawing API for graphics
+3. **GestureDetector** - Handles touch and gesture input
+4. **RenderBox** - Base class for layout and painting
+5. **RenderObject** - Core of the rendering tree
+
+<Callout type="info">
+**Key Insight:** By using only primitives, we bypass Flutter's high-level widget layer and work directly with the rendering engine.
+</Callout>
+
+## Why Build from Primitives?
+
+### Educational Value
+
+Building from primitives provides deep understanding of:
+
+- **How rendering actually works** - See the exact steps Flutter takes to draw pixels
+- **Layout algorithm mechanics** - Understand constraint propagation and sizing
+- **Performance implications** - Learn what makes widgets fast or slow
+- **Widget composition** - Discover how complex widgets are assembled
+
+### What You Learn
+
+```dart
+// High-level (what you usually write)
+Card(
+  child: Text('Hello'),
+)
+
+// Primitive-level (what's actually happening)
+CustomPaint(
+  painter: _CardPainter(
+    color: color,
+    elevation: elevation,
+    borderRadius: borderRadius,
+  ),
+  child: _CardLayout(
+    padding: padding,
+    child: Text('Hello'),
+  ),
+)
+```
+
+## CustomPaint & Canvas
+
+### CustomPaint Widget
+
+`CustomPaint` is a widget that provides a canvas for drawing custom graphics.
+
+**Key Concepts:**
+- Takes a `CustomPainter` for foreground and/or background painting
+- Provides a `Canvas` object during paint phase
+- Can have a child widget that appears above/below the painting
+
+**In Primitive UI:**
+Used by `CustomCard` and `CustomToggleSwitch` for rendering.
+
+### Canvas API
+
+`Canvas` provides low-level drawing operations:
+
+```dart
+// Drawing a shadow
+canvas.drawShadow(path, shadowColor, elevation, true);
+
+// Drawing a rounded rectangle
+canvas.drawRRect(
+  RRect.fromRectAndRadius(
+    Rect.fromLTWH(0, 0, width, height),
+    Radius.circular(borderRadius),
+  ),
+  paint,
+);
+
+// Drawing a circle
+canvas.drawCircle(center, radius, paint);
+```
+
+**Performance:**
+- Hardware-accelerated on most platforms
+- Efficient for simple shapes
+- Composites into layers for optimal rendering
+
+### CustomPainter
+
+A class that defines how to paint on a canvas:
+
+```dart
+class _CardPainter extends CustomPainter {
+  final Color color;
+  final double borderRadius;
+  final double elevation;
+
+  _CardPainter({
+    required this.color,
+    required this.borderRadius,
+    required this.elevation,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Drawing logic here
+  }
+
+  @override
+  bool shouldRepaint(_CardPainter oldDelegate) {
+    // Return true only if visual properties changed
+    return oldDelegate.color != color ||
+        oldDelegate.borderRadius != borderRadius ||
+        oldDelegate.elevation != elevation;
+  }
+}
+```
+
+**shouldRepaint():**
+Critical for performance - only repaint when necessary.
+
+## RenderBox & Layout
+
+### Understanding RenderBox
+
+`RenderBox` is the base class for render objects that use Cartesian coordinates.
+
+**Responsibilities:**
+1. **Layout** - Calculate size and position of children
+2. **Paint** - Draw visual content
+3. **Hit Testing** - Determine if a point is inside the widget
+
+### Box Constraints
+
+Flutter's layout uses a constraint-based system:
+
+```dart
+class BoxConstraints {
+  final double minWidth;
+  final double maxWidth;
+  final double minHeight;
+  final double maxHeight;
+}
+```
+
+**The Layout Protocol:**
+1. Parent passes constraints down to child
+2. Child sizes itself within those constraints
+3. Child returns its size to parent
+4. Parent positions child
+
+```dart
+// In VStack's performLayout()
+child.layout(childConstraints, parentUsesSize: true);
+// Now child.size is set
+totalHeight += child.size.height;
+```
+
+### Intrinsic Dimensions
+
+Intrinsic dimensions help with layout decisions:
+
+```dart
+// Minimum width needed
+double computeMinIntrinsicWidth(double height) {
+  return child.getMinIntrinsicWidth(height) + padding.horizontal;
+}
+
+// Maximum width wanted
+double computeMaxIntrinsicWidth(double height) {
+  return child.getMaxIntrinsicWidth(height) + padding.horizontal;
+}
+```
+
+<Callout type="warning">
+**Performance Note:** Intrinsic dimension calculations can be expensive. Use sparingly and cache when possible.
+</Callout>
+
+## GestureDetector
+
+### Touch Input Handling
+
+`GestureDetector` provides gesture recognition without any rendering:
+
+```dart
+GestureDetector(
+  onTap: _handleTap,
+  onTapDown: _handleTapDown,
+  onTapUp: _handleTapUp,
+  onTapCancel: _handleTapCancel,
+  child: CustomPaint(...),
+)
+```
+
+**In Primitive UI:**
+Used by `CustomToggleSwitch` for tap detection.
+
+### Gesture Arena
+
+Flutter uses a "gesture arena" to resolve competing gestures:
+
+1. Multiple gesture recognizers may claim the same touch
+2. Gesture arena determines which recognizer "wins"
+3. Winner gets the gesture, losers are rejected
+
+**Example:** Scroll vs. Tap
+- Both want the initial touch
+- After movement threshold, scroll wins
+- Tap is cancelled
+
+## RenderObject Tree
+
+### The Rendering Pipeline
+
+Flutter's rendering happens in three trees:
+
+1. **Widget Tree** - Immutable configuration (what you write)
+2. **Element Tree** - Manages widget lifecycle
+3. **RenderObject Tree** - Performs layout and painting
+
+```
+Widget build()
+  ↓
+Element manages
+  ↓
+RenderObject renders
+```
+
+### In Primitive UI
+
+```dart
+VStack (Widget)
+  ↓
+_VStackLayout (Widget)
+  ↓
+_RenderVStack (RenderBox)
+```
+
+The RenderBox does the actual work:
+- `performLayout()` - Calculate positions
+- `paint()` - Draw to canvas
+- `hitTest()` - Handle touches
+
+## Paint Optimization
+
+### Layer Caching
+
+Flutter automatically caches painting in layers:
+
+```dart
+// This gets cached as a layer
+CustomPaint(
+  painter: _CardPainter(...),
+  child: child,
+)
+```
+
+**Benefits:**
+- Reduces re-painting when nothing changed
+- Hardware-accelerated composition
+- Efficient scrolling and animations
+
+### shouldRepaint Strategy
+
+Only repaint when visual properties change:
+
+```dart
+@override
+bool shouldRepaint(_CardPainter oldDelegate) {
+  // Compare all visual properties
+  return oldDelegate.color != color ||
+      oldDelegate.borderRadius != borderRadius ||
+      oldDelegate.elevation != elevation;
+}
+```
+
+**Bad:**
+```dart
+bool shouldRepaint(_CardPainter oldDelegate) => true; // Always repaints!
+```
+
+**Good:**
+```dart
+bool shouldRepaint(_CardPainter oldDelegate) {
+  return oldDelegate.color != color; // Only when needed
+}
+```
+
+## Multi-Child Layout
+
+### Parent Data
+
+Used to store child-specific layout information:
+
+```dart
+class _VStackParentData extends ContainerBoxParentData<RenderBox> {
+  // Offset is inherited from ContainerBoxParentData
+  // Can add custom fields here
+}
+```
+
+### Iteration Pattern
+
+```dart
+RenderBox? child = firstChild;
+while (child != null) {
+  final childParentData = child.parentData as _VStackParentData;
+  
+  // Process child
+  child.layout(constraints, parentUsesSize: true);
+  
+  // Move to next
+  child = childParentData.nextSibling;
+}
+```
+
+## Comparison: Primitive vs High-Level
+
+### CustomCard vs Card
+
+**High-Level Card:**
+```dart
+Card(
+  elevation: 4.0,
+  child: Text('Hello'),
+)
+```
+
+Uses: `Material` → `PhysicalShape` → `CustomPaint` → Canvas
+
+**Primitive CustomCard:**
+```dart
+CustomCard(
+  elevation: 4.0,
+  child: Text('Hello'),
+)
+```
+
+Uses: `CustomPaint` → Canvas (directly)
+
+**Differences:**
+- Card has more features (shape, theme integration, semantic labels)
+- CustomCard is simpler and more explicit
+- Card is production-ready, CustomCard is educational
+
+### VStack vs Column
+
+**High-Level Column:**
+```dart
+Column(
+  children: [
+    Flexible(child: Text('A')),
+    Text('B'),
+  ],
+)
+```
+
+Features: Flexible, Expanded, Spacer, baseline alignment, etc.
+
+**Primitive VStack:**
+```dart
+VStack(
+  spacing: 8.0,
+  children: [
+    Text('A'),
+    Text('B'),
+  ],
+)
+```
+
+Features: Simple spacing and alignment only.
+
+**Learning Value:**
+- VStack shows the core layout algorithm
+- Column adds complexity for flexibility
+- Understanding VStack helps you use Column better
+
+## Performance Characteristics
+
+### CustomPaint Performance
+
+**Fast:**
+- Simple shapes (circles, rectangles)
+- Solid colors
+- Cached painters (shouldRepaint returns false)
+
+**Slow:**
+- Complex paths
+- Many gradient stops
+- Filters and effects
+- Always repainting
+
+### Layout Performance
+
+**Efficient:**
+```dart
+child.layout(constraints, parentUsesSize: true);
+// Use child.size immediately
+```
+
+**Inefficient:**
+```dart
+child.layout(constraints, parentUsesSize: false);
+// But then access child.size anyway
+// Causes re-layout!
+```
+
+## Memory Management
+
+### Widget Lifecycle
+
+Widgets are immutable and short-lived:
+
+```dart
+// New widget every build
+CustomCard(
+  elevation: 4.0,
+  child: Text('Hello'),
+)
+```
+
+### RenderObject Lifecycle
+
+RenderObjects are long-lived and mutable:
+
+```dart
+// Same RenderObject, updated properties
+set elevation(double value) {
+  if (_elevation == value) return;
+  _elevation = value;
+  markNeedsLayout(); // Schedule re-layout
+}
+```
+
+## Key Takeaways
+
+<Callout type="info">
+**What Primitive UI Teaches:**
+
+1. **Widgets are Configuration** - They just describe what you want
+2. **RenderObjects Do the Work** - Layout, paint, hit test
+3. **Constraints Flow Down, Sizes Flow Up** - Core layout principle
+4. **Painting is Expensive** - Optimize shouldRepaint()
+5. **Composition is Powerful** - Build complex UIs from simple pieces
+</Callout>
+
+## Further Reading
+
+- [Flutter Rendering Pipeline](https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout)
+- [CustomPaint Documentation](https://api.flutter.dev/flutter/widgets/CustomPaint-class.html)
+- [RenderBox Documentation](https://api.flutter.dev/flutter/rendering/RenderBox-class.html)
+
+---
+
+**Next:** Learn about the [Rendering Pipeline](/architecture/rendering-pipeline) to see how these primitives work together.

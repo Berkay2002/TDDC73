@@ -1,0 +1,618 @@
+---
+title: Rendering Pipeline
+description: Deep dive into how Flutter renders Primitive UI components
+---
+
+import { Callout, Steps } from 'nextra/components'
+
+# Rendering Pipeline
+
+Understand the complete journey from widget code to pixels on screen in Primitive UI.
+
+## Overview
+
+When you write:
+
+```dart
+CustomCard(
+  child: Text('Hello'),
+)
+```
+
+A complex series of operations transforms this into rendered pixels. Let's trace the complete pipeline.
+
+## The Three Trees
+
+Flutter maintains three parallel trees:
+
+### 1. Widget Tree (Configuration)
+
+```dart
+CustomCard
+  └─ CustomPaint
+       └─ _CardLayout
+            └─ Text
+```
+
+**Characteristics:**
+- Immutable
+- Rebuilt frequently
+- Lightweight
+- Describes desired state
+
+### 2. Element Tree (Lifecycle)
+
+```
+_CustomCardElement
+  └─ _CustomPaintElement
+       └─ _CardLayoutElement
+            └─ _TextElement
+```
+
+**Characteristics:**
+- Mutable
+- Long-lived
+- Manages widget lifecycle
+- Handles updates
+
+### 3. RenderObject Tree (Rendering)
+
+```
+_RenderCardLayout
+  └─ _RenderCustomPaint
+       └─ RenderParagraph
+```
+
+**Characteristics:**
+- Mutable
+- Long-lived
+- Performs layout
+- Executes painting
+- Handles hit testing
+
+## Complete Rendering Pipeline
+
+<Steps>
+
+### Build Phase
+
+When `build()` is called:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return CustomCard(
+    elevation: 4.0,
+    child: Text('Hello'),
+  );
+}
+```
+
+**What Happens:**
+1. New `CustomCard` widget created
+2. New `CustomPaint` and `_CardLayout` widgets created
+3. Widget tree assembled
+
+**Note:** Widgets are cheap - creating them is fast!
+
+### Element Reconciliation
+
+Elements compare old and new widgets:
+
+```dart
+// Simplified element update logic
+void update(Widget newWidget) {
+  if (widget.runtimeType == newWidget.runtimeType) {
+    // Update existing element
+    _widget = newWidget;
+    _renderObject?.updateConfiguration(newWidget);
+  } else {
+    // Rebuild element tree
+    rebuild();
+  }
+}
+```
+
+**Optimization:** Elements are reused when widget types match.
+
+### RenderObject Update
+
+When widget properties change:
+
+```dart
+@override
+void updateRenderObject(
+  BuildContext context,
+  _RenderCardLayout renderObject,
+) {
+  renderObject.padding = padding; // Triggers setter
+}
+
+// In RenderObject
+set padding(EdgeInsets value) {
+  if (_padding == value) return; // Skip if unchanged
+  _padding = value;
+  markNeedsLayout(); // Schedule layout
+}
+```
+
+### Layout Phase
+
+RenderObjects calculate sizes and positions:
+
+```dart
+@override
+void performLayout() {
+  // 1. Receive constraints from parent
+  final BoxConstraints constraints = this.constraints;
+  
+  // 2. Layout child with deflated constraints
+  final childConstraints = constraints.deflate(_padding);
+  child.layout(childConstraints, parentUsesSize: true);
+  
+  // 3. Calculate own size
+  size = Size(
+    child.size.width + _padding.horizontal,
+    child.size.height + _padding.vertical,
+  );
+  
+  // 4. Position child
+  final childParentData = child.parentData as BoxParentData;
+  childParentData.offset = Offset(_padding.left, _padding.top);
+}
+```
+
+**Constraint Flow:**
+```
+Parent (400x600 max)
+  ↓ deflate by 16px padding
+Child (368x568 max)
+  ↓ child sizes to (200x100)
+Parent sizes to (232x132)
+```
+
+### Paint Phase
+
+RenderObjects draw to canvas:
+
+```dart
+@override
+void paint(PaintingContext context, Offset offset) {
+  // 1. Get canvas from context
+  final Canvas canvas = context.canvas;
+  
+  // 2. Draw shadow
+  if (elevation > 0) {
+    canvas.drawShadow(shadowPath, shadowColor, elevation, true);
+  }
+  
+  // 3. Draw background
+  canvas.drawRRect(cardRect, cardPaint);
+  
+  // 4. Paint child
+  final childParentData = child.parentData as BoxParentData;
+  context.paintChild(child, childParentData.offset + offset);
+}
+```
+
+**Paint Order:** Bottom to top (background first, then child)
+
+### Compositing
+
+Flutter combines layers:
+
+```
+[Layers]
+  Layer 1: Card shadow
+  Layer 2: Card background
+  Layer 3: Text
+    ↓
+[Compositor]
+    ↓
+[Screen]
+```
+
+**Hardware Acceleration:** Layers are GPU-accelerated.
+
+### Hit Testing
+
+When user taps screen:
+
+```dart
+@override
+bool hitTest(BoxHitTestResult result, {required Offset position}) {
+  // 1. Check if point is within bounds
+  if (!size.contains(position)) return false;
+  
+  // 2. Test child
+  if (child != null) {
+    final childParentData = child.parentData as BoxParentData;
+    final bool isHit = result.addWithPaintOffset(
+      offset: childParentData.offset,
+      position: position,
+      hitTest: (BoxHitTestResult result, Offset transformed) {
+        return child.hitTest(result, position: transformed);
+      },
+    );
+    if (isHit) return true;
+  }
+  
+  // 3. Add self to hit path
+  result.add(BoxHitTestEntry(this, position));
+  return true;
+}
+```
+
+</Steps>
+
+## Case Study: CustomCard Rendering
+
+Let's trace a complete render of `CustomCard`:
+
+### Initial Build
+
+```dart
+CustomCard(
+  elevation: 4.0,
+  borderRadius: 12.0,
+  child: Text('Hello'),
+)
+```
+
+**Widget Tree:**
+```
+CustomCard
+  └─ CustomPaint (painter: _CardPainter)
+       └─ _CardLayout (padding: EdgeInsets.all(16))
+            └─ Text('Hello')
+```
+
+### Layout Pass
+
+**Step 1:** Root receives constraints (400x600 max)
+
+**Step 2:** `CustomPaint` forwards constraints to `_CardLayout`
+
+**Step 3:** `_CardLayout.performLayout()`:
+```dart
+// Deflate constraints by padding (16px all sides)
+childConstraints = BoxConstraints(
+  maxWidth: 400 - 32,  // 368
+  maxHeight: 600 - 32, // 568
+)
+
+// Layout text
+text.layout(childConstraints) 
+// Text sizes to (50x20)
+
+// Size self
+size = Size(50 + 32, 20 + 32) // (82, 52)
+
+// Position text
+textOffset = Offset(16, 16)
+```
+
+**Step 4:** `CustomPaint` sizes to child's size (82x52)
+
+**Step 5:** Root sizes to `CustomPaint` size (82x52)
+
+### Paint Pass
+
+**Step 1:** `CustomPaint` calls `_CardPainter.paint()`:
+
+```dart
+void paint(Canvas canvas, Size size) {
+  // size = (82, 52)
+  
+  // Create card shape
+  final cardRect = RRect.fromRectAndRadius(
+    Rect.fromLTWH(0, 0, 82, 52),
+    Radius.circular(12),
+  );
+  
+  // Paint shadow
+  canvas.drawShadow(
+    Path()..addRRect(cardRect),
+    Color(0x26000000), // Calculated from elevation
+    4.0,
+    true,
+  );
+  
+  // Paint background
+  canvas.drawRRect(
+    cardRect,
+    Paint()..color = Colors.white,
+  );
+}
+```
+
+**Step 2:** `CustomPaint` paints child (`_CardLayout`)
+
+**Step 3:** `_CardLayout` paints child (`Text`) at offset (16, 16)
+
+**Step 4:** `Text` renders "Hello" using font renderer
+
+## Performance Characteristics
+
+### Layout Performance
+
+**Fast Operations:**
+```dart
+// Simple constraint deflation
+childConstraints = constraints.deflate(padding);
+
+// Direct size calculation
+size = Size(width + padding.horizontal, height + padding.vertical);
+```
+
+**Slow Operations:**
+```dart
+// Intrinsic size calculations (avoided in performLayout)
+minWidth = child.getMinIntrinsicWidth(double.infinity);
+
+// Multiple layout passes (also avoided)
+child.layout(constraints1);
+final size1 = child.size;
+child.layout(constraints2); // DON'T DO THIS
+```
+
+### Paint Performance
+
+**Efficient:**
+- Solid colors
+- Simple shapes (RRect, Circle)
+- Cached paint objects
+- Hardware-accelerated operations
+
+**Expensive:**
+- Complex paths
+- Many drawing operations
+- Image filters
+- Blending modes
+
+### shouldRepaint Optimization
+
+```dart
+@override
+bool shouldRepaint(_CardPainter oldDelegate) {
+  // Only repaint if visual properties changed
+  return oldDelegate.color != color ||
+      oldDelegate.borderRadius != borderRadius ||
+      oldDelegate.elevation != elevation;
+}
+```
+
+**Impact:**
+- `false`: Reuses cached layer (fast!)
+- `true`: Re-executes paint() (slower)
+
+## Animation Integration
+
+### How CustomToggleSwitch Animates
+
+```dart
+class _CustomToggleSwitchState extends State<CustomToggleSwitch>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 200),
+      vsync: this, // Syncs with refresh rate
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return CustomPaint(
+          painter: _ToggleSwitchPainter(
+            animationValue: _animation.value, // 0.0 to 1.0
+            activeColor: widget.activeColor,
+            inactiveColor: widget.inactiveColor,
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+**Frame-by-Frame:**
+1. User taps → `_controller.forward()` starts
+2. Every frame (~16ms):
+   - Animation ticks (value increases)
+   - AnimatedBuilder rebuilds
+   - New CustomPaint widget created
+   - Painter receives new animationValue
+   - shouldRepaint returns true (value changed)
+   - paint() executes with interpolated position/color
+
+## Layer Optimization
+
+### Repaint Boundaries
+
+Flutter automatically creates repaint boundaries for performance:
+
+```dart
+// CustomCard with animation inside
+CustomCard(
+  child: AnimatingWidget(), // Creates repaint boundary
+)
+```
+
+**Without boundary:** Entire card repaints on every frame
+
+**With boundary:** Only animated child repaints
+
+### Manual Boundaries
+
+```dart
+RepaintBoundary(
+  child: CustomCard(
+    child: FrequentlyUpdatingWidget(),
+  ),
+)
+```
+
+Use when a subtree updates frequently but its parent doesn't.
+
+## Memory Management
+
+### Widget Creation
+
+```dart
+// Every build creates new widgets
+@override
+Widget build(BuildContext context) {
+  return CustomCard( // New instance
+    child: Text('Hello'), // New instance
+  );
+}
+```
+
+**Memory:** Widgets are small, allocation is cheap, GC is efficient.
+
+### RenderObject Reuse
+
+```dart
+// RenderObjects are reused
+void updateRenderObject(BuildContext context, RenderBox renderObject) {
+  renderObject.padding = padding; // Update existing object
+}
+```
+
+**Memory:** RenderObjects are long-lived, updates are in-place.
+
+## Debugging the Pipeline
+
+### Layout Debugging
+
+```dart
+void debugPaintSize() {
+  // In RenderBox
+  debugPaintSizeEnabled = true;
+}
+```
+
+Shows layout boundaries and baselines.
+
+### Repaint Debugging
+
+```dart
+void debugPaintRepaint() {
+  debugRepaintRainbowEnabled = true;
+}
+```
+
+Colors repainted areas differently on each frame.
+
+### Performance Overlay
+
+```dart
+MaterialApp(
+  showPerformanceOverlay: true,
+  // ...
+)
+```
+
+Shows GPU/CPU usage and frame rendering time.
+
+## Common Pitfalls
+
+### Unnecessary Rebuilds
+
+**Bad:**
+```dart
+// Creates new child on every build
+CustomCard(
+  child: Container(
+    child: SomeExpensiveWidget(),
+  ),
+)
+```
+
+**Good:**
+```dart
+// Cache expensive child
+final _child = SomeExpensiveWidget();
+
+CustomCard(
+  child: Container(
+    child: _child,
+  ),
+)
+
+// Or use const
+CustomCard(
+  child: Container(
+    child: const SomeExpensiveWidget(),
+  ),
+)
+```
+
+### Layout Thrashing
+
+**Bad:**
+```dart
+// Multiple layout passes
+child.layout(constraints);
+if (child.size.width > 100) {
+  child.layout(tighterConstraints); // Re-layout!
+}
+```
+
+**Good:**
+```dart
+// Single layout pass with correct constraints
+final constraints = shouldConstrain
+    ? tighterConstraints
+    : normalConstraints;
+child.layout(constraints);
+```
+
+### Paint Inefficiency
+
+**Bad:**
+```dart
+bool shouldRepaint(oldDelegate) => true; // Always repaints
+```
+
+**Good:**
+```dart
+bool shouldRepaint(oldDelegate) {
+  return oldDelegate.color != color; // Only when needed
+}
+```
+
+## Best Practices
+
+<Callout type="info">
+**Rendering Optimization Tips:**
+
+1. **Use `const` constructors** - Prevents unnecessary rebuilds
+2. **Implement `shouldRepaint` carefully** - Avoid unnecessary painting
+3. **Break widget trees at natural boundaries** - Helps with targeted rebuilds
+4. **Use `RepaintBoundary` for isolated animations** - Prevents cascading repaints
+5. **Avoid layout in paint** - Separation of concerns improves performance
+6. **Cache expensive calculations** - Don't recalculate in build()
+</Callout>
+
+## Further Reading
+
+- [Flutter Rendering Pipeline](https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout)
+- [Flutter Performance Best Practices](https://flutter.dev/docs/perf/best-practices)
+- [RenderObject API](https://api.flutter.dev/flutter/rendering/RenderObject-class.html)
+
+---
+
+**Next:** Learn about [Design Decisions](/architecture/design-decisions) that shaped Primitive UI.

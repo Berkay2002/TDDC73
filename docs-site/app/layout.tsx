@@ -28,7 +28,7 @@ const navbar = (
         </span>
       </div>
     }
-    projectLink="https://github.com/Berkay2002/TDDC73/tree/main/docs-site"
+    projectLink="https://github.com/Berkay2002/TDDC73/tree/main/project/primitive_ui"
   >
     <VersionSwitcher />
   </Navbar>
@@ -61,6 +61,8 @@ export default async function RootLayout({
           footer={footer}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/Berkay2002/TDDC73/tree/main/docs-site"
+          editLink={null}
+          feedback={{ content: null }}
           sidebar={{
             defaultMenuCollapseLevel: 1,
             toggleButton: true

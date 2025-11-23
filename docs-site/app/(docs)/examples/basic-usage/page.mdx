@@ -1,0 +1,481 @@
+---
+title: Basic Usage
+description: Learn the fundamental patterns and basic usage of Primitive UI components
+asIndexPage: true
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# Basic Usage
+
+Learn the fundamental patterns for using Primitive UI components effectively.
+
+## Simple Card
+
+The most basic use of `CustomCard` is to wrap content:
+
+```dart
+CustomCard(
+  child: Text('Hello, Primitive UI!'),
+)
+```
+
+This creates a white card with default elevation (2.0), border radius (8.0), and padding (16.0).
+
+## Card with Custom Styling
+
+Customize the card's appearance:
+
+```dart
+CustomCard(
+  color: Color(0xFFF5F5F5), // Light grey
+  borderRadius: 12.0,
+  elevation: 4.0,
+  padding: EdgeInsets.all(20.0),
+  child: Text(
+    'Custom Styled Card',
+    style: TextStyle(fontSize: 18),
+  ),
+)
+```
+
+## Basic Toggle Switch
+
+Create an interactive toggle:
+
+```dart
+class MyWidget extends StatefulWidget {
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  bool _isEnabled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomToggleSwitch(
+      value: _isEnabled,
+      onChanged: (newValue) {
+        setState(() {
+          _isEnabled = newValue;
+        });
+      },
+    );
+  }
+}
+```
+
+## Vertical Layout
+
+Arrange widgets vertically with spacing:
+
+```dart
+VStack(
+  spacing: 16.0,
+  children: [
+    Text('Item 1'),
+    Text('Item 2'),
+    Text('Item 3'),
+  ],
+)
+```
+
+## Aligned Vertical Layout
+
+Control horizontal alignment:
+
+```dart
+VStack(
+  spacing: 12.0,
+  alignment: VStackAlignment.center,
+  children: [
+    Text('Centered'),
+    Container(width: 100, height: 50, color: Colors.blue),
+    Text('All Centered'),
+  ],
+)
+```
+
+## Layered Widgets
+
+Stack widgets on top of each other:
+
+```dart
+ZStack(
+  alignment: Alignment.center,
+  children: [
+    Container(
+      width: 200,
+      height: 200,
+      color: Colors.blue,
+    ),
+    Icon(Icons.star, size: 100, color: Colors.yellow),
+  ],
+)
+```
+
+## Combining Components
+
+### Card with Toggle
+
+```dart
+class SettingCard extends StatefulWidget {
+  @override
+  State<SettingCard> createState() => _SettingCardState();
+}
+
+class _SettingCardState extends State<SettingCard> {
+  bool _enabled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomCard(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Enable Feature'),
+          CustomToggleSwitch(
+            value: _enabled,
+            onChanged: (value) {
+              setState(() => _enabled = value);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### VStack with Cards
+
+```dart
+VStack(
+  spacing: 16.0,
+  children: [
+    CustomCard(child: Text('Card 1')),
+    CustomCard(child: Text('Card 2')),
+    CustomCard(child: Text('Card 3')),
+  ],
+)
+```
+
+### Card with VStack Content
+
+```dart
+CustomCard(
+  elevation: 4.0,
+  child: VStack(
+    spacing: 12.0,
+    children: [
+      Text(
+        'Title',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      Text('Subtitle'),
+      Text('Content goes here...'),
+    ],
+  ),
+)
+```
+
+## Common Patterns
+
+### Settings List
+
+```dart
+class SettingsList extends StatefulWidget {
+  @override
+  State<SettingsList> createState() => _SettingsListState();
+}
+
+class _SettingsListState extends State<SettingsList> {
+  bool _notifications = true;
+  bool _darkMode = false;
+  bool _autoSave = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return VStack(
+      spacing: 12.0,
+      children: [
+        _buildSettingItem('Notifications', _notifications, (v) {
+          setState(() => _notifications = v);
+        }),
+        _buildSettingItem('Dark Mode', _darkMode, (v) {
+          setState(() => _darkMode = v);
+        }),
+        _buildSettingItem('Auto-save', _autoSave, (v) {
+          setState(() => _autoSave = v);
+        }),
+      ],
+    );
+  }
+
+  Widget _buildSettingItem(
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
+    return CustomCard(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyle(fontSize: 16)),
+          CustomToggleSwitch(value: value, onChanged: onChanged),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### Info Card
+
+```dart
+Widget buildInfoCard({
+  required String title,
+  required String description,
+  required IconData icon,
+}) {
+  return CustomCard(
+    elevation: 2.0,
+    borderRadius: 12.0,
+    child: VStack(
+      spacing: 8.0,
+      alignment: VStackAlignment.start,
+      children: [
+        Icon(icon, size: 40, color: Colors.blue),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          description,
+          style: TextStyle(color: Colors.grey[600]),
+        ),
+      ],
+    ),
+  );
+}
+```
+
+### Badge Overlay
+
+```dart
+ZStack(
+  alignment: Alignment.topRight,
+  children: [
+    CustomCard(
+      child: Container(
+        width: 100,
+        height: 100,
+        child: Center(child: Text('Content')),
+      ),
+    ),
+    Container(
+      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        'NEW',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  ],
+)
+```
+
+## Layout Examples
+
+### Grid of Cards
+
+```dart
+GridView.count(
+  crossAxisCount: 2,
+  padding: EdgeInsets.all(16),
+  mainAxisSpacing: 16,
+  crossAxisSpacing: 16,
+  children: [
+    CustomCard(child: Center(child: Text('Card 1'))),
+    CustomCard(child: Center(child: Text('Card 2'))),
+    CustomCard(child: Center(child: Text('Card 3'))),
+    CustomCard(child: Center(child: Text('Card 4'))),
+  ],
+)
+```
+
+### Scrollable List
+
+```dart
+SingleChildScrollView(
+  child: Padding(
+    padding: EdgeInsets.all(16),
+    child: VStack(
+      spacing: 16.0,
+      children: List.generate(
+        20,
+        (index) => CustomCard(
+          child: Text('Item ${index + 1}'),
+        ),
+      ),
+    ),
+  ),
+)
+```
+
+### Stretched Layout
+
+```dart
+VStack(
+  spacing: 16.0,
+  alignment: VStackAlignment.stretch,
+  children: [
+    CustomCard(
+      child: Container(height: 100, child: Center(child: Text('Full Width'))),
+    ),
+    CustomCard(
+      child: Container(height: 100, child: Center(child: Text('Full Width'))),
+    ),
+  ],
+)
+```
+
+## Interactive Examples
+
+### Counter with Card
+
+```dart
+class CounterCard extends StatefulWidget {
+  @override
+  State<CounterCard> createState() => _CounterCardState();
+}
+
+class _CounterCardState extends State<CounterCard> {
+  int _count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomCard(
+      elevation: 4.0,
+      child: VStack(
+        spacing: 16.0,
+        alignment: VStackAlignment.center,
+        children: [
+          Text(
+            'Counter',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '$_count',
+            style: TextStyle(fontSize: 48, color: Colors.blue),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => setState(() => _count--),
+                child: Icon(Icons.remove),
+              ),
+              SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () => setState(() => _count++),
+                child: Icon(Icons.add),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### Toggle with Feedback
+
+```dart
+class FeedbackToggle extends StatefulWidget {
+  @override
+  State<FeedbackToggle> createState() => _FeedbackToggleState();
+}
+
+class _FeedbackToggleState extends State<FeedbackToggle> {
+  bool _isEnabled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomCard(
+      child: VStack(
+        spacing: 12.0,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Feature Status'),
+              CustomToggleSwitch(
+                value: _isEnabled,
+                onChanged: (value) {
+                  setState(() => _isEnabled = value);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Feature ${value ? "enabled" : "disabled"}',
+                      ),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          Text(
+            'Status: ${_isEnabled ? "ON" : "OFF"}',
+            style: TextStyle(
+              color: _isEnabled ? Colors.green : Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+## Best Practices
+
+<Callout type="info">
+**Tips for Using Primitive UI:**
+
+1. **Use `const` constructors** where possible for better performance
+2. **Keep spacing consistent** across your app (e.g., always use 16.0 or 12.0)
+3. **Combine with standard widgets** - Primitive UI works alongside Flutter's built-in widgets
+4. **Add padding to parents** when using `CustomCard` to show shadows properly
+5. **Use `VStackAlignment.stretch`** for full-width children in vertical layouts
+</Callout>
+
+## Next Steps
+
+Now that you understand the basics, explore more advanced patterns:
+
+- [Advanced Patterns](/examples/advanced-patterns) - Complex layouts and techniques
+- [Component Documentation](/components/custom-card) - Detailed API reference
+- [Architecture](/architecture/primitives-explained) - How it all works
+
+---
+
+**Having issues?** Check the component documentation for detailed API references and troubleshooting tips.
