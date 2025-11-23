@@ -45,45 +45,61 @@ CustomSlider({
 ### Properties
 
 <ApiTable
-  data={[
+  parameters={[
     {
       name: 'value',
       type: 'double',
+      required: true,
+      default: null,
       description: 'The currently selected value for this slider.',
     },
     {
       name: 'onChanged',
       type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
       description: 'Called during a drag when the user is selecting a new value.',
     },
     {
       name: 'min',
       type: 'double',
-      description: 'The minimum value the user can select. Defaults to 0.0.',
+      required: false,
+      default: '0.0',
+      description: 'The minimum value the user can select.',
     },
     {
       name: 'max',
       type: 'double',
-      description: 'The maximum value the user can select. Defaults to 1.0.',
+      required: false,
+      default: '1.0',
+      description: 'The maximum value the user can select.',
     },
     {
       name: 'activeColor',
       type: 'Color',
+      required: false,
+      default: 'Color(0xFF2196F3)',
       description: 'The color of the track up to the thumb, and the thumb itself.',
     },
     {
       name: 'inactiveColor',
       type: 'Color',
+      required: false,
+      default: 'Color(0xFFE0E0E0)',
       description: 'The color of the track after the thumb.',
     },
     {
       name: 'thumbRadius',
       type: 'double',
+      required: false,
+      default: '10.0',
       description: 'The radius of the thumb shape.',
     },
     {
       name: 'trackHeight',
       type: 'double',
+      required: false,
+      default: '4.0',
       description: 'The thickness of the track.',
     },
   ]}

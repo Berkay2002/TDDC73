@@ -31,20 +31,26 @@ CustomCircularProgress({
 ### Properties
 
 <ApiTable
-  data={[
+  parameters={[
     {
       name: 'color',
       type: 'Color',
+      required: false,
+      default: 'Color(0xFF2196F3)',
       description: 'The color of the progress indicator.',
     },
     {
       name: 'strokeWidth',
       type: 'double',
+      required: false,
+      default: '4.0',
       description: 'The width of the line used to draw the circle.',
     },
     {
       name: 'size',
       type: 'double',
+      required: false,
+      default: '40.0',
       description: 'The diameter of the progress indicator.',
     },
   ]}
