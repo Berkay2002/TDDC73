@@ -4,6 +4,7 @@ description: Deep dive into how Flutter renders Primitive UI components
 ---
 
 import { Callout, Steps } from 'nextra/components'
+import { FurtherReading } from '@/components/FurtherReading'
 
 # Rendering Pipeline
 
@@ -607,11 +608,25 @@ bool shouldRepaint(oldDelegate) {
 6. **Cache expensive calculations** - Don't recalculate in build()
 </Callout>
 
-## Further Reading
-
-- [Flutter Rendering Pipeline](https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout)
-- [Flutter Performance Best Practices](https://flutter.dev/docs/perf/best-practices)
-- [RenderObject API](https://api.flutter.dev/flutter/rendering/RenderObject-class.html)
+<FurtherReading
+  links={[
+    {
+      title: 'Flutter Rendering Pipeline',
+      href: 'https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout',
+      external: true
+    },
+    {
+      title: 'Flutter Performance Best Practices',
+      href: 'https://flutter.dev/docs/perf/best-practices',
+      external: true
+    },
+    {
+      title: 'RenderObject API',
+      href: 'https://api.flutter.dev/flutter/rendering/RenderObject-class.html',
+      external: true
+    }
+  ]}
+/>
 
 ---
 

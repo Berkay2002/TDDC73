@@ -4,6 +4,7 @@ description: Understanding the primitive components that power Primitive UI
 ---
 
 import { Callout } from 'nextra/components'
+import { FurtherReading } from '@/components/FurtherReading'
 
 # Primitives Explained
 
@@ -457,11 +458,25 @@ set elevation(double value) {
 5. **Composition is Powerful** - Build complex UIs from simple pieces
 </Callout>
 
-## Further Reading
-
-- [Flutter Rendering Pipeline](https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout)
-- [CustomPaint Documentation](https://api.flutter.dev/flutter/widgets/CustomPaint-class.html)
-- [RenderBox Documentation](https://api.flutter.dev/flutter/rendering/RenderBox-class.html)
+<FurtherReading
+  links={[
+    {
+      title: 'Flutter Rendering Pipeline',
+      href: 'https://flutter.dev/docs/resources/architectural-overview#rendering-and-layout',
+      external: true
+    },
+    {
+      title: 'CustomPaint Documentation',
+      href: 'https://api.flutter.dev/flutter/widgets/CustomPaint-class.html',
+      external: true
+    },
+    {
+      title: 'RenderBox Documentation',
+      href: 'https://api.flutter.dev/flutter/rendering/RenderBox-class.html',
+      external: true
+    }
+  ]}
+/>
 
 ---
 

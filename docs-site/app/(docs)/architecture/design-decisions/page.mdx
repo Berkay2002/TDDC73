@@ -4,6 +4,7 @@ description: Architectural choices and trade-offs in Primitive UI
 ---
 
 import { Callout } from 'nextra/components'
+import { FurtherReading } from '@/components/FurtherReading'
 
 # Design Decisions
 
@@ -557,11 +558,23 @@ class CustomCard extends StatelessWidget {
 - **Testing validates behavior** - Not just that it works, but that it works correctly
 </Callout>
 
-## Further Reading
-
-- [Primitives Explained](/architecture/primitives-explained)
-- [Rendering Pipeline](/architecture/rendering-pipeline)
-- [Flutter API Design Guidelines](https://flutter.dev/docs/development/tools/sdk/api-design)
+<FurtherReading
+  links={[
+    {
+      title: 'Primitives Explained',
+      href: '/architecture/primitives-explained'
+    },
+    {
+      title: 'Rendering Pipeline',
+      href: '/architecture/rendering-pipeline'
+    },
+    {
+      title: 'Flutter API Design Guidelines',
+      href: 'https://flutter.dev/docs/development/tools/sdk/api-design',
+      external: true
+    }
+  ]}
+/>
 
 ---
 
