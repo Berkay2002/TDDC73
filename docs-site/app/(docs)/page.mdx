@@ -2,50 +2,71 @@
 title: Primitive UI
 ---
 
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ArrowRight, Github } from "lucide-react"
+
 # Primitive UI
 
 A Flutter GUI library built entirely from scratch using only primitive components
 
-<div className="mt-8 flex gap-4">
-  <a
-    href="/docs/getting-started"
-    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
-  >
-    <span>Get Started →</span>
-  </a>
-  <a
-    href="https://github.com/Berkay2002/TDDC73/tree/main/project/primitive_ui"
-    className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-semibold"
-  >
-    <span>View on GitHub</span>
-  </a>
+<div className="mt-8 flex flex-wrap gap-4">
+  <Button asChild size="lg" className="font-semibold">
+    <Link href="/getting-started">
+      Get Started
+      <ArrowRight className="ml-2 h-4 w-4" />
+    </Link>
+  </Button>
+  <Button asChild variant="outline" size="lg" className="font-semibold">
+    <a href="https://github.com/Berkay2002/TDDC73/tree/main/project/primitive_ui">
+      View on GitHub
+      <Github className="ml-2 h-4 w-4" />
+    </a>
+  </Button>
 </div>
 
 ## Features
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-  <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg">
-    <h3 className="text-lg font-semibold mb-2">🎨 UI Components</h3>
-    <p className="text-gray-600 dark:text-gray-400">
-      <span>CustomCard and CustomToggleSwitch built from Canvas</span>
-    </p>
-  </div>
-  <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg">
-    <h3 className="text-lg font-semibold mb-2">📐 Layout Components</h3>
-    <p className="text-gray-600 dark:text-gray-400">
-      <span>VStack and ZStack with custom RenderBox</span>
-    </p>
-  </div>
-  <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg">
-    <h3 className="text-lg font-semibold mb-2">⚡ Zero Dependencies</h3>
-    <p className="text-gray-600 dark:text-gray-400">
-      <span>Built entirely from CustomPaint and Canvas primitives</span>
-    </p>
-  </div>
-  <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-lg">
-    <h3 className="text-lg font-semibold mb-2">📚 Educational</h3>
-    <p className="text-gray-600 dark:text-gray-400">
-      <span>Learn how Flutter's rendering engine works under the hood</span>
-    </p>
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle>UI Components</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        CustomCard, CustomToggleSwitch, CustomSlider, and CustomCircularProgress built from Canvas
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Layout Components</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        VStack, HStack, and ZStack with custom RenderBox and alignment control
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Zero Dependencies</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Built entirely from CustomPaint and Canvas primitives
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Educational</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Learn how Flutter's rendering engine works under the hood
+      </div>
+    </CardContent>
+  </Card>
 </div>

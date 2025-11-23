@@ -64,7 +64,6 @@ export default async function RootLayout({
       <body>
         <Layout
           navbar={navbar}
-          footer={footer}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/Berkay2002/TDDC73/tree/main/docs-site"
           editLink={null}
