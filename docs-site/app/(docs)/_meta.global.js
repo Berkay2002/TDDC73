@@ -1,10 +1,20 @@
 /* eslint-disable import/no-anonymous-default-export */
 export default {
   index: {
-    title: 'Home',
+    title: 'Primitive UI',
     display: 'hidden'
   },
+  _: {
+    type: 'separator',
+    title: 'Overview'
+  },
   'getting-started': 'Getting Started',
+  accessibility: 'Accessibility',
+  releases: 'Releases',
+  _2: {
+    type: 'separator',
+    title: 'Components'
+  },
   components: {
     title: 'Components',
     items: {
@@ -31,7 +41,5 @@ export default {
       'rendering-pipeline': 'Rendering Pipeline',
       'design-decisions': 'Design Decisions'
     }
-  },
-  accessibility: 'Accessibility',
-  releases: 'Releases'
+  }
 }
