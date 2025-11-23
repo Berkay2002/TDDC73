@@ -1,3 +1,24 @@
+/// Primitive UI Demo Application
+///
+/// This app demonstrates all components from the Primitive UI library,
+/// which is built using only primitive Flutter components (CustomPaint,
+/// Canvas, GestureDetector, and custom RenderBox).
+///
+/// Components demonstrated:
+/// - CustomCard: Container with shadow, rounded corners, and padding
+/// - CustomToggleSwitch: Animated toggle switch
+/// - VStack: Vertical stack layout with spacing and alignment
+/// - ZStack: Layered stack layout with z-ordering
+///
+/// The demo is organized into 6 sections:
+/// 1. Header with dark mode toggle
+/// 2. CustomCard variations (different elevations, border radii)
+/// 3. CustomToggleSwitch examples (interactive toggles)
+/// 4. VStack layout demos (all alignment modes)
+/// 5. ZStack layout demos (layering examples)
+/// 6. Combined components (practical usage patterns)
+library;
+
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
@@ -5,6 +26,9 @@ void main() {
   runApp(const PrimitiveUIDemo());
 }
 
+/// Root application widget.
+///
+/// Sets up Material app with theme and navigation.
 class PrimitiveUIDemo extends StatelessWidget {
   const PrimitiveUIDemo({super.key});
 
@@ -21,6 +45,10 @@ class PrimitiveUIDemo extends StatelessWidget {
   }
 }
 
+/// Main demo page with all component examples.
+///
+/// Manages state for all interactive components and demonstrates
+/// how primitive components can be combined to create complex UIs.
 class DemoHomePage extends StatefulWidget {
   const DemoHomePage({super.key});
 
@@ -28,7 +56,11 @@ class DemoHomePage extends StatefulWidget {
   State<DemoHomePage> createState() => _DemoHomePageState();
 }
 
+/// State for the demo page.
+///
+/// Maintains state for all toggles and interactive elements.
 class _DemoHomePageState extends State<DemoHomePage> {
+  // State for toggle switches in different sections
   bool _toggle1 = false;
   bool _toggle2 = true;
   bool _toggle3 = false;
@@ -45,26 +77,27 @@ class _DemoHomePageState extends State<DemoHomePage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
+        // Main layout using VStack - demonstrates vertical layout component
         child: VStack(
           spacing: 24.0,
           alignment: VStackAlignment.stretch,
           children: [
-            // Header Section
+            // SECTION 1: Header with dark mode toggle
             _buildHeader(),
 
-            // CustomCard Demo Section
+            // SECTION 2: CustomCard variations
             _buildCardDemoSection(),
 
-            // CustomToggleSwitch Demo Section
+            // SECTION 3: CustomToggleSwitch examples
             _buildToggleSwitchSection(),
 
-            // VStack Demo Section
+            // SECTION 4: VStack alignment demonstrations
             _buildVStackDemoSection(),
 
-            // ZStack Demo Section
+            // SECTION 5: ZStack layering demonstrations
             _buildZStackDemoSection(),
 
-            // Combined Example
+            // SECTION 6: Combined components in practical patterns
             _buildCombinedExample(),
           ],
         ),
@@ -72,6 +105,12 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 1: Header with Dark Mode Toggle
+  ///
+  /// Demonstrates:
+  /// - CustomCard as a container
+  /// - CustomToggleSwitch controlling app-wide state
+  /// - VStack for vertical layout inside card
   Widget _buildHeader() {
     return CustomCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
@@ -121,6 +160,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 2: CustomCard Variations
+  ///
+  /// Demonstrates:
+  /// - Different elevation levels (shadow depth)
+  /// - Various border radius values
+  /// - Custom background colors
+  /// - How cards respond to theme changes
   Widget _buildCardDemoSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,6 +222,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 3: CustomToggleSwitch Examples
+  ///
+  /// Demonstrates:
+  /// - Interactive toggle switches
+  /// - Smooth animations on state change
+  /// - Custom colors (active/inactive)
+  /// - Controlling UI visibility with toggles
+  /// - Multiple independent toggle states
   Widget _buildToggleSwitchSection() {
     return CustomCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
@@ -261,6 +315,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 4: VStack Layout Demonstrations
+  ///
+  /// Demonstrates:
+  /// - All 4 alignment modes (start, center, end, stretch)
+  /// - Custom spacing between children
+  /// - How VStack handles different content types
+  /// - Manual vertical layout without Column widget
   Widget _buildVStackDemoSection() {
     return CustomCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
@@ -295,6 +356,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// Helper: Builds an alignment demo card.
+  ///
+  /// Shows how VStack children align based on the specified alignment mode.
   Widget _buildAlignmentDemo(String title, VStackAlignment alignment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,6 +404,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 5: ZStack Layout Demonstrations
+  ///
+  /// Demonstrates:
+  /// - Layered widgets (z-ordering)
+  /// - Alignment-based positioning
+  /// - Practical badge overlay example
+  /// - How ZStack differs from Flutter's Stack widget
   Widget _buildZStackDemoSection() {
     return CustomCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
@@ -461,6 +532,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
+  /// SECTION 6: Combined Components Example
+  ///
+  /// Demonstrates:
+  /// - Real-world settings panel pattern
+  /// - All 4 components working together
+  /// - Professional UI layout
+  /// - Practical usage patterns for primitive components
   Widget _buildCombinedExample() {
     return CustomCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
