@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
-class CustomSliderDemo extends StatefulWidget {
-  const CustomSliderDemo({super.key});
+class PrimitiveSliderDemo extends StatefulWidget {
+  const PrimitiveSliderDemo({super.key});
 
   @override
-  State<CustomSliderDemo> createState() => _CustomSliderDemoState();
+  State<PrimitiveSliderDemo> createState() => _PrimitiveSliderDemoState();
 }
 
-class _CustomSliderDemoState extends State<CustomSliderDemo> {
+class _PrimitiveSliderDemoState extends State<PrimitiveSliderDemo> {
   double _value1 = 0.5;
   double _value2 = 25.0;
   double _value3 = 0.75;
@@ -16,7 +16,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CustomSlider Demo')),
+      appBar: AppBar(title: const Text('PrimitiveSlider Demo')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: VStack(
@@ -32,7 +32,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text('Value: ${_value1.toStringAsFixed(2)}'),
-                CustomSlider(
+                PrimitiveSlider(
                   value: _value1,
                   onChanged: (value) => setState(() => _value1 = value),
                 ),
@@ -48,7 +48,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text('Value: ${_value2.toStringAsFixed(1)}'),
-                CustomSlider(
+                PrimitiveSlider(
                   value: _value2,
                   min: 0.0,
                   max: 100.0,
@@ -68,7 +68,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text('Value: ${_value3.toStringAsFixed(2)}'),
-                CustomSlider(
+                PrimitiveSlider(
                   value: _value3,
                   thumbRadius: 16.0,
                   trackHeight: 8.0,

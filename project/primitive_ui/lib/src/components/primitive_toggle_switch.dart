@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 /// - Canvas for drawing
 /// - GestureDetector for touch input
 /// - AnimationController for smooth transitions
-class CustomToggleSwitch extends StatefulWidget {
+class PrimitiveToggleSwitch extends StatefulWidget {
   /// Current toggle state (on/off)
   final bool value;
 
@@ -35,7 +35,7 @@ class CustomToggleSwitch extends StatefulWidget {
   /// Semantic label for accessibility
   final String? semanticsLabel;
 
-  const CustomToggleSwitch({
+  const PrimitiveToggleSwitch({
     super.key,
     required this.value,
     required this.onChanged,
@@ -51,10 +51,10 @@ class CustomToggleSwitch extends StatefulWidget {
        assert(width > 0 && height > 0, 'Dimensions must be positive');
 
   @override
-  State<CustomToggleSwitch> createState() => _CustomToggleSwitchState();
+  State<PrimitiveToggleSwitch> createState() => _PrimitiveToggleSwitchState();
 }
 
-class _CustomToggleSwitchState extends State<CustomToggleSwitch>
+class _PrimitiveToggleSwitchState extends State<PrimitiveToggleSwitch>
     with SingleTickerProviderStateMixin {
   // Animation duration for smooth but responsive feel
   static const int _kAnimationDurationMs = 200;
@@ -85,7 +85,7 @@ class _CustomToggleSwitchState extends State<CustomToggleSwitch>
   }
 
   @override
-  void didUpdateWidget(CustomToggleSwitch oldWidget) {
+  void didUpdateWidget(PrimitiveToggleSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     // Animate when value changes

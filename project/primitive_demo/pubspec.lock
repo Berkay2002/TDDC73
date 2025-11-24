@@ -145,7 +145,7 @@ packages:
       path: "../primitive_ui"
       relative: true
     source: path
-    version: "0.0.5"
+    version: "0.0.6"
   provider:
     dependency: "direct main"
     description:

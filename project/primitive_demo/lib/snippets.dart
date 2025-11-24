@@ -9,7 +9,7 @@ class SimpleCardSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         child: const Text('Hello, Primitive UI!'),
       ),
     );
@@ -21,7 +21,7 @@ class CustomStyledCardSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         color: const Color(0xFFF5F5F5), // Light grey
         borderRadius: 12.0,
         elevation: 4.0,
@@ -47,7 +47,7 @@ class _BasicToggleSnippetState extends State<BasicToggleSnippet> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomToggleSwitch(
+      child: PrimitiveToggleSwitch(
         value: _isEnabled,
         onChanged: (newValue) {
           setState(() {
@@ -64,7 +64,7 @@ class VStackSimpleSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         child: VStack(
           spacing: 16.0,
           children: const [
@@ -83,7 +83,7 @@ class VStackAlignedSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         child: VStack(
           spacing: 12.0,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,12 +132,12 @@ class _CardWithToggleSnippetState extends State<CardWithToggleSnippet> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: CustomCard(
+        child: PrimitiveCard(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Enable Feature'),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _enabled,
                 onChanged: (value) {
                   setState(() => _enabled = value);
@@ -161,9 +161,9 @@ class VStackWithCardsSnippet extends StatelessWidget {
         child: VStack(
           spacing: 16.0,
           children: [
-            CustomCard(child: const Text('Card 1')),
-            CustomCard(child: const Text('Card 2')),
-            CustomCard(child: const Text('Card 3')),
+            PrimitiveCard(child: const Text('Card 1')),
+            PrimitiveCard(child: const Text('Card 2')),
+            PrimitiveCard(child: const Text('Card 3')),
           ],
         ),
       ),
@@ -176,7 +176,7 @@ class CardWithVStackSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         elevation: 4.0,
         child: VStack(
           spacing: 12.0,
@@ -236,12 +236,12 @@ class _SettingsListSnippetState extends State<SettingsListSnippet> {
     bool value,
     ValueChanged<bool> onChanged,
   ) {
-    return CustomCard(
+    return PrimitiveCard(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontSize: 16)),
-          CustomToggleSwitch(value: value, onChanged: onChanged),
+          PrimitiveToggleSwitch(value: value, onChanged: onChanged),
         ],
       ),
     );
@@ -253,7 +253,7 @@ class InfoCardSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         elevation: 2.0,
         borderRadius: 12.0,
         child: VStack(
@@ -287,7 +287,7 @@ class BadgeOverlaySnippet extends StatelessWidget {
       child: ZStack(
         alignment: Alignment.topRight,
         children: [
-          CustomCard(
+          PrimitiveCard(
             child: Container(
               width: 100,
               height: 100,
@@ -326,10 +326,10 @@ class GridOfCardsSnippet extends StatelessWidget {
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
       children: [
-        CustomCard(child: const Center(child: Text('Card 1'))),
-        CustomCard(child: const Center(child: Text('Card 2'))),
-        CustomCard(child: const Center(child: Text('Card 3'))),
-        CustomCard(child: const Center(child: Text('Card 4'))),
+        PrimitiveCard(child: const Center(child: Text('Card 1'))),
+        PrimitiveCard(child: const Center(child: Text('Card 2'))),
+        PrimitiveCard(child: const Center(child: Text('Card 3'))),
+        PrimitiveCard(child: const Center(child: Text('Card 4'))),
       ],
     );
   }
@@ -346,7 +346,7 @@ class ScrollableListSnippet extends StatelessWidget {
           spacing: 16.0,
           children: List.generate(
             20,
-            (index) => CustomCard(
+            (index) => PrimitiveCard(
               child: Text('Item ${index + 1}'),
             ),
           ),
@@ -367,10 +367,10 @@ class StretchedLayoutSnippet extends StatelessWidget {
           spacing: 16.0,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomCard(
+            PrimitiveCard(
               child: Container(height: 50, child: const Center(child: Text('Full Width 1'))),
             ),
-            CustomCard(
+            PrimitiveCard(
               child: Container(height: 50, child: const Center(child: Text('Full Width 2'))),
             ),
           ],
@@ -392,7 +392,7 @@ class _CounterCardSnippetState extends State<CounterCardSnippet> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         elevation: 4.0,
         child: VStack(
           spacing: 16.0,
@@ -439,7 +439,7 @@ class _FeedbackToggleSnippetState extends State<FeedbackToggleSnippet> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CustomCard(
+      child: PrimitiveCard(
         child: VStack(
           spacing: 12.0,
           children: [
@@ -447,7 +447,7 @@ class _FeedbackToggleSnippetState extends State<FeedbackToggleSnippet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('Feature Status'),
-                CustomToggleSwitch(
+                PrimitiveToggleSwitch(
                   value: _isEnabled,
                   onChanged: (value) {
                     setState(() => _isEnabled = value);
@@ -526,7 +526,7 @@ class _AnimatedCardSnippetState extends State<AnimatedCardSnippet>
           builder: (context, child) {
             return Transform.scale(
               scale: _scaleAnimation.value,
-              child: CustomCard(
+              child: PrimitiveCard(
                 elevation: _elevationAnimation.value,
                 padding: const EdgeInsets.all(32),
                 child: const Text('Tap Me (Animated)', style: TextStyle(fontSize: 18)),
@@ -619,7 +619,7 @@ class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
     required String title,
     required List<Widget> children,
   }) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 2.0,
       child: VStack(
         spacing: 16.0,
@@ -647,7 +647,7 @@ class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label),
-        CustomToggleSwitch(value: value, onChanged: onChanged),
+        PrimitiveToggleSwitch(value: value, onChanged: onChanged),
       ],
     );
   }
@@ -680,7 +680,7 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
         children: [
           // Conditionally show loading state
           if (_isLoading)
-            const CustomCard(
+            const PrimitiveCard(
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -688,7 +688,7 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
 
           // Conditionally show error
           if (_hasError)
-            CustomCard(
+            PrimitiveCard(
               color: const Color(0xFFFFEBEE),
               child: VStack(
                 spacing: 8.0,
@@ -705,13 +705,13 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
 
           // Show items if not loading and no error
           if (!_isLoading && !_hasError)
-            ..._items.map((item) => CustomCard(
+            ..._items.map((item) => PrimitiveCard(
               child: Text(item),
             )),
 
           // Show empty state
           if (!_isLoading && !_hasError && _items.isEmpty)
-            CustomCard(
+            PrimitiveCard(
               child: VStack(
                 spacing: 12.0,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -789,7 +789,7 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: CustomCard(
+      child: PrimitiveCard(
         padding: EdgeInsets.zero,
         child: ZStack(
           fit: ZStackFit.expand,
@@ -1138,24 +1138,24 @@ class SettingsViewWithProviderSnippet extends StatelessWidget {
             return VStack(
               spacing: 16.0,
               children: [
-                CustomCard(
+                PrimitiveCard(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Dark Mode'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: notifier.settings.darkMode,
                         onChanged: (_) => notifier.toggleDarkMode(),
                       ),
                     ],
                   ),
                 ),
-                CustomCard(
+                PrimitiveCard(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Notifications'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: notifier.settings.notifications,
                         onChanged: (_) => notifier.toggleNotifications(),
                       ),
@@ -1180,7 +1180,7 @@ class ResponsiveGridSnippet extends StatelessWidget {
       child: ResponsiveGrid(
         children: List.generate(
           6, // Reduced items for better demo visibility
-          (index) => CustomCard(
+          (index) => PrimitiveCard(
             child: Center(child: Text('Card ${index + 1}')),
           ),
         ),
@@ -1250,8 +1250,8 @@ class AppTheme {
   static const Color surfaceColor = Color(0xFFFFFFFF);
   // static const Color errorColor = Color(0xFFF44336); // Not used in snippet
 
-  static CustomCard buildPrimaryCard({required Widget child}) {
-    return CustomCard(
+  static PrimitiveCard buildPrimaryCard({required Widget child}) {
+    return PrimitiveCard(
       color: primaryColor,
       elevation: 4.0,
       borderRadius: 12.0,
@@ -1259,8 +1259,8 @@ class AppTheme {
     );
   }
 
-  static CustomCard buildSurfaceCard({required Widget child}) {
-    return CustomCard(
+  static PrimitiveCard buildSurfaceCard({required Widget child}) {
+    return PrimitiveCard(
       color: surfaceColor,
       elevation: 2.0,
       borderRadius: 8.0,
@@ -1268,11 +1268,11 @@ class AppTheme {
     );
   }
 
-  static CustomToggleSwitch buildPrimaryToggle({
+  static PrimitiveToggleSwitch buildPrimaryToggle({
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
-    return CustomToggleSwitch(
+    return PrimitiveToggleSwitch(
       value: value,
       onChanged: onChanged,
       activeColor: primaryColor,
@@ -1301,7 +1301,7 @@ class _OptimizedListSnippetState extends State<OptimizedListSnippet> {
           return Padding(
             key: ValueKey(_items[index]), // Important for performance
             padding: const EdgeInsets.only(bottom: 16),
-            child: CustomCard(
+            child: PrimitiveCard(
               child: Text(_items[index]),
             ),
           );
@@ -1347,7 +1347,7 @@ class SafeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (errorMessage != null) {
-      return CustomCard(
+      return PrimitiveCard(
         color: const Color(0xFFFFEBEE),
         child: VStack(
           spacing: 8.0,
@@ -1372,7 +1372,7 @@ class SafeCard extends StatelessWidget {
       );
     }
 
-    return CustomCard(child: child ?? const SizedBox.shrink());
+    return PrimitiveCard(child: child ?? const SizedBox.shrink());
   }
 }
 
@@ -1412,7 +1412,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
               _buildStatsRow(),
 
               // Settings
-              CustomCard(
+              PrimitiveCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1436,7 +1436,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
                         ),
                       ],
                     ),
-                    CustomToggleSwitch(
+                    PrimitiveToggleSwitch(
                       value: _autoRefresh,
                       onChanged: (v) => setState(() => _autoRefresh = v),
                     ),
@@ -1464,7 +1464,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
   }
 
   Widget _buildStatCard(String label, String value, IconData icon) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 3.0,
       child: VStack(
         spacing: 8.0,
@@ -1494,7 +1494,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
         ),
         ...List.generate(
           3, // Reduced for demo
-          (i) => CustomCard(
+          (i) => PrimitiveCard(
             child: Row(
               children: [
                 Icon(Icons.circle, size: 8, color: Colors.blue),

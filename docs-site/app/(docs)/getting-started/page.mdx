@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: CustomCard(
+          child: PrimitiveCard(
             child: Text('Primitive UI Works!'),
           ),
         ),
@@ -168,13 +168,13 @@ class _SettingsPageState extends State<SettingsPage> {
         child: VStack(
           spacing: 16.0,
           children: [
-            CustomCard(
+            PrimitiveCard(
               elevation: 2.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Notifications'),
-                  CustomToggleSwitch(
+                  PrimitiveToggleSwitch(
                     value: _notificationsEnabled,
                     onChanged: (value) {
                       setState(() => _notificationsEnabled = value);
@@ -183,13 +183,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               elevation: 2.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Dark Mode'),
-                  CustomToggleSwitch(
+                  PrimitiveToggleSwitch(
                     value: _darkModeEnabled,
                     onChanged: (value) {
                       setState(() => _darkModeEnabled = value);
@@ -276,13 +276,13 @@ Widget _buildSettingItem(
   bool value,
   ValueChanged<bool> onChanged,
 ) {
-  return CustomCard(
+  return PrimitiveCard(
     elevation: 2.0,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label),
-        CustomToggleSwitch(
+        PrimitiveToggleSwitch(
           value: value,
           onChanged: onChanged,
         ),
@@ -302,26 +302,26 @@ Primitive UI includes 4 core components:
 ### UI Components
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-  <a href="/components/custom-card" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
-    <h3 className="text-lg font-semibold mb-2">CustomCard</h3>
+  <a href="/components/primitive-card" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
+    <h3 className="text-lg font-semibold mb-2">PrimitiveCard</h3>
     <span className="text-sm text-gray-600 dark:text-gray-400">
       Container with shadow, rounded corners, and padding
     </span>
   </a>
-  <a href="/components/custom-toggle-switch" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
-    <h3 className="text-lg font-semibold mb-2">CustomToggleSwitch</h3>
+  <a href="/components/primitive-toggle-switch" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
+    <h3 className="text-lg font-semibold mb-2">PrimitiveToggleSwitch</h3>
     <span className="text-sm text-gray-600 dark:text-gray-400">
       Animated toggle switch with smooth transitions
     </span>
   </a>
-  <a href="/components/custom-slider" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
-    <h3 className="text-lg font-semibold mb-2">CustomSlider</h3>
+  <a href="/components/primitive-slider" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
+    <h3 className="text-lg font-semibold mb-2">PrimitiveSlider</h3>
     <span className="text-sm text-gray-600 dark:text-gray-400">
       Slider for selecting a value from a range
     </span>
   </a>
-  <a href="/components/custom-circular-progress" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
-    <h3 className="text-lg font-semibold mb-2">CustomCircularProgress</h3>
+  <a href="/components/primitive-circular-progress" className="block p-4 border rounded-lg hover:border-blue-500 transition-colors">
+    <h3 className="text-lg font-semibold mb-2">PrimitiveCircularProgress</h3>
     <span className="text-sm text-gray-600 dark:text-gray-400">
       Indeterminate circular progress indicator
     </span>
@@ -357,7 +357,7 @@ Primitive UI includes 4 core components:
 
 **Creating a card:**
 ```dart
-CustomCard(
+PrimitiveCard(
   child: Text('Content'),
 )
 ```
@@ -386,7 +386,7 @@ ZStack(
 
 **Toggle switch:**
 ```dart
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: isEnabled,
   onChanged: (value) => setState(() => isEnabled = value),
 )
@@ -398,7 +398,7 @@ Now that you have Primitive UI installed, explore the documentation:
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 not-prose">
   <a 
-    href="/components/custom-card" 
+    href="/components/primitive-card" 
     className="group relative flex flex-col gap-3 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-700 bg-linear-to-br from-blue-50 to-blue-100/80 dark:from-blue-950/50 dark:to-blue-900/30 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg hover:shadow-blue-100 dark:hover:shadow-blue-900/20 transition-all duration-300 hover:-translate-y-1"
   >
     <div className="flex items-center gap-3">
@@ -472,7 +472,7 @@ If you see "Undefined class" errors:
 
 ### Shadow Not Rendering
 
-If `CustomCard` shadows don't appear:
+If `PrimitiveCard` shadows don't appear:
 
 1. Add padding around the card to give space for the shadow
 2. Ensure the card isn't clipped by its parent
@@ -525,4 +525,4 @@ Need assistance? Here are the best resources:
 
 ---
 
-**Ready to learn more?** Continue to the [Component Documentation](/components/custom-card) or explore the [Architecture](/architecture/primitives-explained) section.
+**Ready to learn more?** Continue to the [Component Documentation](/components/primitive-card) or explore the [Architecture](/architecture/primitives-explained) section.

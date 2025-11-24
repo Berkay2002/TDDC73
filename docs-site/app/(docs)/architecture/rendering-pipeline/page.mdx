@@ -15,7 +15,7 @@ Understand the complete journey from widget code to pixels on screen in Primitiv
 When you write:
 
 ```dart
-CustomCard(
+PrimitiveCard(
   child: Text('Hello'),
 )
 ```
@@ -29,7 +29,7 @@ Flutter maintains three parallel trees:
 ### 1. Widget Tree (Configuration)
 
 ```dart
-CustomCard
+PrimitiveCard
   └─ CustomPaint
        └─ _CardLayout
             └─ Text
@@ -44,7 +44,7 @@ CustomCard
 ### 2. Element Tree (Lifecycle)
 
 ```
-_CustomCardElement
+_PrimitiveCardElement
   └─ _CustomPaintElement
        └─ _CardLayoutElement
             └─ _TextElement
@@ -82,7 +82,7 @@ When `build()` is called:
 ```dart
 @override
 Widget build(BuildContext context) {
-  return CustomCard(
+  return PrimitiveCard(
     elevation: 4.0,
     child: Text('Hello'),
   );
@@ -90,7 +90,7 @@ Widget build(BuildContext context) {
 ```
 
 **What Happens:**
-1. New `CustomCard` widget created
+1. New `PrimitiveCard` widget created
 2. New `CustomPaint` and `_CardLayout` widgets created
 3. Widget tree assembled
 
@@ -246,14 +246,14 @@ bool hitTest(BoxHitTestResult result, {required Offset position}) {
 
 </Steps>
 
-## Case Study: CustomCard Rendering
+## Case Study: PrimitiveCard Rendering
 
-Let's trace a complete render of `CustomCard`:
+Let's trace a complete render of `PrimitiveCard`:
 
 ### Initial Build
 
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   borderRadius: 12.0,
   child: Text('Hello'),
@@ -262,7 +262,7 @@ CustomCard(
 
 **Widget Tree:**
 ```
-CustomCard
+PrimitiveCard
   └─ CustomPaint (painter: _CardPainter)
        └─ _CardLayout (padding: EdgeInsets.all(16))
             └─ Text('Hello')
@@ -389,10 +389,10 @@ bool shouldRepaint(_CardPainter oldDelegate) {
 
 ## Animation Integration
 
-### How CustomToggleSwitch Animates
+### How PrimitiveToggleSwitch Animates
 
 ```dart
-class _CustomToggleSwitchState extends State<CustomToggleSwitch>
+class _PrimitiveToggleSwitchState extends State<PrimitiveToggleSwitch>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -445,8 +445,8 @@ class _CustomToggleSwitchState extends State<CustomToggleSwitch>
 Flutter automatically creates repaint boundaries for performance:
 
 ```dart
-// CustomCard with animation inside
-CustomCard(
+// PrimitiveCard with animation inside
+PrimitiveCard(
   child: AnimatingWidget(), // Creates repaint boundary
 )
 ```
@@ -459,7 +459,7 @@ CustomCard(
 
 ```dart
 RepaintBoundary(
-  child: CustomCard(
+  child: PrimitiveCard(
     child: FrequentlyUpdatingWidget(),
   ),
 )
@@ -475,7 +475,7 @@ Use when a subtree updates frequently but its parent doesn't.
 // Every build creates new widgets
 @override
 Widget build(BuildContext context) {
-  return CustomCard( // New instance
+  return PrimitiveCard( // New instance
     child: Text('Hello'), // New instance
   );
 }
@@ -535,7 +535,7 @@ Shows GPU/CPU usage and frame rendering time.
 **Bad:**
 ```dart
 // Creates new child on every build
-CustomCard(
+PrimitiveCard(
   child: Container(
     child: SomeExpensiveWidget(),
   ),
@@ -547,14 +547,14 @@ CustomCard(
 // Cache expensive child
 final _child = SomeExpensiveWidget();
 
-CustomCard(
+PrimitiveCard(
   child: Container(
     child: _child,
   ),
 )
 
 // Or use const
-CustomCard(
+PrimitiveCard(
   child: Container(
     child: const SomeExpensiveWidget(),
   ),

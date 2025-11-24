@@ -33,7 +33,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
             ),
 
             // Card with Semantic Label
-            CustomCard(
+            PrimitiveCard(
               semanticsLabel: 'Information Card. Double tap to acknowledge.',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -50,7 +50,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
             ),
 
             // Toggles with Semantic Labels
-            CustomCard(
+            PrimitiveCard(
               child: VStack(
                 spacing: 16.0,
                 children: [
@@ -59,7 +59,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Enable Notifications'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: _notifications,
                         onChanged: (v) => setState(() => _notifications = v),
                         semanticsLabel: 'Enable Notifications Switch',
@@ -71,7 +71,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
             ),
 
             // Sliders with Semantic Steps
-            CustomCard(
+            PrimitiveCard(
               child: VStack(
                 spacing: 16.0,
                 children: [
@@ -81,7 +81,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text('Volume (Step: 10%)'),
-                      CustomSlider(
+                      PrimitiveSlider(
                         value: _volume,
                         onChanged: (v) => setState(() => _volume = v),
                         semanticsLabel: 'Media Volume',
@@ -94,7 +94,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text('Brightness (Step: 20%)'),
-                      CustomSlider(
+                      PrimitiveSlider(
                         value: _brightness,
                         onChanged: (v) => setState(() => _brightness = v),
                         activeColor: Colors.orange,
@@ -108,7 +108,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
             ),
 
             // Progress with Semantic Label
-            CustomCard(
+            PrimitiveCard(
               child: VStack(
                 spacing: 16.0,
                 children: [
@@ -116,7 +116,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                   HStack(
                     spacing: 16.0,
                     children: [
-                      const CustomCircularProgress(
+                      const PrimitiveCircularProgress(
                         semanticsLabel: 'Loading user data',
                       ),
                       const Text('Indeterminate Loading'),
@@ -125,7 +125,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                   HStack(
                     spacing: 16.0,
                     children: [
-                      const CustomCircularProgress(
+                      const PrimitiveCircularProgress(
                         value: 0.75,
                         color: Colors.green,
                         semanticsLabel: 'Upload Progress',

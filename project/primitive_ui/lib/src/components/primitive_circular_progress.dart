@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 ///
 /// This component renders a spinning arc to indicate an indeterminate progress state,
 /// or a fixed arc for determinate progress.
-class CustomCircularProgress extends StatefulWidget {
+class PrimitiveCircularProgress extends StatefulWidget {
   /// The current progress value, between 0.0 and 1.0.
   ///
   /// If null, the indicator is indeterminate and spins.
@@ -23,7 +23,7 @@ class CustomCircularProgress extends StatefulWidget {
   /// Semantic label for accessibility
   final String? semanticsLabel;
 
-  const CustomCircularProgress({
+  const PrimitiveCircularProgress({
     super.key,
     this.value,
     this.color = const Color(0xFF2196F3),
@@ -33,10 +33,10 @@ class CustomCircularProgress extends StatefulWidget {
   }) : assert(value == null || (value >= 0.0 && value <= 1.0), 'Value must be between 0.0 and 1.0');
 
   @override
-  State<CustomCircularProgress> createState() => _CustomCircularProgressState();
+  State<PrimitiveCircularProgress> createState() => _PrimitiveCircularProgressState();
 }
 
-class _CustomCircularProgressState extends State<CustomCircularProgress>
+class _PrimitiveCircularProgressState extends State<PrimitiveCircularProgress>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -53,7 +53,7 @@ class _CustomCircularProgressState extends State<CustomCircularProgress>
   }
 
   @override
-  void didUpdateWidget(CustomCircularProgress oldWidget) {
+  void didUpdateWidget(PrimitiveCircularProgress oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value == null && !_controller.isAnimating) {
       _controller.repeat();

@@ -13,7 +13,7 @@ Learn the fundamental patterns for using Primitive UI components effectively.
 
 ## Simple Card
 
-The most basic use of `CustomCard` is to wrap content:
+The most basic use of `PrimitiveCard` is to wrap content:
 
 <AppEmbed 
   src="/demo/#/snippet/simple_card" 
@@ -22,7 +22,7 @@ The most basic use of `CustomCard` is to wrap content:
 />
 
 ```dart
-CustomCard(
+PrimitiveCard(
   child: Text('Hello, Primitive UI!'),
 )
 ```
@@ -40,7 +40,7 @@ Customize the card's appearance:
 />
 
 ```dart
-CustomCard(
+PrimitiveCard(
   color: Color(0xFFF5F5F5), // Light grey
   borderRadius: 12.0,
   elevation: 4.0,
@@ -73,7 +73,7 @@ class _MyWidgetState extends State<MyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomToggleSwitch(
+    return PrimitiveToggleSwitch(
       value: _isEnabled,
       onChanged: (newValue) {
         setState(() {
@@ -173,12 +173,12 @@ class _SettingCardState extends State<SettingCard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return PrimitiveCard(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Enable Feature'),
-          CustomToggleSwitch(
+          PrimitiveToggleSwitch(
             value: _enabled,
             onChanged: (value) {
               setState(() => _enabled = value);
@@ -203,9 +203,9 @@ class _SettingCardState extends State<SettingCard> {
 VStack(
   spacing: 16.0,
   children: [
-    CustomCard(child: Text('Card 1')),
-    CustomCard(child: Text('Card 2')),
-    CustomCard(child: Text('Card 3')),
+    PrimitiveCard(child: Text('Card 1')),
+    PrimitiveCard(child: Text('Card 2')),
+    PrimitiveCard(child: Text('Card 3')),
   ],
 )
 ```
@@ -219,7 +219,7 @@ VStack(
 />
 
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: VStack(
     spacing: 12.0,
@@ -282,12 +282,12 @@ class _SettingsListState extends State<SettingsList> {
     bool value,
     ValueChanged<bool> onChanged,
   ) {
-    return CustomCard(
+    return PrimitiveCard(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: TextStyle(fontSize: 16)),
-          CustomToggleSwitch(value: value, onChanged: onChanged),
+          PrimitiveToggleSwitch(value: value, onChanged: onChanged),
         ],
       ),
     );
@@ -309,7 +309,7 @@ Widget buildInfoCard({
   required String description,
   required IconData icon,
 }) {
-  return CustomCard(
+  return PrimitiveCard(
     elevation: 2.0,
     borderRadius: 12.0,
     child: VStack(
@@ -346,7 +346,7 @@ Widget buildInfoCard({
 ZStack(
   alignment: Alignment.topRight,
   children: [
-    CustomCard(
+    PrimitiveCard(
       child: Container(
         width: 100,
         height: 100,
@@ -390,10 +390,10 @@ GridView.count(
   mainAxisSpacing: 16,
   crossAxisSpacing: 16,
   children: [
-    CustomCard(child: Center(child: Text('Card 1'))),
-    CustomCard(child: Center(child: Text('Card 2'))),
-    CustomCard(child: Center(child: Text('Card 3'))),
-    CustomCard(child: Center(child: Text('Card 4'))),
+    PrimitiveCard(child: Center(child: Text('Card 1'))),
+    PrimitiveCard(child: Center(child: Text('Card 2'))),
+    PrimitiveCard(child: Center(child: Text('Card 3'))),
+    PrimitiveCard(child: Center(child: Text('Card 4'))),
   ],
 )
 ```
@@ -414,7 +414,7 @@ SingleChildScrollView(
       spacing: 16.0,
       children: List.generate(
         20,
-        (index) => CustomCard(
+        (index) => PrimitiveCard(
           child: Text('Item ${index + 1}'),
         ),
       ),
@@ -436,10 +436,10 @@ VStack(
   spacing: 16.0,
   crossAxisAlignment: CrossAxisAlignment.stretch,
   children: [
-    CustomCard(
+    PrimitiveCard(
       child: Container(height: 100, child: Center(child: Text('Full Width'))),
     ),
-    CustomCard(
+    PrimitiveCard(
       child: Container(height: 100, child: Center(child: Text('Full Width'))),
     ),
   ],
@@ -467,7 +467,7 @@ class _CounterCardState extends State<CounterCard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 4.0,
       child: VStack(
         spacing: 16.0,
@@ -521,7 +521,7 @@ class _FeedbackToggleState extends State<FeedbackToggle> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return PrimitiveCard(
       child: VStack(
         spacing: 12.0,
         children: [
@@ -529,7 +529,7 @@ class _FeedbackToggleState extends State<FeedbackToggle> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Feature Status'),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _isEnabled,
                 onChanged: (value) {
                   setState(() => _isEnabled = value);
@@ -567,7 +567,7 @@ class _FeedbackToggleState extends State<FeedbackToggle> {
 1. **Use `const` constructors** where possible for better performance
 2. **Keep spacing consistent** across your app (e.g., always use 16.0 or 12.0)
 3. **Combine with standard widgets** - Primitive UI works alongside Flutter's built-in widgets
-4. **Add padding to parents** when using `CustomCard` to show shadows properly
+4. **Add padding to parents** when using `PrimitiveCard` to show shadows properly
 5. **Use `CrossAxisAlignment.stretch`** for full-width children in vertical layouts
 </Callout>
 
@@ -576,7 +576,7 @@ class _FeedbackToggleState extends State<FeedbackToggle> {
 Now that you understand the basics, explore more advanced patterns:
 
 - [Advanced Patterns](/examples/advanced-patterns) - Complex layouts and techniques
-- [Component Documentation](/components/custom-card) - Detailed API reference
+- [Component Documentation](/components/primitive-card) - Detailed API reference
 - [Architecture](/architecture/primitives-explained) - How it all works
 
 ---

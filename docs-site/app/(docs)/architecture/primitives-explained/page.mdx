@@ -71,7 +71,7 @@ CustomPaint(
 - Can have a child widget that appears above/below the painting
 
 **In Primitive UI:**
-Used by `CustomCard` and `CustomToggleSwitch` for rendering.
+Used by `PrimitiveCard` and `PrimitiveToggleSwitch` for rendering.
 
 ### Canvas API
 
@@ -207,7 +207,7 @@ GestureDetector(
 ```
 
 **In Primitive UI:**
-Used by `CustomToggleSwitch` for tap detection.
+Used by `PrimitiveToggleSwitch` for tap detection.
 
 ### Gesture Arena
 
@@ -330,7 +330,7 @@ while (child != null) {
 
 ## Comparison: Primitive vs High-Level
 
-### CustomCard vs Card
+### PrimitiveCard vs Card
 
 **High-Level Card:**
 ```dart
@@ -342,9 +342,9 @@ Card(
 
 Uses: `Material` → `PhysicalShape` → `CustomPaint` → Canvas
 
-**Primitive CustomCard:**
+**Primitive PrimitiveCard:**
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: Text('Hello'),
 )
@@ -354,8 +354,8 @@ Uses: `CustomPaint` → Canvas (directly)
 
 **Differences:**
 - Card has more features (shape, theme integration, semantic labels)
-- CustomCard is simpler and more explicit
-- Card is production-ready, CustomCard is educational
+- PrimitiveCard is simpler and more explicit
+- Card is production-ready, PrimitiveCard is educational
 
 ### VStack vs Column
 
@@ -427,7 +427,7 @@ Widgets are immutable and short-lived:
 
 ```dart
 // New widget every build
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: Text('Hello'),
 )

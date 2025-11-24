@@ -18,7 +18,7 @@ export default {
   components: {
     title: 'Components',
       items: {
-        'custom-card': { title: 'CustomCard' },
+        'primitive-card': { title: 'PrimitiveCard' },
         'h-stack': { title: 'HStack' },
         'v-stack': { title: 'VStack' },
         'z-stack': { title: 'ZStack' },

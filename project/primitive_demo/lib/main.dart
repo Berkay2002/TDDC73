@@ -5,15 +5,15 @@
 /// Canvas, GestureDetector, and custom RenderBox).
 ///
 /// Components demonstrated:
-/// - CustomCard: Container with shadow, rounded corners, and padding
-/// - CustomToggleSwitch: Animated toggle switch
+/// - PrimitiveCard: Container with shadow, rounded corners, and padding
+/// - PrimitiveToggleSwitch: Animated toggle switch
 /// - VStack: Vertical stack layout with spacing and alignment
 /// - ZStack: Layered stack layout with z-ordering
 ///
 /// The demo is organized into 6 sections:
 /// 1. Header with dark mode toggle
-/// 2. CustomCard variations (different elevations, border radii)
-/// 3. CustomToggleSwitch examples (interactive toggles)
+/// 2. PrimitiveCard variations (different elevations, border radii)
+/// 3. PrimitiveToggleSwitch examples (interactive toggles)
 /// 4. VStack layout demos (all alignment modes)
 /// 5. ZStack layout demos (layering examples)
 /// 6. Combined components (practical usage patterns)
@@ -21,8 +21,8 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
-import 'package:primitive_demo/demos/custom_slider_demo.dart';
-import 'package:primitive_demo/demos/custom_circular_progress_demo.dart';
+import 'package:primitive_demo/demos/primitive_slider_demo.dart';
+import 'package:primitive_demo/demos/primitive_circular_progress_demo.dart';
 import 'package:primitive_demo/demos/v_stack_demo.dart';
 import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
 import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
@@ -67,8 +67,8 @@ class PrimitiveUIDemo extends StatelessWidget {
       initialRoute: initialRoute ?? '/',
       routes: {
         '/': (context) => const DemoHomePage(),
-        '/slider': (context) => const CustomSliderDemo(),
-        '/progress': (context) => const CustomCircularProgressDemo(),
+        '/slider': (context) => const PrimitiveSliderDemo(),
+        '/progress': (context) => const PrimitiveCircularProgressDemo(),
         '/vstack': (context) => const VStackDemo(),
         '/hstack': (context) => const HStackFlexDemo(),
         '/zstack': (context) => const ZStackPositionedDemo(),
@@ -159,10 +159,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
             // SECTION 1: Header with dark mode toggle
             _buildHeader(),
 
-            // SECTION 2: CustomCard variations
+            // SECTION 2: PrimitiveCard variations
             _buildCardDemoSection(),
 
-            // SECTION 3: CustomToggleSwitch examples
+            // SECTION 3: PrimitiveToggleSwitch examples
             _buildToggleSwitchSection(),
 
             // SECTION 4: VStack alignment demonstrations
@@ -183,7 +183,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   }
 
   Widget _buildNewComponentsSection(BuildContext context) {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
@@ -204,13 +204,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onPressed: () {
               Navigator.pushNamed(context, '/slider');
             },
-            child: const Text('CustomSlider Demo'),
+            child: const Text('PrimitiveSlider Demo'),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/progress');
             },
-            child: const Text('CustomCircularProgress Demo'),
+            child: const Text('PrimitiveCircularProgress Demo'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -250,11 +250,11 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// SECTION 1: Header with Dark Mode Toggle
   ///
   /// Demonstrates:
-  /// - CustomCard as a container
-  /// - CustomToggleSwitch controlling app-wide state
+  /// - PrimitiveCard as a container
+  /// - PrimitiveToggleSwitch controlling app-wide state
   /// - VStack for vertical layout inside card
   Widget _buildHeader() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 4.0,
       borderRadius: 12.0,
@@ -290,7 +290,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 ),
               ),
               const SizedBox(width: 12),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _darkMode,
                 onChanged: (value) => setState(() => _darkMode = value),
                 activeColor: Colors.deepPurple,
@@ -302,7 +302,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
-  /// SECTION 2: CustomCard Variations
+  /// SECTION 2: PrimitiveCard Variations
   ///
   /// Demonstrates:
   /// - Different elevation levels (shadow depth)
@@ -316,7 +316,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 12.0),
           child: Text(
-            'CustomCard Variations',
+            'PrimitiveCard Variations',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -328,7 +328,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           spacing: 16.0,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomCard(
+            PrimitiveCard(
               color: Colors.blue[50]!,
               elevation: 1.0,
               borderRadius: 8.0,
@@ -338,7 +338,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 style: TextStyle(color: Colors.blue[900]),
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               color: Colors.green[50]!,
               elevation: 4.0,
               borderRadius: 12.0,
@@ -348,7 +348,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 style: TextStyle(color: Colors.green[900]),
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               color: Colors.orange[50]!,
               elevation: 8.0,
               borderRadius: 16.0,
@@ -364,7 +364,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
-  /// SECTION 3: CustomToggleSwitch Examples
+  /// SECTION 3: PrimitiveToggleSwitch Examples
   ///
   /// Demonstrates:
   /// - Interactive toggle switches
@@ -373,7 +373,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Controlling UI visibility with toggles
   /// - Multiple independent toggle states
   Widget _buildToggleSwitchSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
@@ -383,7 +383,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'CustomToggleSwitch Examples',
+            'PrimitiveToggleSwitch Examples',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -414,7 +414,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   color: _darkMode ? Colors.white : Colors.black87,
                 ),
               ),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _showCard,
                 onChanged: (value) => setState(() => _showCard = value),
                 activeColor: Colors.green,
@@ -422,7 +422,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             ],
           ),
           if (_showCard)
-            CustomCard(
+            PrimitiveCard(
               color: Colors.green[100]!,
               elevation: 2.0,
               borderRadius: 8.0,
@@ -452,7 +452,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             color: _darkMode ? Colors.white : Colors.black87,
           ),
         ),
-        CustomToggleSwitch(value: value, onChanged: onChanged),
+        PrimitiveToggleSwitch(value: value, onChanged: onChanged),
       ],
     );
   }
@@ -465,7 +465,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - How VStack handles different content types
   /// - Manual vertical layout without Column widget
   Widget _buildVStackDemoSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
@@ -554,7 +554,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Practical badge overlay example
   /// - How ZStack differs from Flutter's Stack widget
   Widget _buildZStackDemoSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
@@ -682,7 +682,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Professional UI layout
   /// - Practical usage patterns for primitive components
   Widget _buildCombinedExample() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 3.0,
       borderRadius: 12.0,
@@ -710,7 +710,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             spacing: 12.0,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomCard(
+              PrimitiveCard(
                 color: Colors.indigo[100]!,
                 elevation: 2.0,
                 borderRadius: 8.0,
@@ -754,7 +754,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           const SizedBox(height: 8),
           Text(
-            '✓ CustomCard + VStack + CustomToggleSwitch',
+            '✓ PrimitiveCard + VStack + PrimitiveToggleSwitch',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
@@ -784,7 +784,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           Expanded(
             child: Text(label, style: const TextStyle(fontSize: 16)),
           ),
-          CustomToggleSwitch(
+          PrimitiveToggleSwitch(
             value: value,
             onChanged: onChanged,
             activeColor: Colors.indigo,

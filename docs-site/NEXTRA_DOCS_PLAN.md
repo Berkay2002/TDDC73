@@ -29,8 +29,8 @@ c:\Users\berka\Masters\TDDC73\
 │   ├── installation.mdx              # Installation instructions
 │   ├── components/                   # Component documentation
 │   │   ├── _meta.js
-│   │   ├── custom-card.mdx
-│   │   ├── custom-toggle-switch.mdx
+│   │   ├── primitive-card.mdx
+│   │   ├── primitive-toggle-switch.mdx
 │   │   ├── vstack.mdx
 │   │   └── zstack.mdx
 │   ├── architecture/                 # Deep dive concepts
@@ -458,8 +458,8 @@ export default {
 
 ```js
 export default {
-  'custom-card': 'CustomCard',
-  'custom-toggle-switch': 'CustomToggleSwitch',
+  'primitive-card': 'PrimitiveCard',
+  'primitive-toggle-switch': 'PrimitiveToggleSwitch',
   vstack: 'VStack',
   zstack: 'ZStack'
 }
@@ -512,7 +512,7 @@ Zero dependencies on high-level widgets. Every component is built from scratch u
   <Cards.Card arrow title="Getting Started" href="/getting-started">
     Learn how to install and use Primitive UI in your Flutter project
   </Cards.Card>
-  <Cards.Card arrow title="Components" href="/components/custom-card">
+  <Cards.Card arrow title="Components" href="/components/primitive-card">
     Explore the 4 core components: 2 UI and 2 layout
   </Cards.Card>
   <Cards.Card arrow title="Architecture" href="/architecture/primitives-explained">
@@ -527,8 +527,8 @@ Zero dependencies on high-level widgets. Every component is built from scratch u
 
 ### UI Components
 
-- **[CustomCard](/components/custom-card)** - Container with shadow, rounded corners, and padding
-- **[CustomToggleSwitch](/components/custom-toggle-switch)** - Animated toggle switch
+- **[PrimitiveCard](/components/primitive-card)** - Container with shadow, rounded corners, and padding
+- **[PrimitiveToggleSwitch](/components/primitive-toggle-switch)** - Animated toggle switch
 
 ### Layout Components
 
@@ -549,14 +549,14 @@ Zero dependencies on high-level widgets. Every component is built from scratch u
 ```dart
 import 'package:primitive_ui/primitive_ui.dart';
 
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   borderRadius: 12.0,
   child: VStack(
     spacing: 16.0,
     children: [
       Text('Settings'),
-      CustomToggleSwitch(
+      PrimitiveToggleSwitch(
         value: _enabled,
         onChanged: (value) => setState(() => _enabled = value),
       ),
@@ -636,7 +636,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: CustomCard(
+          child: PrimitiveCard(
             child: Text('Hello Primitive UI!'),
           ),
         ),
@@ -650,7 +650,7 @@ class MyApp extends StatelessWidget {
 
 ## Next Steps
 
-- Explore [Components](/components/custom-card) to learn about each widget
+- Explore [Components](/components/primitive-card) to learn about each widget
 - Check out [Examples](/examples/basic-usage) for practical use cases
 - Read [Architecture](/architecture/primitives-explained) to understand the design
 ```
@@ -659,11 +659,11 @@ class MyApp extends StatelessWidget {
 
 ### Step 7: Create Component Documentation Pages
 
-**Example: `content/components/custom-card.mdx`:**
+**Example: `content/components/primitive-card.mdx`:**
 
 ```mdx
 ---
-title: CustomCard
+title: PrimitiveCard
 description: A container widget with shadow, rounded corners, and padding - all rendered using Canvas
 ---
 
@@ -671,13 +671,13 @@ import { Tabs, Callout } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
 import { DartPadEmbed } from '@/components/DartPadEmbed'
 
-# CustomCard
+# PrimitiveCard
 
 A container widget with shadow, rounded corners, and padding - all rendered using `Canvas`.
 
 ## Overview
 
-`CustomCard` provides a Material-style card appearance using only `CustomPaint` and `Canvas`. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch.
+`PrimitiveCard` provides a Material-style card appearance using only `CustomPaint` and `Canvas`. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch.
 
 ## Interactive Example
 
@@ -690,7 +690,7 @@ A container widget with shadow, rounded corners, and padding - all rendered usin
 ## Basic Usage
 
 ```dart
-CustomCard(
+PrimitiveCard(
   child: Text('Hello World'),
 )
 ```
@@ -700,7 +700,7 @@ CustomCard(
 ### Constructor
 
 ```dart
-CustomCard({
+PrimitiveCard({
   Key? key,
   required Widget child,
   Color color = Colors.white,
@@ -759,7 +759,7 @@ CustomCard({
 <Tabs items={['Low', 'Medium', 'High']}>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 2.0,
   child: Text('Low elevation'),
 )
@@ -767,7 +767,7 @@ CustomCard(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: Text('Medium elevation'),
 )
@@ -775,7 +775,7 @@ CustomCard(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 8.0,
   child: Text('High elevation'),
 )
@@ -786,7 +786,7 @@ CustomCard(
 ### Custom Styling
 
 ```dart
-CustomCard(
+PrimitiveCard(
   color: Colors.blue[50]!,
   borderRadius: 16.0,
   elevation: 8.0,
@@ -832,7 +832,7 @@ CustomCard(
 
 ## Source Code
 
-View the [implementation on GitHub](https://github.com/yourusername/primitive_ui/blob/main/lib/src/components/custom_card.dart)
+View the [implementation on GitHub](https://github.com/yourusername/primitive_ui/blob/main/lib/src/components/primitive_card.dart)
 ```
 
 ---
@@ -864,11 +864,11 @@ Experiment with Primitive UI components in your browser using DartPad.
 
 ## Component Playgrounds
 
-<Tabs items={['CustomCard', 'CustomToggleSwitch', 'VStack', 'ZStack']}>
+<Tabs items={['PrimitiveCard', 'PrimitiveToggleSwitch', 'VStack', 'ZStack']}>
   <Tabs.Tab>
-    ### CustomCard Playground
+    ### PrimitiveCard Playground
     
-    <DartPadEmbed id="custom-card-gist-id" height={500} />
+    <DartPadEmbed id="primitive-card-gist-id" height={500} />
     
     **Try changing:**
     - `elevation` values (0.0 - 16.0)
@@ -878,7 +878,7 @@ Experiment with Primitive UI components in your browser using DartPad.
   </Tabs.Tab>
   
   <Tabs.Tab>
-    ### CustomToggleSwitch Playground
+    ### PrimitiveToggleSwitch Playground
     
     <DartPadEmbed id="toggle-switch-gist-id" height={500} />
     
@@ -959,7 +959,7 @@ flutter pub get
 ## Shadow Not Rendering
 
 <Callout type="warning">
-  **Issue:** CustomCard shadow is not visible
+  **Issue:** PrimitiveCard shadow is not visible
 </Callout>
 
 **Solution:** Ensure you're providing enough space for the shadow. The shadow extends beyond the card by the `elevation` amount. Add padding around the card or ensure the parent container has sufficient size.
@@ -967,13 +967,13 @@ flutter pub get
 ```dart
 // ❌ Bad - shadow may be clipped
 Container(
-  child: CustomCard(elevation: 8.0, child: Text('Hello')),
+  child: PrimitiveCard(elevation: 8.0, child: Text('Hello')),
 )
 
 // ✅ Good - padding allows shadow to show
 Padding(
   padding: EdgeInsets.all(16.0),
-  child: CustomCard(elevation: 8.0, child: Text('Hello')),
+  child: PrimitiveCard(elevation: 8.0, child: Text('Hello')),
 )
 ```
 
@@ -1118,7 +1118,7 @@ Yes! Primitive UI is MIT licensed. However, consider:
 ### How many components does Primitive UI include?
 
 Primitive UI includes **4 core components**:
-- **UI Components:** CustomCard, CustomToggleSwitch
+- **UI Components:** PrimitiveCard, PrimitiveToggleSwitch
 - **Layout Components:** VStack, ZStack
 
 ### Can I customize the components?
@@ -1439,12 +1439,12 @@ Create the following GitHub gists with Primitive UI examples:
    - Pre-imported primitive_ui
    - Interactive settings panel example
 
-2. **CustomCard** (`custom-card-gist-id`)
+2. **PrimitiveCard** (`primitive-card-gist-id`)
    - Various elevation examples
    - Border radius variations
    - Color customizations
 
-3. **CustomToggleSwitch** (`toggle-switch-gist-id`)
+3. **PrimitiveToggleSwitch** (`toggle-switch-gist-id`)
    - Basic toggle
    - Custom colors
    - Multiple switches
@@ -1477,8 +1477,8 @@ Transform existing documentation into MDX:
 - [ ] `content/index.mdx` - Landing page with overview
 - [ ] `content/getting-started.mdx` - Quick start guide
 - [ ] `content/installation.mdx` - Detailed installation
-- [ ] `content/components/custom-card.mdx` - Full API + examples
-- [ ] `content/components/custom-toggle-switch.mdx` - Full API + examples
+- [ ] `content/components/primitive-card.mdx` - Full API + examples
+- [ ] `content/components/primitive-toggle-switch.mdx` - Full API + examples
 - [ ] `content/components/vstack.mdx` - Full API + examples
 - [ ] `content/components/zstack.mdx` - Full API + examples
 - [ ] `content/architecture/primitives-explained.mdx` - Design philosophy

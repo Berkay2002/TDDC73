@@ -17,7 +17,7 @@ import 'package:flutter/rendering.dart';
 /// - Canvas for drawing
 /// - CustomSingleChildLayout for child positioning
 /// - GestureDetector for interaction
-class CustomCard extends StatefulWidget {
+class PrimitiveCard extends StatefulWidget {
   /// The child widget to display inside the card
   final Widget child;
 
@@ -48,7 +48,7 @@ class CustomCard extends StatefulWidget {
   /// Curve for implicit style animations
   final Curve curve;
 
-  const CustomCard({
+  const PrimitiveCard({
     super.key,
     required this.child,
     this.color = const Color(0xFFFFFFFF), // White
@@ -64,7 +64,7 @@ class CustomCard extends StatefulWidget {
        assert(borderRadius >= 0.0, 'Border radius cannot be negative');
 
   @override
-  State<CustomCard> createState() => _CustomCardState();
+  State<PrimitiveCard> createState() => _PrimitiveCardState();
 }
 
 class _CardStyle {
@@ -90,7 +90,7 @@ class _CardStyle {
   }
 }
 
-class _CustomCardState extends State<CustomCard> {
+class _PrimitiveCardState extends State<PrimitiveCard> {
   bool _isPressed = false;
 
   void _handleTapDown(TapDownDetails details) {

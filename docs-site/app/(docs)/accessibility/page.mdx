@@ -37,7 +37,7 @@ Primitive UI components currently provide basic accessibility support:
 
 ### Interaction
 
-- **Touch Target Size**: Interactive components like `CustomToggleSwitch` and `CustomSlider` have adequate touch target sizes
+- **Touch Target Size**: Interactive components like `PrimitiveToggleSwitch` and `PrimitiveSlider` have adequate touch target sizes
 - **Visual Feedback**: Clear visual states for interactions (hover, pressed, disabled)
 - **Focus Management**: Basic focus handling through Flutter's built-in mechanisms
 
@@ -77,7 +77,7 @@ Always provide meaningful labels for interactive components:
 ```dart
 Semantics(
   label: 'Enable notifications',
-  child: CustomToggleSwitch(
+  child: PrimitiveToggleSwitch(
     value: notificationsEnabled,
     onChanged: (value) => setState(() => notificationsEnabled = value),
   ),
@@ -89,7 +89,7 @@ Semantics(
 Ensure your color choices meet WCAG contrast requirements:
 
 ```dart
-CustomCard(
+PrimitiveCard(
   color: Colors.white,  // Background
   child: Text(
     'Content',
@@ -105,7 +105,7 @@ CustomCard(
 Keep interactive elements at least 44x44 pixels for touch accessibility:
 
 ```dart
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   // Default size already meets minimum requirements
   value: isEnabled,
   onChanged: (value) => setState(() => isEnabled = value),

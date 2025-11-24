@@ -35,13 +35,13 @@ Primitive UI includes 7 core components: 4 UI components and 3 layout components
 
 ### UI Components
 
-#### 1. CustomCard
+#### 1. PrimitiveCard
 
 A container widget with shadow, rounded corners, and padding - all rendered using Canvas. Supports implicit animations for style changes.
 
 **Constructor:**
 ```dart
-CustomCard({
+PrimitiveCard({
   Key? key,
   required Widget child,
   Color color = Colors.white,
@@ -65,12 +65,12 @@ CustomCard({
 **Example Usage:**
 ```dart
 // Basic card
-CustomCard(
+PrimitiveCard(
   child: Text('Hello World'),
 )
 
 // Animated card
-CustomCard(
+PrimitiveCard(
   color: _isSelected ? Colors.blue[50]! : Colors.white,
   elevation: _isSelected ? 8.0 : 2.0,
   duration: const Duration(milliseconds: 300),
@@ -88,13 +88,13 @@ CustomCard(
 
 ---
 
-#### 2. CustomToggleSwitch
+#### 2. PrimitiveToggleSwitch
 
 An animated toggle switch with smooth transitions between on/off states.
 
 **Constructor:**
 ```dart
-CustomToggleSwitch({
+PrimitiveToggleSwitch({
   Key? key,
   required bool value,
   required ValueChanged<bool> onChanged,
@@ -118,7 +118,7 @@ CustomToggleSwitch({
 // Basic toggle switch
 bool _isEnabled = false;
 
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _isEnabled,
   onChanged: (bool newValue) {
     setState(() {
@@ -128,7 +128,7 @@ CustomToggleSwitch(
 )
 
 // Customized toggle switch
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _darkMode,
   onChanged: (bool value) {
     setState(() => _darkMode = value);
@@ -156,13 +156,13 @@ CustomToggleSwitch(
 
 ---
 
-#### 3. CustomSlider
+#### 3. PrimitiveSlider
 
 A slider component for selecting a value from a range. Supports implicit animations for programmatic value changes.
 
 **Constructor:**
 ```dart
-CustomSlider({
+PrimitiveSlider({
   Key? key,
   required double value,
   ValueChanged<double>? onChanged,
@@ -191,7 +191,7 @@ CustomSlider({
 
 **Example Usage:**
 ```dart
-CustomSlider(
+PrimitiveSlider(
   value: _currentValue,
   min: 0.0,
   max: 100.0,
@@ -209,13 +209,13 @@ CustomSlider(
 
 ---
 
-#### 4. CustomCircularProgress
+#### 4. PrimitiveCircularProgress
 
 An indeterminate circular progress indicator.
 
 **Constructor:**
 ```dart
-CustomCircularProgress({
+PrimitiveCircularProgress({
   Key? key,
   Color color = const Color(0xFF2196F3),
   double strokeWidth = 4.0,
@@ -230,7 +230,7 @@ CustomCircularProgress({
 
 **Example Usage:**
 ```dart
-CustomCircularProgress(
+PrimitiveCircularProgress(
   color: Colors.purple,
   size: 50.0,
 )
@@ -645,8 +645,8 @@ import 'package:primitive_ui/primitive_ui.dart';
 ```
 
 All components are now available:
-- `CustomCard`
-- `CustomToggleSwitch`
+- `PrimitiveCard`
+- `PrimitiveToggleSwitch`
 - `VStack`
 - `HStack`
 - `ZStack` and `StackFit`
@@ -681,7 +681,7 @@ class _DemoScreenState extends State<DemoScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Card with toggle switches
-            CustomCard(
+            PrimitiveCard(
               elevation: 4.0,
               borderRadius: 12.0,
               child: VStack(
@@ -691,7 +691,7 @@ class _DemoScreenState extends State<DemoScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Notifications'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: _notificationsEnabled,
                         onChanged: (value) {
                           setState(() => _notificationsEnabled = value);
@@ -703,7 +703,7 @@ class _DemoScreenState extends State<DemoScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Dark Mode'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: _darkMode,
                         onChanged: (value) {
                           setState(() => _darkMode = value);
@@ -717,7 +717,7 @@ class _DemoScreenState extends State<DemoScreen> {
             ),
 
             // Layered badge example
-            CustomCard(
+            PrimitiveCard(
               child: ZStack(
                 alignment: Alignment.topRight,
                 children: [
@@ -873,7 +873,7 @@ While `AnimationController` is a higher-level API, implementing animation timing
 
 ## Testing
 
-Comprehensive widget tests are included for the `CustomToggleSwitch` component, covering:
+Comprehensive widget tests are included for the `PrimitiveToggleSwitch` component, covering:
 
 - **Rendering:** Initial on/off states
 - **Interaction:** Tap behavior and state changes
@@ -895,7 +895,7 @@ flutter test
 
 **Test Coverage:**
 - 14 test cases
-- 100% coverage of CustomToggleSwitch functionality
+- 100% coverage of PrimitiveToggleSwitch functionality
 - Demonstrates understanding of Flutter widget testing
 
 ---
@@ -916,12 +916,12 @@ flutter test
 
 ### Best Practices
 
-**CustomCard:**
+**PrimitiveCard:**
 - Only repaints when color, elevation, or border radius change
 - Uses efficient `RRect` for rounded corners
 - Shadow is rendered once per paint
 
-**CustomToggleSwitch:**
+**PrimitiveToggleSwitch:**
 - Animation is smooth (60 FPS) with easeInOut curve
 - State changes trigger minimal rebuilds
 - Color interpolation is performed in paint method
@@ -949,7 +949,7 @@ Then run:
 flutter pub get
 ```
 
-### "CustomCard not rendering shadow"
+### "PrimitiveCard not rendering shadow"
 
 Ensure you're providing enough space for the shadow. The shadow extends beyond the card by the `elevation` amount.
 

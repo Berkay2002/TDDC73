@@ -22,7 +22,7 @@ The workspace consists of three main parts relevant to this workflow:
 2.  **Implement Logic**:
     *   **For Layouts**: Extend `MultiChildRenderObjectWidget` and create a custom `RenderBox`. Avoid using high-level widgets like `Row`, `Column`, `Flex`, `Stack` (unless wrapping them is the specific goal, but usually we build from primitives).
     *   **For Visuals**: Use `CustomPaint` or specific `RenderBox` painting logic.
-    *   **Style**: Follow existing patterns in `v_stack.dart` or `custom_card.dart`.
+    *   **Style**: Follow existing patterns in `v_stack.dart` or `primitive_card.dart`.
 
 3.  **Export Component**:
     *   Edit: `project/primitive_ui/lib/primitive_ui.dart`

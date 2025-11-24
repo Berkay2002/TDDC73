@@ -1,5 +1,5 @@
 ---
-title: CustomCard
+title: PrimitiveCard
 description: A container widget with shadow, rounded corners, padding, and tap interaction
 asIndexPage: true
 ---
@@ -7,13 +7,13 @@ asIndexPage: true
 import { Callout, Steps, Tabs } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
 
-# CustomCard
+# PrimitiveCard
 
 A container widget with shadow, rounded corners, and padding - all rendered using `CustomPaint` and `Canvas`. Now supports custom shadow colors and tap interactions.
 
 ## Overview
 
-`CustomCard` provides a Material-style card appearance using only primitive Flutter components. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch without relying on Flutter's built-in `Card` widget. It also includes basic tap interaction with visual feedback (elevation reduction).
+`PrimitiveCard` provides a Material-style card appearance using only primitive Flutter components. It demonstrates how shadows, rounded corners, and elevation can be implemented from scratch without relying on Flutter's built-in `Card` widget. It also includes basic tap interaction with visual feedback (elevation reduction).
 
 <Callout type="info">
 **Primitives Used:** `CustomPaint`, `Canvas`, `RenderShiftedBox`, `GestureDetector`
@@ -24,7 +24,7 @@ A container widget with shadow, rounded corners, and padding - all rendered usin
 ```dart
 import 'package:primitive_ui/primitive_ui.dart';
 
-CustomCard(
+PrimitiveCard(
   child: Text('Hello World'),
   onTap: () => print('Card tapped!'),
 )
@@ -35,7 +35,7 @@ CustomCard(
 ### Constructor
 
 ```dart
-CustomCard({
+PrimitiveCard({
   Key? key,
   required Widget child,
   Color color = const Color(0xFFFFFFFF),
@@ -134,7 +134,7 @@ CustomCard({
 <Tabs items={['Low', 'Medium', 'High', 'Custom Shadow']}>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 2.0,
   child: Text('Low elevation'),
 )
@@ -142,7 +142,7 @@ CustomCard(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: Text('Medium elevation'),
 )
@@ -150,7 +150,7 @@ CustomCard(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 8.0,
   child: Text('High elevation'),
 )
@@ -158,7 +158,7 @@ CustomCard(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 6.0,
   shadowColor: Colors.blue.shade800, // Custom shadow color
   child: Text('Blue Shadow Card'),
@@ -170,7 +170,7 @@ CustomCard(
 ### Tap Interaction
 
 ```dart
-CustomCard(
+PrimitiveCard(
   onTap: () {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Card tapped!')),
@@ -184,7 +184,7 @@ CustomCard(
 ### Custom Styling
 
 ```dart
-CustomCard(
+PrimitiveCard(
   color: Color(0xFFE3F2FD), // Light blue
   borderRadius: 16.0,
   elevation: 8.0,
@@ -210,10 +210,10 @@ CustomCard(
 
 ### Animated Styles
 
-`CustomCard` implicitly animates changes to its style properties.
+`PrimitiveCard` implicitly animates changes to its style properties.
 
 ```dart
-CustomCard(
+PrimitiveCard(
   // Animate color and elevation when selected
   color: _isSelected ? Colors.blue.shade50 : Colors.white,
   elevation: _isSelected ? 8.0 : 2.0,
@@ -230,7 +230,7 @@ CustomCard(
 ### Nested Layout
 
 ```dart
-CustomCard(
+PrimitiveCard(
   elevation: 4.0,
   child: VStack(
     spacing: 12.0,
@@ -238,7 +238,7 @@ CustomCard(
       Text('Settings', 
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
       ),
-      CustomToggleSwitch(
+      PrimitiveToggleSwitch(
         value: notificationsEnabled,
         onChanged: (value) {
           setState(() => notificationsEnabled = value);
@@ -253,7 +253,7 @@ CustomCard(
 
 ### Rendering Pipeline
 
-The `CustomCard` uses a multi-layered rendering approach:
+The `PrimitiveCard` uses a multi-layered rendering approach:
 
 1. **Custom Painter** (`_CardPainter`) handles the visual rendering (including customizable shadow color).
 2. **Custom Layout** (`_RenderCardLayout`) manages child positioning with padding.
@@ -311,7 +311,7 @@ GridView.builder(
     spacing: 16.0,
   ),
   itemBuilder: (context, index) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 2.0,
       onTap: () => print('Card $index tapped!'),
       child: Center(child: Text('Card $index')),
@@ -324,8 +324,8 @@ GridView.builder(
 
 - [VStack](/components/vstack) - For vertical layouts inside cards
 - [ZStack](/components/zstack) - For layered content inside cards
-- [CustomToggleSwitch](/components/custom-toggle-switch) - Common card content
+- [PrimitiveToggleSwitch](/components/primitive-toggle-switch) - Common card content
 
 ## Source Code
 
-View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/custom_card.dart).
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/primitive_card.dart).

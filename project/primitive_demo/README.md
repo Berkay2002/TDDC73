@@ -17,11 +17,11 @@ This demo application showcases a custom Flutter GUI library built entirely from
 The demo is organized into **6 major sections**, each highlighting different aspects of the Primitive UI library:
 
 ### 1. Header Section
-- Dark mode toggle using `CustomToggleSwitch`
+- Dark mode toggle using `PrimitiveToggleSwitch`
 - Demonstrates card background color changes
 - Shows state propagation across the entire app
 
-### 2. CustomCard Variations
+### 2. PrimitiveCard Variations
 **Demonstrates:**
 - Different elevation levels (2.0, 4.0, 8.0)
 - Various border radius values (8.0, 16.0, 24.0)
@@ -33,7 +33,7 @@ The demo is organized into **6 major sections**, each highlighting different asp
 - Smooth corner radius transitions
 - Visual depth created by Canvas rendering
 
-### 3. CustomToggleSwitch Examples
+### 3. PrimitiveToggleSwitch Examples
 **Demonstrates:**
 - Multiple independent toggle switches
 - Different color schemes
@@ -77,9 +77,9 @@ The demo is organized into **6 major sections**, each highlighting different asp
 **Demonstrates:**
 - Real-world settings panel
 - All components working together:
-  - `CustomCard` for container
+  - `PrimitiveCard` for container
   - `VStack` for vertical layout
-  - `CustomToggleSwitch` for controls
+  - `PrimitiveToggleSwitch` for controls
   - `ZStack` for badge overlay
 - Practical UI patterns
 
@@ -163,7 +163,7 @@ class _DemoScreenState extends State<DemoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Responsive UI using VStack and CustomCard
+    // Responsive UI using VStack and PrimitiveCard
     // 6 major sections demonstrating all components
   }
 }
@@ -180,7 +180,7 @@ class _DemoScreenState extends State<DemoScreen> {
    - Watch all cards change color
    - Notice the smooth state propagation
 
-2. **Play with Toggles** (CustomToggleSwitch section)
+2. **Play with Toggles** (PrimitiveToggleSwitch section)
    - Toggle all 4 switches
    - Notice the smooth animations
    - See the "Show/Hide Demo" functionality
@@ -199,11 +199,11 @@ class _DemoScreenState extends State<DemoScreen> {
 
 ## Component Examples Included
 
-### CustomCard Examples
+### PrimitiveCard Examples
 
 ```dart
 // Low elevation card
-CustomCard(
+PrimitiveCard(
   elevation: 2.0,
   borderRadius: 8.0,
   color: cardColor,
@@ -211,7 +211,7 @@ CustomCard(
 )
 
 // High elevation card
-CustomCard(
+PrimitiveCard(
   elevation: 8.0,
   borderRadius: 24.0,
   color: cardColor,
@@ -219,17 +219,17 @@ CustomCard(
 )
 ```
 
-### CustomToggleSwitch Examples
+### PrimitiveToggleSwitch Examples
 
 ```dart
 // Standard toggle
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _toggle1,
   onChanged: (value) => setState(() => _toggle1 = value),
 )
 
 // Custom colored toggle
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _darkMode,
   onChanged: (value) => setState(() => _darkMode = value),
   activeColor: Colors.blue,
@@ -294,8 +294,8 @@ This demo intentionally uses:
 **But for the library components themselves:**
 - ❌ NO `Column` (we use `VStack`)
 - ❌ NO `Stack` (we use `ZStack`)
-- ❌ NO `Card` widget (we use `CustomCard`)
-- ❌ NO `Switch` widget (we use `CustomToggleSwitch`)
+- ❌ NO `Card` widget (we use `PrimitiveCard`)
+- ❌ NO `Switch` widget (we use `PrimitiveToggleSwitch`)
 
 This shows how primitive components can replace standard widgets while maintaining functionality and aesthetics.
 
@@ -314,7 +314,7 @@ Try modifying the demo to:
    - Add more children to see layout behavior
 
 3. **Create new combinations**
-   - Nest `VStack` inside `CustomCard`
+   - Nest `VStack` inside `PrimitiveCard`
    - Layer multiple badges with `ZStack`
    - Build a settings panel with toggles and cards
 

@@ -1,5 +1,5 @@
 ---
-title: CustomSlider
+title: PrimitiveSlider
 description: A slider component built from scratch using CustomPaint and GestureDetector
 asIndexPage: true
 ---
@@ -7,13 +7,13 @@ asIndexPage: true
 import { Callout, Steps, Tabs } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
 
-# CustomSlider
+# PrimitiveSlider
 
 A slider component for selecting a value from a range. It demonstrates how to handle continuous drag gestures and map them to a value range, rendering the result with custom painting.
 
 ## Overview
 
-`CustomSlider` provides a range selection interface using only primitive Flutter components. It tracks gestures to update a value and repaints the slider track and thumb accordingly.
+`PrimitiveSlider` provides a range selection interface using only primitive Flutter components. It tracks gestures to update a value and repaints the slider track and thumb accordingly.
 
 <Callout type="info">
 **Primitives Used:** `CustomPaint`, `Canvas`, `GestureDetector`
@@ -26,7 +26,7 @@ import 'package:primitive_ui/primitive_ui.dart';
 
 double _value = 0.5;
 
-CustomSlider(
+PrimitiveSlider(
   value: _value,
   onChanged: (newValue) {
     setState(() {
@@ -41,7 +41,7 @@ CustomSlider(
 ### Constructor
 
 ```dart
-CustomSlider({
+PrimitiveSlider({
   Key? key,
   required double value,
   ValueChanged<double>? onChanged,
@@ -180,7 +180,7 @@ CustomSlider({
 <Tabs items={['Standard', 'Custom Colors', 'Custom Thumb']}>
   <Tabs.Tab>
 ```dart
-CustomSlider(
+PrimitiveSlider(
   value: _value,
   onChanged: (v) => setState(() => _value = v),
 )
@@ -188,7 +188,7 @@ CustomSlider(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomSlider(
+PrimitiveSlider(
   value: _volume,
   min: 0.0,
   max: 100.0,
@@ -200,7 +200,7 @@ CustomSlider(
   </Tabs.Tab>
   <Tabs.Tab>
 ```dart
-CustomSlider(
+PrimitiveSlider(
   value: _progress,
   thumbRadius: 16.0,
   thumbColor: Colors.red,
@@ -215,7 +215,7 @@ CustomSlider(
 ### Handling Drag Events
 
 ```dart
-CustomSlider(
+PrimitiveSlider(
   value: _sliderValue,
   onChanged: (value) {
     setState(() => _sliderValue = value);
@@ -231,7 +231,7 @@ CustomSlider(
 
 ## Implementation Details
 
-The `CustomSlider` is implemented using:
+The `PrimitiveSlider` is implemented using:
 
 1.  **`GestureDetector`**: Specifically `onHorizontalDragUpdate`, `onHorizontalDragStart`, `onHorizontalDragEnd`, and `onTapDown`. These callbacks provide the global position of the interaction.
 2.  **Coordinate Mapping**: The component converts the global touch position to a local position using `RenderBox.globalToLocal`. It then calculates the percentage of the drag along the track width.
@@ -258,9 +258,9 @@ This component demonstrates the core concept of "unidirectional data flow" in UI
 
 ## Related Components
 
-- [CustomCircularProgress](/components/custom-circular-progress) - Another value indicator
-- [CustomToggleSwitch](/components/custom-toggle-switch) - For boolean values
+- [PrimitiveCircularProgress](/components/primitive-circular-progress) - Another value indicator
+- [PrimitiveToggleSwitch](/components/primitive-toggle-switch) - For boolean values
 
 ## Source Code
 
-View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/custom_slider.dart).
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/primitive_slider.dart).

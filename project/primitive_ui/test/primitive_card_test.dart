@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
 void main() {
-  group('CustomCard', () {
+  group('PrimitiveCard', () {
     testWidgets('renders with child widget', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: CustomCard(child: Text('Hello'))),
+          home: Scaffold(body: PrimitiveCard(child: Text('Hello'))),
         ),
       );
 
@@ -20,24 +20,24 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(color: testColor, child: Text('Test')),
+            body: PrimitiveCard(color: testColor, child: Text('Test')),
           ),
         ),
       );
 
       // Card should render without errors
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('Test'), findsOneWidget);
     });
 
     testWidgets('renders with default white color', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: CustomCard(child: Text('Default'))),
+          home: Scaffold(body: PrimitiveCard(child: Text('Default'))),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('Default'), findsOneWidget);
     });
 
@@ -45,46 +45,46 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(borderRadius: 16.0, child: Text('Rounded')),
+            body: PrimitiveCard(borderRadius: 16.0, child: Text('Rounded')),
           ),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('Rounded'), findsOneWidget);
     });
 
     testWidgets('renders with default border radius', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: CustomCard(child: Text('Default Radius'))),
+          home: Scaffold(body: PrimitiveCard(child: Text('Default Radius'))),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
     });
 
     testWidgets('renders with elevation', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(elevation: 4.0, child: Text('Elevated')),
+            body: PrimitiveCard(elevation: 4.0, child: Text('Elevated')),
           ),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('Elevated'), findsOneWidget);
     });
 
     testWidgets('renders with zero elevation', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: CustomCard(elevation: 0.0, child: Text('Flat'))),
+          home: Scaffold(body: PrimitiveCard(elevation: 0.0, child: Text('Flat'))),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('Flat'), findsOneWidget);
     });
 
@@ -94,7 +94,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(
+            body: PrimitiveCard(
               padding: testPadding,
               child: SizedBox(width: 100, height: 100),
             ),
@@ -102,7 +102,7 @@ void main() {
         ),
       );
 
-      final card = tester.widget<CustomCard>(find.byType(CustomCard));
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
       expect(card.padding, equals(testPadding));
     });
 
@@ -112,7 +112,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(
+            body: PrimitiveCard(
               padding: testPadding,
               child: SizedBox(width: 50, height: 50),
             ),
@@ -120,7 +120,7 @@ void main() {
         ),
       );
 
-      final card = tester.widget<CustomCard>(find.byType(CustomCard));
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
       expect(card.padding, equals(testPadding));
     });
 
@@ -131,7 +131,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomCard(
+            body: PrimitiveCard(
               padding: padding,
               child: SizedBox(width: childSize.width, height: childSize.height),
             ),
@@ -140,7 +140,7 @@ void main() {
       );
 
       final cardRenderBox = tester.renderObject<RenderBox>(
-        find.byType(CustomCard),
+        find.byType(PrimitiveCard),
       );
 
       // Card size should be child size + padding
@@ -155,12 +155,12 @@ void main() {
     });
   });
 
-  group('CustomCard - Edge Cases', () {
+  group('PrimitiveCard - Edge Cases', () {
     testWidgets('handles very large elevation', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(
+            body: PrimitiveCard(
               elevation: 100.0, // Very large elevation
               child: Text('High'),
             ),
@@ -168,7 +168,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
       expect(find.text('High'), findsOneWidget);
     });
 
@@ -176,30 +176,30 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(child: SizedBox(width: 10, height: 10)),
+            body: PrimitiveCard(child: SizedBox(width: 10, height: 10)),
           ),
         ),
       );
 
-      expect(find.byType(CustomCard), findsOneWidget);
+      expect(find.byType(PrimitiveCard), findsOneWidget);
     });
 
     test('throws assertion error for negative elevation', () {
       expect(
-        () => CustomCard(elevation: -1.0, child: const Text('Invalid')),
+        () => PrimitiveCard(elevation: -1.0, child: const Text('Invalid')),
         throwsAssertionError,
       );
     });
 
     test('throws assertion error for negative border radius', () {
       expect(
-        () => CustomCard(borderRadius: -5.0, child: const Text('Invalid')),
+        () => PrimitiveCard(borderRadius: -5.0, child: const Text('Invalid')),
         throwsAssertionError,
       );
     });
   });
 
-  group('CustomCard - Animations', () {
+  group('PrimitiveCard - Animations', () {
     testWidgets('accepts custom duration and curve', (tester) async {
       const duration = Duration(seconds: 1);
       const curve = Curves.bounceOut;
@@ -207,7 +207,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CustomCard(
+            body: PrimitiveCard(
               duration: duration,
               curve: curve,
               child: Text('Animated'),
@@ -216,7 +216,7 @@ void main() {
         ),
       );
 
-      final card = tester.widget<CustomCard>(find.byType(CustomCard));
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
       expect(card.duration, equals(duration));
       expect(card.curve, equals(curve));
     });

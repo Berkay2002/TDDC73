@@ -25,7 +25,7 @@ This guide outlines the standard operating procedure for creating, updating, and
       @override
       Widget build(BuildContext context) {
         return Center(
-          child: CustomCard(child: Text('My Feature')),
+          child: PrimitiveCard(child: Text('My Feature')),
         );
       }
     }

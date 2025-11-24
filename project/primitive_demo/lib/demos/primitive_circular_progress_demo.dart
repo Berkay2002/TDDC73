@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
-class CustomCircularProgressDemo extends StatelessWidget {
-  const CustomCircularProgressDemo({super.key});
+class PrimitiveCircularProgressDemo extends StatelessWidget {
+  const PrimitiveCircularProgressDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CustomCircularProgress Demo')),
+      appBar: AppBar(title: const Text('PrimitiveCircularProgress Demo')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: VStack(
@@ -23,7 +23,7 @@ class CustomCircularProgressDemo extends StatelessWidget {
                   'Basic',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                const CustomCircularProgress(),
+                const PrimitiveCircularProgress(),
               ],
             ),
 
@@ -36,7 +36,7 @@ class CustomCircularProgressDemo extends StatelessWidget {
                   'Custom Color & Size',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                const CustomCircularProgress(
+                const PrimitiveCircularProgress(
                   color: Colors.red,
                   size: 60.0,
                   strokeWidth: 6.0,
@@ -53,7 +53,7 @@ class CustomCircularProgressDemo extends StatelessWidget {
                   'Large',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                const CustomCircularProgress(
+                const PrimitiveCircularProgress(
                   color: Colors.green,
                   size: 100.0,
                   strokeWidth: 10.0,

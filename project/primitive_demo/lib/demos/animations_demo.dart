@@ -37,10 +37,10 @@ class _AnimationsDemoState extends State<AnimationsDemo> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Animated CustomCard',
+                  'Animated PrimitiveCard',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                CustomCard(
+                PrimitiveCard(
                   // Style properties animate automatically
                   color: _isCardSelected ? Colors.indigo : Colors.white,
                   elevation: _isCardSelected ? 12.0 : 2.0,
@@ -81,10 +81,10 @@ class _AnimationsDemoState extends State<AnimationsDemo> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Animated CustomSlider',
+                  'Animated PrimitiveSlider',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                CustomSlider(
+                PrimitiveSlider(
                   value: _sliderValue,
                   onChanged: (v) => setState(() => _sliderValue = v),
                   activeColor: Colors.purple,

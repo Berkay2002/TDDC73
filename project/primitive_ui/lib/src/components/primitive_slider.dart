@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 ///
 /// This component renders a horizontal track and a draggable thumb.
 /// It does not use the material [Slider] widget.
-class CustomSlider extends StatefulWidget {
+class PrimitiveSlider extends StatefulWidget {
   /// The current value of the slider, between [min] and [max].
   final double value;
 
@@ -50,7 +50,7 @@ class CustomSlider extends StatefulWidget {
   /// Curve for implicit value animations
   final Curve curve;
 
-  const CustomSlider({
+  const PrimitiveSlider({
     super.key,
     required this.value,
     this.onChanged,
@@ -71,10 +71,10 @@ class CustomSlider extends StatefulWidget {
        assert(min < max, 'Min must be less than max');
 
   @override
-  State<CustomSlider> createState() => _CustomSliderState();
+  State<PrimitiveSlider> createState() => _PrimitiveSliderState();
 }
 
-class _CustomSliderState extends State<CustomSlider> {
+class _PrimitiveSliderState extends State<PrimitiveSlider> {
   bool _isDragging = false;
 
   void _handleDragStart(DragStartDetails details, BoxConstraints constraints) {

@@ -3,14 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:primitive_ui/primitive_ui.dart';
 
 void main() {
-  group('CustomToggleSwitch', () {
+  group('PrimitiveToggleSwitch', () {
     testWidgets('renders correctly in off state', (WidgetTester tester) async {
       bool switchValue = false;
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -19,7 +19,7 @@ void main() {
       );
 
       // Verify the widget renders
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
       expect(find.byType(GestureDetector), findsWidgets);
     });
 
@@ -29,7 +29,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -38,7 +38,7 @@ void main() {
       );
 
       // Verify the widget renders
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
       expect(find.byType(GestureDetector), findsWidgets);
     });
 
@@ -50,7 +50,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -62,7 +62,7 @@ void main() {
       expect(switchValue, false);
 
       // Tap the switch
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Verify callback was invoked with true
@@ -77,7 +77,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -89,7 +89,7 @@ void main() {
       expect(switchValue, true);
 
       // Tap the switch
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Verify callback was invoked with false
@@ -102,7 +102,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -111,7 +111,7 @@ void main() {
       );
 
       // Tap the switch
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
 
       // Pump a few frames to verify animation is running
       await tester.pump(const Duration(milliseconds: 50));
@@ -122,7 +122,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify widget is still rendered after animation
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
     });
 
     testWidgets('callback receives correct value', (WidgetTester tester) async {
@@ -132,7 +132,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) {
                 callbackValue = value;
@@ -144,7 +144,7 @@ void main() {
       );
 
       // Tap the switch
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Verify callback received true
@@ -154,7 +154,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) {
                 callbackValue = value;
@@ -166,7 +166,7 @@ void main() {
       );
 
       // Tap again
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Verify callback received false
@@ -180,7 +180,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) {
                 tapCount++;
@@ -193,12 +193,12 @@ void main() {
 
       // Rapidly tap the switch 5 times
       for (int i = 0; i < 5; i++) {
-        await tester.tap(find.byType(CustomToggleSwitch));
+        await tester.tap(find.byType(PrimitiveToggleSwitch));
         // Rebuild with new value after each tap
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: CustomToggleSwitch(
+              body: PrimitiveToggleSwitch(
                 value: switchValue,
                 onChanged: (value) {
                   tapCount++;
@@ -225,7 +225,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
               activeColor: customColor,
@@ -235,7 +235,7 @@ void main() {
       );
 
       // Widget should render with custom color (visually verified)
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
     });
 
     testWidgets('applies custom inactive color', (WidgetTester tester) async {
@@ -245,7 +245,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
               inactiveColor: customColor,
@@ -255,7 +255,7 @@ void main() {
       );
 
       // Widget should render with custom color (visually verified)
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
     });
 
     testWidgets('applies custom dimensions', (WidgetTester tester) async {
@@ -264,7 +264,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
               width: 60.0,
@@ -275,7 +275,7 @@ void main() {
       );
 
       // Find the widget
-      final switchFinder = find.byType(CustomToggleSwitch);
+      final switchFinder = find.byType(PrimitiveToggleSwitch);
       expect(switchFinder, findsOneWidget);
 
       // Verify size
@@ -292,7 +292,7 @@ void main() {
         rebuildCount++;
         return MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (value) => switchValue = value,
             ),
@@ -305,7 +305,7 @@ void main() {
       expect(rebuildCount, 1);
 
       // Tap to change state
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Rebuild
@@ -316,7 +316,7 @@ void main() {
       expect(switchValue, true);
 
       // Tap again
-      await tester.tap(find.byType(CustomToggleSwitch));
+      await tester.tap(find.byType(PrimitiveToggleSwitch));
       await tester.pumpAndSettle();
 
       // Rebuild again
@@ -328,7 +328,7 @@ void main() {
     });
   });
 
-  group('CustomToggleSwitch - Edge Cases', () {
+  group('PrimitiveToggleSwitch - Edge Cases', () {
     testWidgets('handles null safety correctly', (WidgetTester tester) async {
       bool switchValue = false;
 
@@ -336,7 +336,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(
+            body: PrimitiveToggleSwitch(
               value: switchValue,
               onChanged: (bool value) => switchValue = value,
             ),
@@ -344,19 +344,19 @@ void main() {
         ),
       );
 
-      expect(find.byType(CustomToggleSwitch), findsOneWidget);
+      expect(find.byType(PrimitiveToggleSwitch), findsOneWidget);
     });
 
     testWidgets('renders with default parameters', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomToggleSwitch(value: false, onChanged: (value) {}),
+            body: PrimitiveToggleSwitch(value: false, onChanged: (value) {}),
           ),
         ),
       );
 
-      final switchFinder = find.byType(CustomToggleSwitch);
+      final switchFinder = find.byType(PrimitiveToggleSwitch);
       expect(switchFinder, findsOneWidget);
 
       // Default size should be 50x30

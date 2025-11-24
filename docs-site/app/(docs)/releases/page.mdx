@@ -45,8 +45,8 @@ Primitive UI releases and their changelogs.
 </div>
 
 - **Layout Intelligence**: `VStack` and `HStack` now support standard Flutter `CrossAxisAlignment` (start, center, end, stretch), replacing custom enums.
-- **Implicit Animations**: `CustomCard` now smoothly animates changes to color, elevation, and shadow.
-- **Implicit Animations**: `CustomSlider` now animates programmatic value changes while keeping drag interactions immediate.
+- **Implicit Animations**: `PrimitiveCard` now smoothly animates changes to color, elevation, and shadow.
+- **Implicit Animations**: `PrimitiveSlider` now animates programmatic value changes while keeping drag interactions immediate.
 - **API Standardization**: Standardized alignment properties across layout components.
 
 ## November 24, 2025 (v0.0.4)
@@ -62,10 +62,10 @@ Primitive UI releases and their changelogs.
   </div>
 </div>
 
-- **CustomCard**: Added semantic button/container roles and `semanticsLabel` parameter.
-- **CustomToggleSwitch**: Added semantic switch role, toggled state, and `semanticsLabel`.
-- **CustomSlider**: Added semantic slider role, increment/decrement actions for keyboard support, and `semanticsLabel`.
-- **CustomCircularProgress**: Added semantic progress indicator role and `semanticsLabel`.
+- **PrimitiveCard**: Added semantic button/container roles and `semanticsLabel` parameter.
+- **PrimitiveToggleSwitch**: Added semantic switch role, toggled state, and `semanticsLabel`.
+- **PrimitiveSlider**: Added semantic slider role, increment/decrement actions for keyboard support, and `semanticsLabel`.
+- **PrimitiveCircularProgress**: Added semantic progress indicator role and `semanticsLabel`.
 
 ## November 23, 2025 (v0.0.3)
 
@@ -80,12 +80,12 @@ Primitive UI releases and their changelogs.
   </div>
 </div>
 
-- **CustomCard**: Added `shadowColor` and `onTap` (with visual feedback) support.
+- **PrimitiveCard**: Added `shadowColor` and `onTap` (with visual feedback) support.
 - **HStack**: Introduced `HCustomFlexible` and `HCustomExpanded` for proportional sizing (flex layout).
 - **VStack**: Further enhanced with `CustomFlexible` and `CustomExpanded` for robust flex layout.
 - **ZStack**: Added `CustomPositioned` support for absolute positioning within the stack.
-- **CustomSlider**: Enhanced with `onChangeStart`, `onChangeEnd` callbacks, and `thumbColor` customization.
-- **CustomCircularProgress**: Now supports determinate progress (pass a `value` between 0.0 and 1.0) alongside indeterminate mode.
+- **PrimitiveSlider**: Enhanced with `onChangeStart`, `onChangeEnd` callbacks, and `thumbColor` customization.
+- **PrimitiveCircularProgress**: Now supports determinate progress (pass a `value` between 0.0 and 1.0) alongside indeterminate mode.
 
 ## November 23, 2025 (v0.0.2)
 
@@ -96,15 +96,15 @@ Primitive UI releases and their changelogs.
   <div>
     <h4 className="text-base font-semibold !text-white dark:text-white mb-1">Horizontal Layouts & Interactive Widgets</h4>
     <p className="text-sm !text-white dark:text-white mb-2">Introduced horizontal stacking with alignment control and new interactive components for value selection and loading states.</p>
-    <code className="text-xs bg-blue-900 text-white dark:bg-blue-900/50 dark:text-white px-2 py-1 rounded">HStack / CustomSlider / CustomCircularProgress</code>
+    <code className="text-xs bg-blue-900 text-white dark:bg-blue-900/50 dark:text-white px-2 py-1 rounded">HStack / PrimitiveSlider / PrimitiveCircularProgress</code>
   </div>
 </div>
 
 - Added `HStack` layout: A horizontal stack layout with alignment options
 - Added `MainAxisAlignment` support to `VStack` and `HStack` for distributing free space (start, center, end, spaceBetween, spaceAround, spaceEvenly)
 - Improved layout logic for stacks to correctly handle single children with alignment
-- Added `CustomSlider` component: A slider built with `CustomPaint` and `GestureDetector`
-- Added `CustomCircularProgress` component: An indeterminate progress indicator built with `CustomPaint` and `AnimationController`
+- Added `PrimitiveSlider` component: A slider built with `CustomPaint` and `GestureDetector`
+- Added `PrimitiveCircularProgress` component: An indeterminate progress indicator built with `CustomPaint` and `AnimationController`
 
 ---
 
@@ -123,8 +123,8 @@ Initial release of Primitive UI.
   </div>
 </div>
 
-- Added `CustomCard` component: A container with shadow, rounded corners, and padding
-- Added `CustomToggleSwitch` component: An animated toggle switch
+- Added `PrimitiveCard` component: A container with shadow, rounded corners, and padding
+- Added `PrimitiveToggleSwitch` component: An animated toggle switch
 - Added `VStack` layout: A vertical stack layout with alignment options
 - Added `ZStack` layout: A layered stack layout with alignment options
 - Implemented using only low-level primitives: `CustomPaint`, `Canvas`, `GestureDetector`, and custom `RenderBox`

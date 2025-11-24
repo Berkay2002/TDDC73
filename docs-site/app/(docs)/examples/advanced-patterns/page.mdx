@@ -101,7 +101,7 @@ class _ProfileFormState extends State<ProfileForm> {
     required String title,
     required List<Widget> children,
   }) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 2.0,
       child: VStack(
         spacing: 16.0,
@@ -129,7 +129,7 @@ class _ProfileFormState extends State<ProfileForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label),
-        CustomToggleSwitch(value: value, onChanged: onChanged),
+        PrimitiveToggleSwitch(value: value, onChanged: onChanged),
       ],
     );
   }
@@ -171,7 +171,7 @@ class _DashboardViewState extends State<DashboardView> {
       children: [
         // Conditionally show loading state
         if (_isLoading)
-          CustomCard(
+          PrimitiveCard(
             child: Center(
               child: CircularProgressIndicator(),
             ),
@@ -179,7 +179,7 @@ class _DashboardViewState extends State<DashboardView> {
 
         // Conditionally show error
         if (_hasError)
-          CustomCard(
+          PrimitiveCard(
             color: Color(0xFFFFEBEE),
             child: VStack(
               spacing: 8.0,
@@ -196,13 +196,13 @@ class _DashboardViewState extends State<DashboardView> {
 
         // Show items if not loading and no error
         if (!_isLoading && !_hasError)
-          ..._items.map((item) => CustomCard(
+          ..._items.map((item) => PrimitiveCard(
             child: Text(item),
           )),
 
         // Show empty state
         if (!_isLoading && !_hasError && _items.isEmpty)
-          CustomCard(
+          PrimitiveCard(
             child: VStack(
               spacing: 12.0,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -248,7 +248,7 @@ Widget buildImageCard({
 }) {
   return GestureDetector(
     onTap: onTap,
-    child: CustomCard(
+    child: PrimitiveCard(
       padding: EdgeInsets.zero,
       child: ZStack(
         fit: ZStackFit.expand,
@@ -445,24 +445,24 @@ class SettingsView extends StatelessWidget {
         return VStack(
           spacing: 16.0,
           children: [
-            CustomCard(
+            PrimitiveCard(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Dark Mode'),
-                  CustomToggleSwitch(
+                  PrimitiveToggleSwitch(
                     value: notifier.settings.darkMode,
                     onChanged: (_) => notifier.toggleDarkMode(),
                   ),
                 ],
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Notifications'),
-                  CustomToggleSwitch(
+                  PrimitiveToggleSwitch(
                     value: notifier.settings.notifications,
                     onChanged: (_) => notifier.toggleNotifications(),
                   ),
@@ -518,7 +518,7 @@ class ResponsiveGrid extends StatelessWidget {
 ResponsiveGrid(
   children: List.generate(
     12,
-    (index) => CustomCard(
+    (index) => PrimitiveCard(
       child: Center(child: Text('Card ${index + 1}')),
     ),
   ),
@@ -541,8 +541,8 @@ class AppTheme {
   static const Color surfaceColor = Color(0xFFFFFFFF);
   static const Color errorColor = Color(0xFFF44336);
 
-  static CustomCard buildPrimaryCard({required Widget child}) {
-    return CustomCard(
+  static PrimitiveCard buildPrimaryCard({required Widget child}) {
+    return PrimitiveCard(
       color: primaryColor,
       elevation: 4.0,
       borderRadius: 12.0,
@@ -550,8 +550,8 @@ class AppTheme {
     );
   }
 
-  static CustomCard buildSurfaceCard({required Widget child}) {
-    return CustomCard(
+  static PrimitiveCard buildSurfaceCard({required Widget child}) {
+    return PrimitiveCard(
       color: surfaceColor,
       elevation: 2.0,
       borderRadius: 8.0,
@@ -559,11 +559,11 @@ class AppTheme {
     );
   }
 
-  static CustomToggleSwitch buildPrimaryToggle({
+  static PrimitiveToggleSwitch buildPrimaryToggle({
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
-    return CustomToggleSwitch(
+    return PrimitiveToggleSwitch(
       value: value,
       onChanged: onChanged,
       activeColor: primaryColor,
@@ -606,7 +606,7 @@ class _OptimizedListState extends State<OptimizedList> {
         return Padding(
           key: ValueKey(_items[index]), // Important for performance
           padding: EdgeInsets.only(bottom: 16),
-          child: CustomCard(
+          child: PrimitiveCard(
             child: Text(_items[index]),
           ),
         );
@@ -637,7 +637,7 @@ class SafeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (errorMessage != null) {
-      return CustomCard(
+      return PrimitiveCard(
         color: Color(0xFFFFEBEE),
         child: VStack(
           spacing: 8.0,
@@ -662,7 +662,7 @@ class SafeCard extends StatelessWidget {
       );
     }
 
-    return CustomCard(child: child ?? SizedBox.shrink());
+    return PrimitiveCard(child: child ?? SizedBox.shrink());
   }
 }
 ```
@@ -709,7 +709,7 @@ class _DashboardState extends State<Dashboard> {
               _buildStatsRow(),
 
               // Settings
-              CustomCard(
+              PrimitiveCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -733,7 +733,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
-                    CustomToggleSwitch(
+                    PrimitiveToggleSwitch(
                       value: _autoRefresh,
                       onChanged: (v) => setState(() => _autoRefresh = v),
                     ),
@@ -761,7 +761,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _buildStatCard(String label, String value, IconData icon) {
-    return CustomCard(
+    return PrimitiveCard(
       elevation: 3.0,
       child: VStack(
         spacing: 8.0,
@@ -791,7 +791,7 @@ class _DashboardState extends State<Dashboard> {
         ),
         ...List.generate(
           5,
-          (i) => CustomCard(
+          (i) => PrimitiveCard(
             child: Row(
               children: [
                 Icon(Icons.circle, size: 8, color: Colors.blue),
@@ -813,6 +813,6 @@ class _DashboardState extends State<Dashboard> {
 
 ## Next Steps
 
-- Review [Component Documentation](/components/custom-card) for detailed API references
+- Review [Component Documentation](/components/primitive-card) for detailed API references
 - Learn about [Architecture](/architecture/primitives-explained) to understand implementation details
 - Explore the [source code](https://github.com/Berkay2002/TDDC73/tree/main/project/primitive_ui) for more examples
