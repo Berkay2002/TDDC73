@@ -820,7 +820,7 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
             ),
 
             // Text content
-            Positioned(
+            CustomPositioned(
               bottom: 0,
               left: 0,
               right: 0,
@@ -900,7 +900,7 @@ class MultiLayerStatusIndicatorSnippet extends StatelessWidget {
 
         // Online status indicator
         if (isOnline)
-          Positioned(
+          CustomPositioned(
             right: 0,
             bottom: 0,
             child: Container(
@@ -916,7 +916,7 @@ class MultiLayerStatusIndicatorSnippet extends StatelessWidget {
 
         // Notification badge
         if (hasNotification)
-          Positioned(
+          CustomPositioned(
             left: 0,
             top: 0,
             child: Container(
