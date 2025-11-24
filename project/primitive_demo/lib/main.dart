@@ -31,14 +31,30 @@ import 'package:primitive_demo/demos/animations_demo.dart';
 import 'package:primitive_demo/snippets.dart';
 
 void main() {
-  runApp(const PrimitiveUIDemo());
+  // Manual route parsing for robust deep linking
+  String? initialRoute;
+  try {
+    final fragment = Uri.base.fragment;
+    if (fragment.isNotEmpty) {
+      // Remove leading # if present (though fragment usually doesn't have it)
+      // and ensure it starts with /
+      initialRoute = fragment.startsWith('/') ? fragment : '/$fragment';
+      print('Parsed initial route from fragment: $initialRoute');
+    }
+  } catch (e) {
+    print('Error parsing initial route: $e');
+  }
+
+  runApp(PrimitiveUIDemo(initialRoute: initialRoute));
 }
 
 /// Root application widget.
 ///
 /// Sets up Material app with theme and navigation.
 class PrimitiveUIDemo extends StatelessWidget {
-  const PrimitiveUIDemo({super.key});
+  final String? initialRoute;
+  
+  const PrimitiveUIDemo({super.key, this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +64,7 @@ class PrimitiveUIDemo extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      initialRoute: initialRoute ?? '/',
       routes: {
         '/': (context) => const DemoHomePage(),
         '/slider': (context) => const CustomSliderDemo(),
