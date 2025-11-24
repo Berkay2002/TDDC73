@@ -39,7 +39,7 @@ export function AppEmbed({
         </a>
       </div>
       <iframe
-        src={src}
+        src={src.startsWith('/demo/') ? src.replace('/demo/', '/demo/index.html') : src}
         className="w-full border-none"
         style={{ height: `${height}px` }}
         title={title}
