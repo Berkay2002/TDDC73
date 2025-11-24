@@ -1,6 +1,7 @@
 ## 0.0.6
 
 *   **New Component**: Introduced `PrimitiveButton`, a highly customizable button with multiple variants (primary, secondary, destructive, outline, ghost, link), sizes (sm, md, lg, icon), and states (loading, disabled).
+*   **New Component**: Introduced `PrimitiveInput`, a composable text input built on `EditableText` with support for variants, sizes, and decorations.
 
 ## 0.0.5
 

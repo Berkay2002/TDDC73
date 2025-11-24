@@ -49,40 +49,52 @@ PrimitiveButton(
 ## API Reference
 
 <ApiTable
-  data={[
+  parameters={[
+    {
+      name: 'onPressed',
+      type: 'VoidCallback?',
+      required: true,
+      description: 'Callback invoked when the button is pressed. If null, the button is disabled.'
+    },
     {
       name: 'variant',
       type: 'PrimitiveButtonVariant',
+      required: false,
       default: 'primary',
       description: 'The visual style of the button (primary, secondary, outline, ghost, destructive, link).'
     },
     {
       name: 'size',
       type: 'PrimitiveButtonSize',
+      required: false,
       default: 'md',
       description: 'The size of the button (sm, md, lg, icon).'
     },
     {
       name: 'isLoading',
       type: 'bool',
+      required: false,
       default: 'false',
       description: 'If true, shows a spinner and disables interaction.'
     },
     {
       name: 'leading',
       type: 'Widget?',
+      required: false,
       default: 'null',
       description: 'A widget to display before the child (e.g., an Icon).'
     },
      {
       name: 'trailing',
       type: 'Widget?',
+      required: false,
       default: 'null',
       description: 'A widget to display after the child.'
     },
     {
       name: 'isDisabled',
       type: 'bool',
+      required: false,
       default: 'false',
       description: 'If true, visually grays out the button and prevents interaction.'
     },

@@ -1,0 +1,107 @@
+---
+title: PrimitiveInput
+description: A customizable text input component with support for variants, sizes, and leading/trailing decorations.
+---
+
+import { AppEmbed } from '@/components/AppEmbed'
+import { ApiTable } from '@/components/ApiTable'
+
+# PrimitiveInput
+
+A flexible text input component built on Flutter's `EditableText` primitive. It provides a clean, composition-ready API without the heavy weight of Material's `TextField`.
+
+## Overview
+
+`PrimitiveInput` wraps standard text editing logic in a customizable container that manages focus states, error states, and visual variants.
+
+<AppEmbed 
+  src="/demo/#/snippet/primitive_input" 
+  title="Primitive Input Demo"
+  height={600}
+/>
+
+## Basic Usage
+
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+// Default Outline Input
+PrimitiveInput(
+  placeholder: 'Enter your name',
+  onChanged: (value) => print(value),
+)
+
+// Search Input with Icons
+PrimitiveInput(
+  placeholder: 'Search...',
+  leading: Icon(Icons.search),
+  variant: PrimitiveInputVariant.filled,
+)
+
+// Password Field
+PrimitiveInput(
+  placeholder: 'Password',
+  obscureText: true,
+  trailing: Icon(Icons.visibility_off),
+)
+```
+
+## API Reference
+
+<ApiTable
+  parameters={[
+    {
+      name: 'placeholder',
+      type: 'String?',
+      required: false,
+      default: 'null',
+      description: 'Text displayed when the input is empty.'
+    },
+    {
+      name: 'variant',
+      type: 'PrimitiveInputVariant',
+      required: false,
+      default: 'outline',
+      description: 'Visual style: outline, filled, or flushed.'
+    },
+    {
+      name: 'size',
+      type: 'PrimitiveInputSize',
+      required: false,
+      default: 'md',
+      description: 'Height and padding size: sm, md, lg.'
+    },
+    {
+      name: 'leading',
+      type: 'Widget?',
+      required: false,
+      default: 'null',
+      description: 'Widget displayed before the text input.'
+    },
+    {
+      name: 'trailing',
+      type: 'Widget?',
+      required: false,
+      default: 'null',
+      description: 'Widget displayed after the text input.'
+    },
+    {
+      name: 'hasError',
+      type: 'bool',
+      required: false,
+      default: 'false',
+      description: 'If true, changes the border color to indicate an error.'
+    },
+    {
+      name: 'controller',
+      type: 'TextEditingController?',
+      required: false,
+      default: 'null',
+      description: 'Controls the text being edited.'
+    },
+  ]}
+/>
+
+## Philosophy
+
+Following the library's primitive approach, this component uses `EditableText` directly rather than `TextField`. This gives us complete control over the decoration container without fighting Material's default `InputDecoration` sizing and padding. It is designed to be composed into larger forms rather than being a "smart" form field itself.
