@@ -88,7 +88,7 @@ Control horizontal alignment:
 ```dart
 VStack(
   spacing: 12.0,
-  alignment: VStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   children: [
     Text('Centered'),
     Container(width: 100, height: 50, color: Colors.blue),
@@ -247,7 +247,7 @@ Widget buildInfoCard({
     borderRadius: 12.0,
     child: VStack(
       spacing: 8.0,
-      alignment: VStackAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 40, color: Colors.blue),
         Text(
@@ -343,7 +343,7 @@ SingleChildScrollView(
 ```dart
 VStack(
   spacing: 16.0,
-  alignment: VStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   children: [
     CustomCard(
       child: Container(height: 100, child: Center(child: Text('Full Width'))),
@@ -374,7 +374,7 @@ class _CounterCardState extends State<CounterCard> {
       elevation: 4.0,
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Counter',
@@ -465,7 +465,7 @@ class _FeedbackToggleState extends State<FeedbackToggle> {
 2. **Keep spacing consistent** across your app (e.g., always use 16.0 or 12.0)
 3. **Combine with standard widgets** - Primitive UI works alongside Flutter's built-in widgets
 4. **Add padding to parents** when using `CustomCard` to show shadows properly
-5. **Use `VStackAlignment.stretch`** for full-width children in vertical layouts
+5. **Use `CrossAxisAlignment.stretch`** for full-width children in vertical layouts
 </Callout>
 
 ## Next Steps
