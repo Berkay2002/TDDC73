@@ -104,6 +104,10 @@ class PrimitiveUIDemo extends StatelessWidget {
               backgroundColor: Colors.transparent,
               body: PrimitiveButtonSnippet(),
             ),
+        '/snippet/primitive_input': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveInputSnippet(),
+            ),
         '/snippet/settings_view_with_provider': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsViewWithProviderSnippet()),
         '/snippet/responsive_grid': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ResponsiveGridSnippet()),
         '/snippet/themed_components': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ThemedComponentsSnippet()),

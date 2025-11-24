@@ -1016,6 +1016,88 @@ class _PrimitiveButtonSnippetState extends State<PrimitiveButtonSnippet> {
   }
 }
 
+class PrimitiveInputSnippet extends StatelessWidget {
+  const PrimitiveInputSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          width: 400,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Theme.of(context).dividerColor),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Variants', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              const PrimitiveInput(placeholder: 'Outline (Default)'),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Filled',
+                variant: PrimitiveInputVariant.filled,
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Flushed (Underline)',
+                variant: PrimitiveInputVariant.flushed,
+              ),
+
+              const SizedBox(height: 24),
+              Text('Sizes', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              const PrimitiveInput(
+                placeholder: 'Small Input',
+                size: PrimitiveInputSize.sm,
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Medium Input',
+                size: PrimitiveInputSize.md,
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Large Input',
+                size: PrimitiveInputSize.lg,
+              ),
+
+              const SizedBox(height: 24),
+              Text('States & Slots', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              const PrimitiveInput(
+                placeholder: 'Disabled Input',
+                enabled: false,
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Error State',
+                hasError: true,
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Search...',
+                leading: Icon(Icons.search),
+              ),
+              const SizedBox(height: 12),
+              const PrimitiveInput(
+                placeholder: 'Password',
+                obscureText: true,
+                trailing: Icon(Icons.visibility),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // Model for Provider example
 class Settings {
   bool darkMode;

@@ -314,9 +314,53 @@ PrimitiveButton(
 
 ---
 
+#### 6. PrimitiveInput
+
+A flexible text input component built on Flutter's `EditableText` primitive.
+
+**Constructor:**
+```dart
+PrimitiveInput({
+  Key? key,
+  TextEditingController? controller,
+  String? placeholder,
+  bool obscureText = false,
+  PrimitiveInputVariant variant = PrimitiveInputVariant.outline,
+  PrimitiveInputSize size = PrimitiveInputSize.md,
+  Widget? leading,
+  Widget? trailing,
+  bool hasError = false,
+  bool enabled = true,
+  // ... standard text input params
+})
+```
+
+**Parameters:**
+- `placeholder`: Text displayed when empty.
+- `variant`: `outline`, `filled`, or `flushed`.
+- `size`: `sm`, `md`, `lg`.
+- `leading` / `trailing`: Widgets for icons or buttons.
+
+**Example Usage:**
+```dart
+PrimitiveInput(
+  placeholder: 'Search...',
+  leading: Icon(Icons.search),
+  variant: PrimitiveInputVariant.filled,
+)
+```
+
+**Implementation Details:**
+- Wraps `EditableText` directly to avoid Material `TextField` overhead.
+- Uses `AnimatedContainer` for decoration transitions.
+- Manages focus state via `FocusNode` listeners.
+- Implements custom placeholder logic using `Stack`.
+
+---
+
 ### Layout Components
 
-#### 6. VStack
+#### 7. VStack
 // ...existing code...
 
 ---

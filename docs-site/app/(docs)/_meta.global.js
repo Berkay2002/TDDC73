@@ -23,6 +23,7 @@ export default {
         'v-stack': { title: 'VStack' },
         'z-stack': { title: 'ZStack' },
         'primitive-button': { title: 'PrimitiveButton' },
+        'primitive-input': { title: 'PrimitiveInput' },
       }
   },
   examples: {

@@ -15,5 +15,6 @@ export 'src/components/v_stack.dart';
 export 'src/components/h_stack.dart';
 export 'src/components/z_stack.dart';
 export 'src/components/primitive_button.dart';
+export 'src/components/primitive_input.dart';
 export 'src/components/custom_slider.dart';
 export 'src/components/custom_circular_progress.dart';
