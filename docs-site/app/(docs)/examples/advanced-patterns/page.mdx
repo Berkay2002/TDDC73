@@ -11,16 +11,15 @@ import { AppEmbed } from '@/components/AppEmbed'
 
 Explore advanced techniques for building complex, production-ready UIs with Primitive UI components.
 
-## Live Preview
-
-<AppEmbed 
-  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/" 
-  title="Primitive UI Live Demo"
-/>
-
 ## Nested Layouts
 
 ### Complex Form Layout
+
+<AppEmbed 
+  src="/demo/#/snippet/complex_form_layout" 
+  title="Complex Form Layout Demo"
+  height={600}
+/>
 
 ```dart
 class ProfileForm extends StatefulWidget {
@@ -148,6 +147,12 @@ class _ProfileFormState extends State<ProfileForm> {
 
 ### Conditional Rendering
 
+<AppEmbed 
+  src="/demo/#/snippet/conditional_rendering" 
+  title="Conditional Rendering Demo"
+  height={500}
+/>
+
 ```dart
 class DashboardView extends StatefulWidget {
   @override
@@ -228,6 +233,12 @@ class _DashboardViewState extends State<DashboardView> {
 
 ### Image Card with Overlay
 
+<AppEmbed 
+  src="/demo/#/snippet/image_card_with_overlay" 
+  title="Image Card with Overlay Demo"
+  height={300}
+/>
+
 ```dart
 Widget buildImageCard({
   required String imageUrl,
@@ -306,6 +317,12 @@ Widget buildImageCard({
 
 ### Multi-Layer Status Indicator
 
+<AppEmbed 
+  src="/demo/#/snippet/multi_layer_status_indicator" 
+  title="Multi-Layer Status Indicator Demo"
+  height={200}
+/>
+
 ```dart
 Widget buildStatusAvatar({
   required String initials,
@@ -323,7 +340,7 @@ Widget buildStatusAvatar({
           color: backgroundColor,
           shape: BoxShape.circle,
         ),
-        child: Center(
+        child: Center(q
           child: Text(
             initials,
             style: TextStyle(
@@ -384,6 +401,12 @@ Widget buildStatusAvatar({
 ## State Management Integration
 
 ### With Provider
+
+<AppEmbed 
+  src="/demo/#/snippet/settings_view_with_provider" 
+  title="Provider State Management Demo"
+  height={300}
+/>
 
 ```dart
 // Model
@@ -458,6 +481,12 @@ class SettingsView extends StatelessWidget {
 
 ### Adaptive Grid
 
+<AppEmbed 
+  src="/demo/#/snippet/responsive_grid" 
+  title="Adaptive Grid Demo"
+  height={400}
+/>
+
 ```dart
 class ResponsiveGrid extends StatelessWidget {
   final List<Widget> children;
@@ -496,75 +525,15 @@ ResponsiveGrid(
 )
 ```
 
-## Animation Integration
-
-### Animated Card
-
-```dart
-class AnimatedCard extends StatefulWidget {
-  final Widget child;
-
-  const AnimatedCard({required this.child});
-
-  @override
-  State<AnimatedCard> createState() => _AnimatedCardState();
-}
-
-class _AnimatedCardState extends State<AnimatedCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _elevationAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 200),
-      vsync: this,
-    );
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-
-    _elevationAnimation = Tween<double>(begin: 2.0, end: 8.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: CustomCard(
-              elevation: _elevationAnimation.value,
-              child: widget.child,
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-```
-
 ## Custom Themes
 
 ### Themed Components
+
+<AppEmbed 
+  src="/demo/#/snippet/themed_components" 
+  title="Themed Components Demo"
+  height={300}
+/>
 
 ```dart
 class AppTheme {
@@ -613,6 +582,12 @@ AppTheme.buildPrimaryCard(
 
 ### Efficient Lists with Keys
 
+<AppEmbed 
+  src="/demo/#/snippet/optimized_list" 
+  title="Optimized List Demo"
+  height={400}
+/>
+
 ```dart
 class OptimizedList extends StatefulWidget {
   @override
@@ -641,33 +616,13 @@ class _OptimizedListState extends State<OptimizedList> {
 }
 ```
 
-### Const Constructors
-
-```dart
-// Good: Using const
-const VStack(
-  spacing: 16.0,
-  children: [
-    Text('Item 1'),
-    Text('Item 2'),
-  ],
-)
-
-// Better: Extract to const variables
-static const kSpacing = 16.0;
-
-const VStack(
-  spacing: kSpacing,
-  children: [
-    Text('Item 1'),
-    Text('Item 2'),
-  ],
-)
-```
-
-## Error Handling
-
 ### Graceful Error Display
+
+<AppEmbed 
+  src="/demo/#/snippet/safe_card" 
+  title="Graceful Error Display Demo"
+  height={300}
+/>
 
 ```dart
 class SafeCard extends StatelessWidget {
@@ -712,23 +667,15 @@ class SafeCard extends StatelessWidget {
 }
 ```
 
-## Best Practices
-
-<Callout type="info">
-**Advanced Tips:**
-
-1. **Use keys for dynamic lists** to help Flutter track widgets efficiently
-2. **Leverage `const` constructors** wherever possible
-3. **Extract repeated patterns** into reusable widgets
-4. **Combine with state management** solutions like Provider or Riverpod
-5. **Test responsive layouts** on different screen sizes
-6. **Animate carefully** - too many animations can impact performance
-7. **Handle errors gracefully** with appropriate UI feedback
-</Callout>
-
 ## Real-World Example
 
 ### Complete Dashboard
+
+<AppEmbed 
+  src="/demo/#/snippet/complete_dashboard" 
+  title="Complete Dashboard Demo"
+  height={700}
+/>
 
 ```dart
 class Dashboard extends StatefulWidget {
@@ -748,7 +695,7 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {}, 
           ),
         ],
       ),
@@ -808,7 +755,7 @@ class _DashboardState extends State<Dashboard> {
       children: [
         Expanded(child: _buildStatCard('Users', '1,234', Icons.people)),
         SizedBox(width: 16),
-        Expanded(child: _buildStatCard('Revenue', '\$45K', Icons.attach_money)),
+        Expanded(child: _buildStatCard('Revenue', '$45K', Icons.attach_money)),
       ],
     );
   }
