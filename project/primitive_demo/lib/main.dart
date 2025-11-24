@@ -93,7 +93,16 @@ class PrimitiveUIDemo extends StatelessWidget {
         '/snippet/stretched_layout': (context) => const Scaffold(body: StretchedLayoutSnippet()),
         '/snippet/counter_card': (context) => const Scaffold(body: CounterCardSnippet()),
         '/snippet/feedback_toggle': (context) => const Scaffold(body: FeedbackToggleSnippet()),
-        '/snippet/animated_card': (context) => const Scaffold(body: AnimatedCardSnippet()),
+        '/snippet/complex_form_layout': (context) => const Scaffold(body: ComplexFormLayoutSnippet()),
+        '/snippet/conditional_rendering': (context) => const Scaffold(body: ConditionalRenderingSnippet()),
+        '/snippet/image_card_with_overlay': (context) => const Scaffold(body: ImageCardWithOverlaySnippet()),
+        '/snippet/multi_layer_status_indicator': (context) => const Scaffold(body: MultiLayerStatusIndicatorSnippet()),
+        '/snippet/settings_view_with_provider': (context) => const Scaffold(body: SettingsViewWithProviderSnippet()),
+        '/snippet/responsive_grid': (context) => const Scaffold(body: ResponsiveGridSnippet()),
+        '/snippet/themed_components': (context) => const Scaffold(body: ThemedComponentsSnippet()),
+        '/snippet/optimized_list': (context) => const Scaffold(body: OptimizedListSnippet()),
+        '/snippet/safe_card': (context) => const Scaffold(body: SafeCardSnippet()),
+        '/snippet/complete_dashboard': (context) => const Scaffold(body: CompleteDashboardSnippet()),
       },
     );
   }
