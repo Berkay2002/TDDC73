@@ -17,15 +17,13 @@ export default {
   },
   components: {
     title: 'Components',
-    items: {
-      'custom-card': 'CustomCard',
-      'custom-toggle-switch': 'CustomToggleSwitch',
-      'custom-slider': 'CustomSlider',
-      'custom-circular-progress': 'CustomCircularProgress',
-      'hstack': 'HStack',
-      'vstack': 'VStack',
-      'zstack': 'ZStack'
-    }
+      items: {
+        'custom-card': { title: 'CustomCard' },
+        'h-stack': { title: 'HStack' },
+        'v-stack': { title: 'VStack' },
+        'z-stack': { title: 'ZStack' },
+        'primitive-button': { title: 'PrimitiveButton' },
+      }
   },
   examples: {
     title: 'Examples',

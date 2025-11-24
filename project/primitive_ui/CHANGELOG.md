@@ -1,3 +1,7 @@
+## 0.0.6
+
+*   **New Component**: Introduced `PrimitiveButton`, a highly customizable button with multiple variants (primary, secondary, destructive, outline, ghost, link), sizes (sm, md, lg, icon), and states (loading, disabled).
+
 ## 0.0.5
 
 * **Layout Intelligence**: `VStack` and `HStack` now use standard Flutter `CrossAxisAlignment` instead of custom alignment enums.

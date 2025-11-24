@@ -243,9 +243,80 @@ CustomCircularProgress(
 
 ---
 
+#### 5. PrimitiveButton
+
+A highly customizable button component with multiple variants, sizes, and states. It provides a foundation for interactive elements with built-in visual feedback for hover, press, loading, and disabled states.
+
+**Constructor:**
+```dart
+PrimitiveButton({
+  Key? key,
+  required VoidCallback? onPressed,
+  Widget? child,
+  PrimitiveButtonVariant variant = PrimitiveButtonVariant.primary,
+  PrimitiveButtonSize size = PrimitiveButtonSize.md,
+  bool isLoading = false,
+  bool isDisabled = false,
+  Widget? leading,
+  Widget? trailing,
+})
+```
+
+**Parameters:**
+- `onPressed` (required): Callback invoked when the button is pressed. If null, the button is disabled.
+- `child`: The main content of the button (e.g., Text).
+- `variant`: The visual style of the button (primary, secondary, destructive, outline, ghost, link).
+- `size`: The size of the button (sm, md, lg, icon).
+- `isLoading`: If true, shows a spinner and disables interaction.
+- `isDisabled`: If true, visually grays out the button and prevents interaction.
+- `leading`: A widget to display before the child (e.g., an Icon).
+- `trailing`: A widget to display after the child.
+
+**Example Usage:**
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+// Primary button
+PrimitiveButton(
+  onPressed: () => print('Primary button tapped!'),
+  child: const Text('Confirm'),
+)
+
+// Destructive button with icon and loading state
+bool _isDeleting = false;
+
+PrimitiveButton(
+  onPressed: () {
+    setState(() => _isDeleting = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _isDeleting = false);
+    });
+  },
+  variant: PrimitiveButtonVariant.destructive,
+  isLoading: _isDeleting,
+  leading: const Icon(Icons.delete),
+  child: const Text('Delete Account'),
+)
+
+// Icon button (small size)
+PrimitiveButton(
+  size: PrimitiveButtonSize.icon,
+  onPressed: () => print('Add item'),
+  child: const Icon(Icons.add),
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` for rendering, and `GestureDetector` for interaction.
+- Manages hover, press, loading, and disabled states internally.
+- Styles (colors, borders, text styles) are dynamically resolved based on `variant`, `size`, and current state.
+- Supports leading/trailing icons and text content.
+
+---
+
 ### Layout Components
 
-#### 5. VStack
+#### 6. VStack
 // ...existing code...
 
 ---

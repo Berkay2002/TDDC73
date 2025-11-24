@@ -96,7 +96,14 @@ class PrimitiveUIDemo extends StatelessWidget {
         '/snippet/complex_form_layout': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ComplexFormLayoutSnippet()),
         '/snippet/conditional_rendering': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ConditionalRenderingSnippet()),
         '/snippet/image_card_with_overlay': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ImageCardWithOverlaySnippet()),
-        '/snippet/multi_layer_status_indicator': (context) => const Scaffold(backgroundColor: Colors.transparent, body: MultiLayerStatusIndicatorSnippet()),
+        '/snippet/multi_layer_status': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: MultiLayerStatusIndicatorSnippet(),
+            ),
+        '/snippet/primitive_button': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveButtonSnippet(),
+            ),
         '/snippet/settings_view_with_provider': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsViewWithProviderSnippet()),
         '/snippet/responsive_grid': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ResponsiveGridSnippet()),
         '/snippet/themed_components': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ThemedComponentsSnippet()),

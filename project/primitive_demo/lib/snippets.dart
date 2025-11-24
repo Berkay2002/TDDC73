@@ -858,88 +858,160 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
 
 class MultiLayerStatusIndicatorSnippet extends StatelessWidget {
   const MultiLayerStatusIndicatorSnippet({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: buildStatusAvatar(
-        initials: 'JD',
-        isOnline: true,
-        hasNotification: true,
-        backgroundColor: Colors.deepPurple,
+      child: ZStack(
+        children: [
+          // Base Circle (Outer Ring)
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.blue.withOpacity(0.2), width: 8),
+            ),
+          ),
+          // Inner Indicator
+          const CustomPositioned(
+            top: 20,
+            right: 20,
+            child: Icon(Icons.check_circle, color: Colors.green, size: 30),
+          ),
+          // Centered Text
+          const CustomPositioned(
+            child: Text('95%', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }
+}
 
-  Widget buildStatusAvatar({
-    required String initials,
-    required bool isOnline,
-    required bool hasNotification,
-    Color backgroundColor = Colors.blue,
-  }) {
-    return ZStack(
-      children: [
-        // Main avatar
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              initials,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+class PrimitiveButtonSnippet extends StatefulWidget {
+  const PrimitiveButtonSnippet({super.key});
+
+  @override
+  State<PrimitiveButtonSnippet> createState() => _PrimitiveButtonSnippetState();
+}
+
+class _PrimitiveButtonSnippetState extends State<PrimitiveButtonSnippet> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Theme.of(context).dividerColor),
         ),
-
-        // Online status indicator
-        if (isOnline)
-          CustomPositioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-            ),
-          ),
-
-        // Notification badge
-        if (hasNotification)
-          CustomPositioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: const Center(
-                child: Text(
-                  '!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Variants', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                PrimitiveButton(
+                  onPressed: () {},
+                  child: const Text('Primary'),
                 ),
-              ),
+                PrimitiveButton(
+                  variant: PrimitiveButtonVariant.secondary,
+                  onPressed: () {},
+                  child: const Text('Secondary'),
+                ),
+                PrimitiveButton(
+                  variant: PrimitiveButtonVariant.destructive,
+                  onPressed: () {},
+                  child: const Text('Destructive'),
+                ),
+                PrimitiveButton(
+                  variant: PrimitiveButtonVariant.outline,
+                  onPressed: () {},
+                  child: const Text('Outline'),
+                ),
+                PrimitiveButton(
+                  variant: PrimitiveButtonVariant.ghost,
+                  onPressed: () {},
+                  child: const Text('Ghost'),
+                ),
+                PrimitiveButton(
+                  variant: PrimitiveButtonVariant.link,
+                  onPressed: () {},
+                  child: const Text('Link'),
+                ),
+              ],
             ),
-          ),
-      ],
+            const SizedBox(height: 24),
+            Text('Sizes', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                PrimitiveButton(
+                  size: PrimitiveButtonSize.sm,
+                  onPressed: () {},
+                  child: const Text('Small'),
+                ),
+                PrimitiveButton(
+                  size: PrimitiveButtonSize.md,
+                  onPressed: () {},
+                  child: const Text('Medium'),
+                ),
+                PrimitiveButton(
+                  size: PrimitiveButtonSize.lg,
+                  onPressed: () {},
+                  child: const Text('Large'),
+                ),
+                PrimitiveButton(
+                  size: PrimitiveButtonSize.icon,
+                  onPressed: () {},
+                  child: const Icon(Icons.add, size: 16),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text('States', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                PrimitiveButton(
+                  onPressed: () {
+                    setState(() => _isLoading = true);
+                    Future.delayed(const Duration(seconds: 2), () {
+                      if (mounted) setState(() => _isLoading = false);
+                    });
+                  },
+                  isLoading: _isLoading,
+                  child: const Text('Click to Load'),
+                ),
+                PrimitiveButton(
+                  isDisabled: true,
+                  onPressed: () {},
+                  child: const Text('Disabled'),
+                ),
+                PrimitiveButton(
+                  leading: const Icon(Icons.mail),
+                  onPressed: () {},
+                  child: const Text('Login with Email'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
