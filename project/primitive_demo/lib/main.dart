@@ -28,6 +28,7 @@ import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
 import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
 import 'package:primitive_demo/demos/accessibility_demo.dart';
 import 'package:primitive_demo/demos/animations_demo.dart';
+import 'package:primitive_demo/snippets.dart';
 
 void main() {
   runApp(const PrimitiveUIDemo());
@@ -57,6 +58,26 @@ class PrimitiveUIDemo extends StatelessWidget {
         '/zstack': (context) => const ZStackPositionedDemo(),
         '/accessibility': (context) => const AccessibilityDemo(),
         '/animations': (context) => const AnimationsDemo(),
+        
+        // Snippets
+        '/snippet/simple_card': (context) => const Scaffold(body: SimpleCardSnippet()),
+        '/snippet/custom_styled_card': (context) => const Scaffold(body: CustomStyledCardSnippet()),
+        '/snippet/basic_toggle': (context) => const Scaffold(body: BasicToggleSnippet()),
+        '/snippet/vstack_simple': (context) => const Scaffold(body: VStackSimpleSnippet()),
+        '/snippet/vstack_aligned': (context) => const Scaffold(body: VStackAlignedSnippet()),
+        '/snippet/zstack_simple': (context) => const Scaffold(body: ZStackSimpleSnippet()),
+        '/snippet/card_with_toggle': (context) => const Scaffold(body: CardWithToggleSnippet()),
+        '/snippet/vstack_with_cards': (context) => const Scaffold(body: VStackWithCardsSnippet()),
+        '/snippet/card_with_vstack': (context) => const Scaffold(body: CardWithVStackSnippet()),
+        '/snippet/settings_list': (context) => const Scaffold(body: SettingsListSnippet()),
+        '/snippet/info_card': (context) => const Scaffold(body: InfoCardSnippet()),
+        '/snippet/badge_overlay': (context) => const Scaffold(body: BadgeOverlaySnippet()),
+        '/snippet/grid_of_cards': (context) => const Scaffold(body: GridOfCardsSnippet()),
+        '/snippet/scrollable_list': (context) => const Scaffold(body: ScrollableListSnippet()),
+        '/snippet/stretched_layout': (context) => const Scaffold(body: StretchedLayoutSnippet()),
+        '/snippet/counter_card': (context) => const Scaffold(body: CounterCardSnippet()),
+        '/snippet/feedback_toggle': (context) => const Scaffold(body: FeedbackToggleSnippet()),
+        '/snippet/animated_card': (context) => const Scaffold(body: AnimatedCardSnippet()),
       },
     );
   }
