@@ -47,7 +47,17 @@ class PrimitiveUIDemo extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DemoHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const DemoHomePage(),
+        '/slider': (context) => const CustomSliderDemo(),
+        '/progress': (context) => const CustomCircularProgressDemo(),
+        '/vstack': (context) => const VStackDemo(),
+        '/hstack': (context) => const HStackFlexDemo(),
+        '/zstack': (context) => const ZStackPositionedDemo(),
+        '/accessibility': (context) => const AccessibilityDemo(),
+        '/animations': (context) => const AnimationsDemo(),
+      },
     );
   }
 }
@@ -135,78 +145,43 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CustomSliderDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/slider');
             },
             child: const Text('CustomSlider Demo'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CustomCircularProgressDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/progress');
             },
             child: const Text('CustomCircularProgress Demo'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const VStackDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/vstack');
             },
             child: const Text('VStack Flexible Demo'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HStackFlexDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/hstack');
             },
             child: const Text('HStack Flex Demo'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ZStackPositionedDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/zstack');
             },
             child: const Text('ZStack Positioned Demo'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AccessibilityDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/accessibility');
             },
             child: const Text('Accessibility Demo (v0.0.4)'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AnimationsDemo(),
-                ),
-              );
+              Navigator.pushNamed(context, '/animations');
             },
             child: const Text('Implicit Animations Demo (v0.0.5)'),
           ),
