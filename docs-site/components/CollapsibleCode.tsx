@@ -2,63 +2,71 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 
-interface CollapsibleCodeProps extends React.HTMLAttributes<HTMLPreElement> {
+interface CollapsibleCodeProps {
   children?: React.ReactNode
-  OriginalPre?: React.ComponentType<any>
 }
 
-export function CollapsibleCode({ OriginalPre, ...props }: CollapsibleCodeProps) {
+export function CollapsibleCode({ children }: CollapsibleCodeProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isOverflowing, setIsOverflowing] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   
-  // Maximum height in pixels before truncation
   const MAX_HEIGHT = 300
 
   useEffect(() => {
     if (contentRef.current) {
-      // Check if the scrollHeight is significantly larger than MAX_HEIGHT
-      if (contentRef.current.scrollHeight > MAX_HEIGHT + 50) { // Add some buffer
+      if (contentRef.current.scrollHeight > MAX_HEIGHT + 50) {
         setIsOverflowing(true)
       }
     }
-  }, [props.children])
-
-  const PreComponent = OriginalPre || 'pre'
+  }, [children])
 
   return (
     <div className="relative my-4 group">
       <div
         ref={contentRef}
-        className={`relative overflow-hidden transition-all duration-500 ease-in-out ${
-          isExpanded ? 'max-h-none' : ''
-        }`}
+        className={`relative overflow-hidden transition-[max-height] duration-300 ease-in-out`}
         style={{ 
-          maxHeight: isExpanded ? undefined : `${MAX_HEIGHT}px` 
+          maxHeight: isExpanded ? (contentRef.current?.scrollHeight || 'none') : `${MAX_HEIGHT}px`,
+          maskImage: isExpanded || !isOverflowing 
+            ? 'none' 
+            : 'linear-gradient(to bottom, black calc(100% - 100px), transparent 100%)',
+          WebkitMaskImage: isExpanded || !isOverflowing 
+            ? 'none' 
+            : 'linear-gradient(to bottom, black calc(100% - 100px), transparent 100%)'
         }}
       >
-        {/* Render the actual pre tag (or Nextra's Pre) with all original props */}
-        <PreComponent {...props} className={`${props.className || ''} !mt-0 !mb-0`} />
+        {children}
       </div>
 
-      {isOverflowing && (
-        <div
-          className={`absolute bottom-0 left-0 right-0 flex justify-center items-end pb-2 pt-12 transition-all duration-300 ${
-            isExpanded 
-              ? 'sticky bottom-0 pointer-events-none' 
-              : 'bg-gradient-to-t from-[var(--nextra-bg)] to-transparent'
-          }`}
-        >
+      {isOverflowing && !isExpanded && (
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-4 z-10">
           <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="pointer-events-auto text-xs font-medium px-4 py-1.5 rounded-full border shadow-sm backdrop-blur-md transition-colors hover:bg-[var(--nextra-bg-subtle)]"
+            onClick={() => setIsExpanded(true)}
+            className="text-xs font-medium px-4 py-1.5 rounded-full border shadow-sm backdrop-blur-md transition-all hover:scale-105 active:scale-95"
             style={{
               backgroundColor: 'var(--nextra-bg)',
               color: 'var(--nextra-text-primary)',
               borderColor: 'var(--nextra-border)'
             }}
           >
-            {isExpanded ? 'Show Less' : 'Show More'}
+            Show More
+          </button>
+        </div>
+      )}
+
+      {isOverflowing && isExpanded && (
+        <div className="flex justify-center mt-2">
+          <button
+            onClick={() => setIsExpanded(false)}
+            className="text-xs font-medium px-4 py-1.5 rounded-full border shadow-sm backdrop-blur-md transition-all hover:bg-[var(--nextra-bg-subtle)]"
+            style={{
+              backgroundColor: 'var(--nextra-bg)',
+              color: 'var(--nextra-text-primary)',
+              borderColor: 'var(--nextra-border)'
+            }}
+          >
+            Show Less
           </button>
         </div>
       )}

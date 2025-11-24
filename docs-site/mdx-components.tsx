@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMDXComponents as getThemeComponents } from 'nextra-theme-docs'
 import { CollapsibleCode } from './components/CollapsibleCode'
 
@@ -8,6 +7,13 @@ export function useMDXComponents(components?: any) {
   return {
     ...themeComponents,
     ...components,
-    pre: (props: any) => <CollapsibleCode {...props} OriginalPre={themeComponents.pre} />,
+    pre: (props: any) => (
+      <CollapsibleCode>
+        <themeComponents.pre 
+          {...props} 
+          className={`${props.className || ''} !mt-0 !mb-0`} 
+        />
+      </CollapsibleCode>
+    ),
   }
 }
