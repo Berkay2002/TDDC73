@@ -48,7 +48,6 @@ class PrimitiveUIDemo extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/',
       routes: {
         '/': (context) => const DemoHomePage(),
         '/slider': (context) => const CustomSliderDemo(),

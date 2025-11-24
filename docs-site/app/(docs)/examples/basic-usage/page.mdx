@@ -11,16 +11,15 @@ import { AppEmbed } from '@/components/AppEmbed'
 
 Learn the fundamental patterns for using Primitive UI components effectively.
 
-## Live Preview
-
-<AppEmbed 
-  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/" 
-  title="Primitive UI Live Demo"
-/>
-
 ## Simple Card
 
 The most basic use of `CustomCard` is to wrap content:
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/simple_card" 
+  title="Simple Card Demo"
+  height={200}
+/>
 
 ```dart
 CustomCard(
@@ -33,6 +32,12 @@ This creates a white card with default elevation (2.0), border radius (8.0), and
 ## Card with Custom Styling
 
 Customize the card's appearance:
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/custom_styled_card" 
+  title="Custom Styled Card Demo"
+  height={200}
+/>
 
 ```dart
 CustomCard(
@@ -50,6 +55,12 @@ CustomCard(
 ## Basic Toggle Switch
 
 Create an interactive toggle:
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/basic_toggle" 
+  title="Basic Toggle Demo"
+  height={200}
+/>
 
 ```dart
 class MyWidget extends StatefulWidget {
@@ -78,6 +89,12 @@ class _MyWidgetState extends State<MyWidget> {
 
 Arrange widgets vertically with spacing:
 
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/vstack_simple" 
+  title="Vertical Layout Demo"
+  height={300}
+/>
+
 ```dart
 VStack(
   spacing: 16.0,
@@ -92,6 +109,12 @@ VStack(
 ## Aligned Vertical Layout
 
 Control horizontal alignment:
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/vstack_aligned" 
+  title="Aligned Layout Demo"
+  height={300}
+/>
 
 ```dart
 VStack(
@@ -108,6 +131,12 @@ VStack(
 ## Layered Widgets
 
 Stack widgets on top of each other:
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/zstack_simple" 
+  title="Layered Widgets Demo"
+  height={400}
+/>
 
 ```dart
 ZStack(
@@ -126,6 +155,12 @@ ZStack(
 ## Combining Components
 
 ### Card with Toggle
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/card_with_toggle" 
+  title="Card with Toggle Demo"
+  height={200}
+/>
 
 ```dart
 class SettingCard extends StatefulWidget {
@@ -158,6 +193,12 @@ class _SettingCardState extends State<SettingCard> {
 
 ### VStack with Cards
 
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/vstack_with_cards" 
+  title="VStack with Cards Demo"
+  height={400}
+/>
+
 ```dart
 VStack(
   spacing: 16.0,
@@ -170,6 +211,12 @@ VStack(
 ```
 
 ### Card with VStack Content
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/card_with_vstack" 
+  title="Card with VStack Demo"
+  height={300}
+/>
 
 ```dart
 CustomCard(
@@ -194,6 +241,12 @@ CustomCard(
 ## Common Patterns
 
 ### Settings List
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/settings_list" 
+  title="Settings List Demo"
+  height={400}
+/>
 
 ```dart
 class SettingsList extends StatefulWidget {
@@ -244,6 +297,12 @@ class _SettingsListState extends State<SettingsList> {
 
 ### Info Card
 
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/info_card" 
+  title="Info Card Demo"
+  height={200}
+/>
+
 ```dart
 Widget buildInfoCard({
   required String title,
@@ -276,6 +335,12 @@ Widget buildInfoCard({
 ```
 
 ### Badge Overlay
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/badge_overlay" 
+  title="Badge Overlay Demo"
+  height={200}
+/>
 
 ```dart
 ZStack(
@@ -312,6 +377,12 @@ ZStack(
 
 ### Grid of Cards
 
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/grid_of_cards" 
+  title="Grid Demo"
+  height={400}
+/>
+
 ```dart
 GridView.count(
   crossAxisCount: 2,
@@ -328,6 +399,12 @@ GridView.count(
 ```
 
 ### Scrollable List
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/scrollable_list" 
+  title="Scrollable List Demo"
+  height={400}
+/>
 
 ```dart
 SingleChildScrollView(
@@ -348,6 +425,12 @@ SingleChildScrollView(
 
 ### Stretched Layout
 
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/stretched_layout" 
+  title="Stretched Layout Demo"
+  height={300}
+/>
+
 ```dart
 VStack(
   spacing: 16.0,
@@ -366,6 +449,12 @@ VStack(
 ## Interactive Examples
 
 ### Counter with Card
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/counter_card" 
+  title="Counter Demo"
+  height={300}
+/>
 
 ```dart
 class CounterCard extends StatefulWidget {
@@ -414,6 +503,12 @@ class _CounterCardState extends State<CounterCard> {
 ```
 
 ### Toggle with Feedback
+
+<AppEmbed 
+  src="https://Berkay2002.github.io/TDDC73/primitive_demo_web/#/snippet/feedback_toggle" 
+  title="Toggle Feedback Demo"
+  height={200}
+/>
 
 ```dart
 class FeedbackToggle extends StatefulWidget {
