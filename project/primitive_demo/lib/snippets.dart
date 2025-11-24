@@ -1376,6 +1376,485 @@ class SafeCard extends StatelessWidget {
   }
 }
 
+// Snippet for PrimitiveCard showcase
+class PrimitiveCardSnippet extends StatelessWidget {
+  const PrimitiveCardSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('Elevations', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                elevation: 2.0,
+                child: const Text('Low elevation (2.0)'),
+              ),
+              const SizedBox(height: 12),
+              PrimitiveCard(
+                elevation: 4.0,
+                child: const Text('Medium elevation (4.0)'),
+              ),
+              const SizedBox(height: 12),
+              PrimitiveCard(
+                elevation: 8.0,
+                child: const Text('High elevation (8.0)'),
+              ),
+              const SizedBox(height: 24),
+              Text('Custom Styles', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                color: const Color(0xFFE3F2FD),
+                borderRadius: 16.0,
+                elevation: 4.0,
+                child: const Text('Custom color & radius'),
+              ),
+              const SizedBox(height: 12),
+              PrimitiveCard(
+                shadowColor: Colors.blue.shade800,
+                elevation: 6.0,
+                child: const Text('Custom shadow color'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Snippet for PrimitiveSlider showcase
+class PrimitiveSliderSnippet extends StatefulWidget {
+  const PrimitiveSliderSnippet({super.key});
+
+  @override
+  State<PrimitiveSliderSnippet> createState() => _PrimitiveSliderSnippetState();
+}
+
+class _PrimitiveSliderSnippetState extends State<PrimitiveSliderSnippet> {
+  double _value1 = 0.5;
+  double _value2 = 30.0;
+  double _value3 = 0.7;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 400,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Basic Slider', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            PrimitiveSlider(
+              value: _value1,
+              onChanged: (value) => setState(() => _value1 = value),
+            ),
+            Text('Value: ${_value1.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 12)),
+
+            const SizedBox(height: 24),
+            Text('Custom Range (0-100)', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            PrimitiveSlider(
+              value: _value2,
+              min: 0.0,
+              max: 100.0,
+              activeColor: Colors.purple,
+              onChanged: (value) => setState(() => _value2 = value),
+            ),
+            Text('Value: ${_value2.toStringAsFixed(0)}',
+              style: const TextStyle(fontSize: 12)),
+
+            const SizedBox(height: 24),
+            Text('Custom Thumb', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            PrimitiveSlider(
+              value: _value3,
+              thumbRadius: 14.0,
+              trackHeight: 6.0,
+              activeColor: Colors.green,
+              thumbColor: Colors.green,
+              onChanged: (value) => setState(() => _value3 = value),
+            ),
+            Text('Value: ${_value3.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 12)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Snippet for PrimitiveCircularProgress showcase
+class PrimitiveCircularProgressSnippet extends StatefulWidget {
+  const PrimitiveCircularProgressSnippet({super.key});
+
+  @override
+  State<PrimitiveCircularProgressSnippet> createState() => _PrimitiveCircularProgressSnippetState();
+}
+
+class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProgressSnippet> {
+  double _progress = 0.65;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Determinate Progress', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    PrimitiveCircularProgress(
+                      value: _progress,
+                      size: 60.0,
+                      strokeWidth: 6.0,
+                    ),
+                    const SizedBox(height: 8),
+                    Text('${(_progress * 100).toInt()}%',
+                      style: const TextStyle(fontSize: 12)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    PrimitiveCircularProgress(
+                      value: _progress,
+                      size: 60.0,
+                      strokeWidth: 6.0,
+                      color: Colors.green,
+                    ),
+                    const SizedBox(height: 8),
+                    const Text('Custom Color',
+                      style: TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            PrimitiveSlider(
+              value: _progress,
+              onChanged: (value) => setState(() => _progress = value),
+            ),
+            const SizedBox(height: 24),
+            Text('Indeterminate', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            const PrimitiveCircularProgress(
+              size: 60.0,
+              strokeWidth: 6.0,
+              color: Colors.purple,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Snippet for PrimitiveToggleSwitch showcase
+class PrimitiveToggleSwitchSnippet extends StatefulWidget {
+  const PrimitiveToggleSwitchSnippet({super.key});
+
+  @override
+  State<PrimitiveToggleSwitchSnippet> createState() => _PrimitiveToggleSwitchSnippetState();
+}
+
+class _PrimitiveToggleSwitchSnippetState extends State<PrimitiveToggleSwitchSnippet> {
+  bool _switch1 = false;
+  bool _switch2 = true;
+  bool _switch3 = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 350,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Toggle Switches', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 24),
+            _buildToggleRow('Default', _switch1, (v) => setState(() => _switch1 = v)),
+            const SizedBox(height: 16),
+            _buildToggleRow('Custom Color', _switch2, (v) => setState(() => _switch2 = v),
+              activeColor: Colors.green),
+            const SizedBox(height: 16),
+            _buildToggleRow('Large Size', _switch3, (v) => setState(() => _switch3 = v),
+              width: 60.0, height: 34.0),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildToggleRow(String label, bool value, ValueChanged<bool> onChanged,
+      {Color? activeColor, double? width, double? height}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label),
+        PrimitiveToggleSwitch(
+          value: value,
+          onChanged: onChanged,
+          activeColor: activeColor ?? const Color(0xFF2196F3),
+          width: width ?? 50.0,
+          height: height ?? 30.0,
+        ),
+      ],
+    );
+  }
+}
+
+// Snippet for HStack showcase
+class HStackSnippet extends StatelessWidget {
+  const HStackSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Basic HStack', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: HStack(
+                  spacing: 12.0,
+                  children: [
+                    _buildBox(Colors.red, '1'),
+                    _buildBox(Colors.green, '2'),
+                    _buildBox(Colors.blue, '3'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('Center Alignment', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: HStack(
+                  spacing: 8.0,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(width: 40, height: 40, color: Colors.purple),
+                    Container(width: 40, height: 60, color: Colors.orange),
+                    Container(width: 40, height: 50, color: Colors.teal),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('With Icons & Text', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: HStack(
+                  spacing: 16.0,
+                  children: const [
+                    Icon(Icons.home),
+                    Text('Home'),
+                    Icon(Icons.arrow_forward),
+                    Text('Details'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBox(Color color, String label) {
+    return Container(
+      width: 60,
+      height: 60,
+      color: color,
+      child: Center(
+        child: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+  }
+}
+
+// Snippet for VStack showcase (different from existing VStackSimpleSnippet)
+class VStackShowcaseSnippet extends StatelessWidget {
+  const VStackShowcaseSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('Basic VStack', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: VStack(
+                  spacing: 12.0,
+                  children: const [
+                    Text('Item 1'),
+                    Text('Item 2'),
+                    Text('Item 3'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('Center Alignment', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: VStack(
+                  spacing: 8.0,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(width: 100, height: 30, color: Colors.red),
+                    Container(width: 150, height: 30, color: Colors.green),
+                    Container(width: 80, height: 30, color: Colors.blue),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('Stretch', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              PrimitiveCard(
+                child: VStack(
+                  spacing: 8.0,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(height: 40, color: Colors.purple.shade100,
+                      child: const Center(child: Text('Full Width'))),
+                    Container(height: 40, color: Colors.orange.shade100,
+                      child: const Center(child: Text('Stretched'))),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Snippet for ZStack showcase
+class ZStackShowcaseSnippet extends StatelessWidget {
+  const ZStackShowcaseSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Layered Boxes', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: 200,
+              height: 200,
+              child: ZStack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 180,
+                    height: 180,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.purple.shade300,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.pink.shade400,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.star, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+            Text('Badge Overlay', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: ZStack(
+                alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.notifications, color: Colors.white, size: 40),
+                  ),
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text('9', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CompleteDashboardSnippet extends StatefulWidget {
   const CompleteDashboardSnippet({super.key});
   @override

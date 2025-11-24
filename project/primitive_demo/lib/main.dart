@@ -108,6 +108,34 @@ class PrimitiveUIDemo extends StatelessWidget {
               backgroundColor: Colors.transparent,
               body: PrimitiveInputSnippet(),
             ),
+        '/snippet/primitive_card': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveCardSnippet(),
+            ),
+        '/snippet/primitive_slider': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveSliderSnippet(),
+            ),
+        '/snippet/primitive_circular_progress': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveCircularProgressSnippet(),
+            ),
+        '/snippet/primitive_toggle_switch': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveToggleSwitchSnippet(),
+            ),
+        '/snippet/hstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: HStackSnippet(),
+            ),
+        '/snippet/vstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: VStackShowcaseSnippet(),
+            ),
+        '/snippet/zstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: ZStackShowcaseSnippet(),
+            ),
         '/snippet/settings_view_with_provider': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsViewWithProviderSnippet()),
         '/snippet/responsive_grid': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ResponsiveGridSnippet()),
         '/snippet/themed_components': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ThemedComponentsSnippet()),
