@@ -44,7 +44,7 @@ HStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  HStackAlignment alignment = HStackAlignment.top,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
@@ -69,10 +69,10 @@ HStack({
       description: 'Horizontal spacing between children (must be >= 0)'
     },
     {
-      name: 'alignment',
-      type: 'HStackAlignment',
+      name: 'crossAxisAlignment',
+      type: 'CrossAxisAlignment',
       required: false,
-      default: 'HStackAlignment.top',
+      default: 'CrossAxisAlignment.start',
       description: 'How to align children vertically'
     },
     {
@@ -91,17 +91,6 @@ HStack({
     }
   ]}
 />
-
-### HStackAlignment Enum
-
-```dart
-enum HStackAlignment {
-  top,     // Align to top
-  center,  // Center children vertically
-  bottom,  // Align to bottom
-  stretch, // Stretch children to fill available height
-}
-```
 
 ### HCustomFlexible & HCustomExpanded
 
@@ -138,7 +127,7 @@ HCustomExpanded({
   <Tabs.Tab>
 ```dart
 HStack(
-  alignment: HStackAlignment.top,
+  crossAxisAlignment: CrossAxisAlignment.start,
   spacing: 8.0,
   children: [
     Container(width: 50, height: 100, color: Colors.red),
@@ -151,7 +140,7 @@ HStack(
   <Tabs.Tab>
 ```dart
 HStack(
-  alignment: HStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   spacing: 8.0,
   children: [
     Container(width: 50, height: 100, color: Colors.red),
@@ -164,7 +153,7 @@ HStack(
   <Tabs.Tab>
 ```dart
 HStack(
-  alignment: HStackAlignment.bottom,
+  crossAxisAlignment: CrossAxisAlignment.end,
   spacing: 8.0,
   children: [
     Container(width: 50, height: 100, color: Colors.red),
@@ -177,7 +166,7 @@ HStack(
   <Tabs.Tab>
 ```dart
 HStack(
-  alignment: HStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   spacing: 8.0,
   children: [
     Container(width: 50, color: Colors.red),
@@ -302,7 +291,7 @@ HStack(
 CustomCard(
   child: HStack(
     spacing: 16.0,
-    alignment: HStackAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(

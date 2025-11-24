@@ -19,7 +19,7 @@ class _VStackDemoState extends State<VStackDemo> {
       appBar: AppBar(title: const Text('VStack Flexible Demo')),
       body: VStack(
         spacing: 20.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),

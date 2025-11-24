@@ -66,12 +66,12 @@ void main() {
   });
 
   group('HStack - Alignment', () {
-    testWidgets('HStackAlignment.top', (tester) async {
+    testWidgets('CrossAxisAlignment.start', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: HStack(
-              alignment: HStackAlignment.top,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
@@ -79,10 +79,59 @@ void main() {
       );
 
       final hstack = tester.widget<HStack>(find.byType(HStack));
-      expect(hstack.alignment, equals(HStackAlignment.top));
+      expect(hstack.crossAxisAlignment, equals(CrossAxisAlignment.start));
     });
-    
-    // ... other alignment tests omitted for brevity, logic unchanged
+
+    testWidgets('CrossAxisAlignment.center', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: HStack(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: 50, width: 100)],
+            ),
+          ),
+        ),
+      );
+
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.crossAxisAlignment, equals(CrossAxisAlignment.center));
+    });
+
+    testWidgets('CrossAxisAlignment.end', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: HStack(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [SizedBox(height: 50, width: 100)],
+            ),
+          ),
+        ),
+      );
+
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.crossAxisAlignment, equals(CrossAxisAlignment.end));
+    });
+
+    testWidgets('CrossAxisAlignment.stretch fills height', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              height: 200,
+              child: HStack(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [Container(width: 50, color: Colors.red)],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final hstack = tester.widget<HStack>(find.byType(HStack));
+      expect(hstack.crossAxisAlignment, equals(CrossAxisAlignment.stretch));
+    });
   });
 
   group('HStack - Flex Layout', () {

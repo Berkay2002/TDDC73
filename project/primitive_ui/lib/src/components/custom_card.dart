@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
 
@@ -9,6 +10,7 @@ import 'package:flutter/rendering.dart';
 /// - Custom background color
 /// - Padding for child content
 /// - Tap interaction with visual feedback
+/// - Implicit animations for style changes
 ///
 /// This component uses only primitive Flutter APIs:
 /// - CustomPaint for rendering
@@ -40,6 +42,12 @@ class CustomCard extends StatefulWidget {
   /// Semantic label for accessibility
   final String? semanticsLabel;
 
+  /// Duration for implicit style animations
+  final Duration duration;
+
+  /// Curve for implicit style animations
+  final Curve curve;
+
   const CustomCard({
     super.key,
     required this.child,
@@ -50,11 +58,36 @@ class CustomCard extends StatefulWidget {
     this.padding = const EdgeInsets.all(16.0),
     this.onTap,
     this.semanticsLabel,
+    this.duration = const Duration(milliseconds: 200),
+    this.curve = Curves.easeInOut,
   }) : assert(elevation >= 0.0, 'Elevation cannot be negative'),
        assert(borderRadius >= 0.0, 'Border radius cannot be negative');
 
   @override
   State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CardStyle {
+  final Color color;
+  final double elevation;
+  final Color shadowColor;
+  final double borderRadius;
+
+  const _CardStyle({
+    required this.color,
+    required this.elevation,
+    required this.shadowColor,
+    required this.borderRadius,
+  });
+
+  static _CardStyle lerp(_CardStyle a, _CardStyle b, double t) {
+    return _CardStyle(
+      color: Color.lerp(a.color, b.color, t)!,
+      elevation: lerpDouble(a.elevation, b.elevation, t)!,
+      shadowColor: Color.lerp(a.shadowColor, b.shadowColor, t)!,
+      borderRadius: lerpDouble(a.borderRadius, b.borderRadius, t)!,
+    );
+  }
 }
 
 class _CustomCardState extends State<CustomCard> {
@@ -84,6 +117,13 @@ class _CustomCardState extends State<CustomCard> {
     final double effectiveElevation =
         _isPressed ? (widget.elevation / 2) : widget.elevation;
 
+    final targetStyle = _CardStyle(
+      color: widget.color,
+      elevation: effectiveElevation,
+      shadowColor: widget.shadowColor,
+      borderRadius: widget.borderRadius,
+    );
+
     return Semantics(
       label: widget.semanticsLabel,
       button: widget.onTap != null,
@@ -94,13 +134,22 @@ class _CustomCardState extends State<CustomCard> {
         onTapDown: _handleTapDown,
         onTapUp: _handleTapUp,
         onTapCancel: _handleTapCancel,
-        child: CustomPaint(
-          painter: _CardPainter(
-            color: widget.color,
-            borderRadius: widget.borderRadius,
-            elevation: effectiveElevation,
-            shadowColor: widget.shadowColor,
-          ),
+        child: TweenAnimationBuilder<_CardStyle>(
+          tween: _CardStyleTween(begin: targetStyle, end: targetStyle),
+          duration: widget.duration,
+          curve: widget.curve,
+          builder: (context, style, child) {
+            return CustomPaint(
+              painter: _CardPainter(
+                color: style.color,
+                borderRadius: style.borderRadius,
+                elevation: style.elevation,
+                shadowColor: style.shadowColor,
+              ),
+              child: child,
+            );
+          },
+          // Optimization: Reuse the layout child
           child: _CardLayout(padding: widget.padding, child: widget.child),
         ),
       ),
@@ -299,4 +348,12 @@ class _RenderCardLayout extends RenderShiftedBox {
     }
     return false;
   }
+}
+
+// Implement Tween for _CardStyle
+class _CardStyleTween extends Tween<_CardStyle> {
+  _CardStyleTween({super.begin, super.end});
+
+  @override
+  _CardStyle lerp(double t) => _CardStyle.lerp(begin!, end!, t);
 }

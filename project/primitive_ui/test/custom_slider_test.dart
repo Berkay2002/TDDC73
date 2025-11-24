@@ -85,4 +85,27 @@ void main() {
     // Should be close to max
     expect(currentValue, closeTo(20.0, 0.1));
   });
+
+  testWidgets('CustomSlider accepts animation properties', (
+    WidgetTester tester,
+  ) async {
+    const duration = Duration(seconds: 1);
+    const curve = Curves.elasticIn;
+
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: CustomSlider(
+          value: 0.5,
+          duration: duration,
+          curve: curve,
+          onChanged: (v) {},
+        ),
+      ),
+    );
+
+    final slider = tester.widget<CustomSlider>(find.byType(CustomSlider));
+    expect(slider.duration, equals(duration));
+    expect(slider.curve, equals(curve));
+  });
 }

@@ -56,6 +56,8 @@ CustomSlider({
   ValueChanged<double>? onChangeEnd,
   String? semanticsLabel,
   double? semanticsStep,
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
 })
 ```
 
@@ -153,6 +155,20 @@ CustomSlider({
       required: false,
       default: 'null',
       description: 'Value step for keyboard actions (defaults to 10% of range)'
+    },
+    {
+      name: 'duration',
+      type: 'Duration',
+      required: false,
+      default: 'Duration(milliseconds: 200)',
+      description: 'Animation duration for programmatic value changes'
+    },
+    {
+      name: 'curve',
+      type: 'Curve',
+      required: false,
+      default: 'Curves.easeInOut',
+      description: 'Animation curve for programmatic value changes'
     }
   ]}
 />
@@ -221,6 +237,14 @@ The `CustomSlider` is implemented using:
 2.  **Coordinate Mapping**: The component converts the global touch position to a local position using `RenderBox.globalToLocal`. It then calculates the percentage of the drag along the track width.
 3.  **`CustomPaint`**: A `CustomPainter` draws two lines (active and inactive track) and a circle (thumb) based on the current value.
 4.  **Shadows**: The thumb has a subtle shadow drawn using `BoxShadow` painting logic on the canvas.
+
+### Implicit Animations
+
+The slider supports implicit animations for value changes:
+- When `value` changes programmatically (not via drag), it animates smoothly to the new position using `TweenAnimationBuilder`.
+- During drag interactions, the animation duration is set to zero to ensure immediate responsiveness.
+
+This allows for smooth "seek" behavior when tapping the track or updating the value from an external source, without sacrificing the direct feel of dragging.
 
 This component demonstrates the core concept of "unidirectional data flow" in UI: the gesture updates the state, which triggers a rebuild, which passes the new value to the painter.
 

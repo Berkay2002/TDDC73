@@ -12,12 +12,12 @@ class CustomCircularProgressDemo extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: VStack(
           spacing: 48.0,
-          alignment: VStackAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Basic
             VStack(
               spacing: 16.0,
-              alignment: VStackAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'Basic',
@@ -30,7 +30,7 @@ class CustomCircularProgressDemo extends StatelessWidget {
             // Custom Color & Size
             VStack(
               spacing: 16.0,
-              alignment: VStackAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'Custom Color & Size',
@@ -47,7 +47,7 @@ class CustomCircularProgressDemo extends StatelessWidget {
             // Large
             VStack(
               spacing: 16.0,
-              alignment: VStackAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'Large',

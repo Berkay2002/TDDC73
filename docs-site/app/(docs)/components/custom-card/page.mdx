@@ -45,6 +45,8 @@ CustomCard({
   EdgeInsets padding = const EdgeInsets.all(16.0),
   VoidCallback? onTap,
   String? semanticsLabel,
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
 })
 ```
 
@@ -107,6 +109,20 @@ CustomCard({
       required: false,
       default: 'null',
       description: 'Accessibility label for screen readers'
+    },
+    {
+      name: 'duration',
+      type: 'Duration',
+      required: false,
+      default: 'Duration(milliseconds: 200)',
+      description: 'Duration for implicit style animations'
+    },
+    {
+      name: 'curve',
+      type: 'Curve',
+      required: false,
+      default: 'Curves.easeInOut',
+      description: 'Curve for implicit style animations'
     }
   ]}
 />
@@ -192,6 +208,25 @@ CustomCard(
 )
 ```
 
+### Animated Styles
+
+`CustomCard` implicitly animates changes to its style properties.
+
+```dart
+CustomCard(
+  // Animate color and elevation when selected
+  color: _isSelected ? Colors.blue.shade50 : Colors.white,
+  elevation: _isSelected ? 8.0 : 2.0,
+  duration: Duration(milliseconds: 300),
+  curve: Curves.easeOutBack,
+  onTap: () => setState(() => _isSelected = !_isSelected),
+  child: Padding(
+    padding: EdgeInsets.all(8.0),
+    child: Text(_isSelected ? 'Selected' : 'Tap to Select'),
+  ),
+)
+```
+
 ### Nested Layout
 
 ```dart
@@ -224,6 +259,13 @@ The `CustomCard` uses a multi-layered rendering approach:
 2. **Custom Layout** (`_RenderCardLayout`) manages child positioning with padding.
 3. **Canvas Operations** draw the shadow and rounded rectangle.
 4. **GestureDetector** handles tap events, providing visual feedback by temporarily reducing elevation.
+
+### Implicit Animations
+
+The component uses `TweenAnimationBuilder` to smoothly transition between styles.
+- A private `_CardStyle` class aggregates all animatable properties (`color`, `elevation`, `borderRadius`, `shadowColor`).
+- When properties change, the builder interpolates between the old and new `_CardStyle`.
+- This provides smooth visual transitions for all style changes without requiring an explicit `AnimationController`.
 
 ### Shadow Calculation
 

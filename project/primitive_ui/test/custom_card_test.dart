@@ -198,4 +198,27 @@ void main() {
       );
     });
   });
+
+  group('CustomCard - Animations', () {
+    testWidgets('accepts custom duration and curve', (tester) async {
+      const duration = Duration(seconds: 1);
+      const curve = Curves.bounceOut;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: CustomCard(
+              duration: duration,
+              curve: curve,
+              child: Text('Animated'),
+            ),
+          ),
+        ),
+      );
+
+      final card = tester.widget<CustomCard>(find.byType(CustomCard));
+      expect(card.duration, equals(duration));
+      expect(card.curve, equals(curve));
+    });
+  });
 }

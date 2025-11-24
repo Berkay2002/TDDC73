@@ -45,7 +45,7 @@ VStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  VStackAlignment alignment = VStackAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
@@ -70,10 +70,10 @@ VStack({
       description: 'Vertical spacing between children (must be >= 0)'
     },
     {
-      name: 'alignment',
-      type: 'VStackAlignment',
+      name: 'crossAxisAlignment',
+      type: 'CrossAxisAlignment',
       required: false,
-      default: 'VStackAlignment.start',
+      default: 'CrossAxisAlignment.start',
       description: 'How to align children horizontally'
     },
     {
@@ -128,7 +128,7 @@ CustomExpanded({
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.start,
+  crossAxisAlignment: CrossAxisAlignment.start,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -141,7 +141,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -154,7 +154,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.end,
+  crossAxisAlignment: CrossAxisAlignment.end,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -167,7 +167,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   spacing: 8.0,
   children: [
     Container(height: 50, color: Colors.red),

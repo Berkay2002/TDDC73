@@ -21,7 +21,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
         padding: const EdgeInsets.all(16.0),
         child: VStack(
           spacing: 24.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
               'WAI-ARIA Compliance Test',
@@ -78,7 +78,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                   const Text('Audio & Display', style: TextStyle(fontWeight: FontWeight.bold)),
                   VStack(
                     spacing: 8.0,
-                    alignment: VStackAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text('Volume (Step: 10%)'),
                       CustomSlider(
@@ -91,7 +91,7 @@ class _AccessibilityDemoState extends State<AccessibilityDemo> {
                   ),
                   VStack(
                     spacing: 8.0,
-                    alignment: VStackAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text('Brightness (Step: 20%)'),
                       CustomSlider(

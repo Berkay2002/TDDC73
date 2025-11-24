@@ -21,7 +21,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
         padding: const EdgeInsets.all(24.0),
         child: VStack(
           spacing: 32.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Basic Slider
             VStack(
@@ -53,7 +53,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
                   min: 0.0,
                   max: 100.0,
                   activeColor: Colors.orange,
-                  inactiveColor: Colors.orange.withOpacity(0.2),
+                  inactiveColor: Colors.orange.withValues(alpha: 0.2),
                   onChanged: (value) => setState(() => _value2 = value),
                 ),
               ],
@@ -73,7 +73,7 @@ class _CustomSliderDemoState extends State<CustomSliderDemo> {
                   thumbRadius: 16.0,
                   trackHeight: 8.0,
                   activeColor: Colors.purple,
-                  inactiveColor: Colors.purple.withOpacity(0.2),
+                  inactiveColor: Colors.purple.withValues(alpha: 0.2),
                   onChanged: (value) => setState(() => _value3 = value),
                 ),
               ],

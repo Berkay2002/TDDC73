@@ -27,6 +27,7 @@ import 'package:primitive_demo/demos/v_stack_demo.dart';
 import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
 import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
 import 'package:primitive_demo/demos/accessibility_demo.dart';
+import 'package:primitive_demo/demos/animations_demo.dart';
 
 void main() {
   runApp(const PrimitiveUIDemo());
@@ -86,7 +87,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         // Main layout using VStack - demonstrates vertical layout component
         child: VStack(
           spacing: 24.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // SECTION 1: Header with dark mode toggle
             _buildHeader(),
@@ -122,10 +123,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'New Components (v0.0.3)',
+            'Component Demos',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -198,6 +199,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
             child: const Text('Accessibility Demo (v0.0.4)'),
           ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AnimationsDemo(),
+                ),
+              );
+            },
+            child: const Text('Implicit Animations Demo (v0.0.5)'),
+          ),
         ],
       ),
     );
@@ -217,7 +229,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 12.0,
-        alignment: VStackAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Primitive UI Components',
@@ -282,7 +294,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         ),
         VStack(
           spacing: 16.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomCard(
               color: Colors.blue[50]!,
@@ -336,7 +348,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'CustomToggleSwitch Examples',
@@ -428,7 +440,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'VStack Layout Examples',
@@ -445,10 +457,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
               color: _darkMode ? Colors.grey[400] : Colors.grey[600],
             ),
           ),
-          _buildAlignmentDemo('Start Alignment', VStackAlignment.start),
-          _buildAlignmentDemo('Center Alignment', VStackAlignment.center),
-          _buildAlignmentDemo('End Alignment', VStackAlignment.end),
-          _buildAlignmentDemo('Stretch Alignment', VStackAlignment.stretch),
+          _buildAlignmentDemo('Start Alignment', CrossAxisAlignment.start),
+          _buildAlignmentDemo('Center Alignment', CrossAxisAlignment.center),
+          _buildAlignmentDemo('End Alignment', CrossAxisAlignment.end),
+          _buildAlignmentDemo('Stretch Alignment', CrossAxisAlignment.stretch),
         ],
       ),
     );
@@ -457,7 +469,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// Helper: Builds an alignment demo card.
   ///
   /// Shows how VStack children align based on the specified alignment mode.
-  Widget _buildAlignmentDemo(String title, VStackAlignment alignment) {
+  Widget _buildAlignmentDemo(String title, CrossAxisAlignment crossAxisAlignment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -479,7 +491,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           padding: const EdgeInsets.all(8.0),
           child: VStack(
             spacing: 8.0,
-            alignment: alignment,
+            crossAxisAlignment: crossAxisAlignment,
             children: [
               _buildColorBox(Colors.red, 'Item 1'),
               _buildColorBox(Colors.blue, 'Item 2'),
@@ -517,7 +529,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'ZStack Layout Examples',
@@ -645,7 +657,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'Combined Components Example',
@@ -664,7 +676,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           VStack(
             spacing: 12.0,
-            alignment: VStackAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomCard(
                 color: Colors.indigo[100]!,
@@ -673,7 +685,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 padding: const EdgeInsets.all(16.0),
                 child: VStack(
                   spacing: 12.0,
-                  alignment: VStackAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       'Settings Panel',
@@ -684,7 +696,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     ),
                     VStack(
                       spacing: 8.0,
-                      alignment: VStackAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _buildSettingRow(
                           'Notifications',

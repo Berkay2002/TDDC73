@@ -37,7 +37,7 @@ Primitive UI includes 7 core components: 4 UI components and 3 layout components
 
 #### 1. CustomCard
 
-A container widget with shadow, rounded corners, and padding - all rendered using Canvas.
+A container widget with shadow, rounded corners, and padding - all rendered using Canvas. Supports implicit animations for style changes.
 
 **Constructor:**
 ```dart
@@ -48,6 +48,8 @@ CustomCard({
   double borderRadius = 8.0,
   double elevation = 2.0,
   EdgeInsets padding = const EdgeInsets.all(16.0),
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
 })
 ```
 
@@ -57,6 +59,8 @@ CustomCard({
 - `borderRadius`: Corner radius in logical pixels (default: 8.0)
 - `elevation`: Shadow depth in logical pixels (default: 2.0)
 - `padding`: Internal spacing around the child (default: 16.0 on all sides)
+- `duration`: Animation duration for style changes (default: 200ms)
+- `curve`: Animation curve (default: easeInOut)
 
 **Example Usage:**
 ```dart
@@ -65,22 +69,13 @@ CustomCard(
   child: Text('Hello World'),
 )
 
-// Customized card
+// Animated card
 CustomCard(
-  color: Colors.blue[50]!,
-  borderRadius: 16.0,
-  elevation: 8.0,
-  padding: const EdgeInsets.symmetric(
-    horizontal: 24.0,
-    vertical: 16.0,
-  ),
-  child: Column(
-    children: [
-      Text('Card Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      SizedBox(height: 8),
-      Text('Card content goes here'),
-    ],
-  ),
+  color: _isSelected ? Colors.blue[50]! : Colors.white,
+  elevation: _isSelected ? 8.0 : 2.0,
+  duration: const Duration(milliseconds: 300),
+  child: Text('Tap me'),
+  onTap: () => setState(() => _isSelected = !_isSelected),
 )
 ```
 
@@ -88,6 +83,7 @@ CustomCard(
 - Uses `CustomPaint` with a custom `CustomPainter` for rendering
 - `Canvas.drawShadow()` for elevation effect
 - `Canvas.drawRRect()` for rounded corners
+- Implicitly animates `color`, `elevation`, `shadowColor`, and `borderRadius` using `TweenAnimationBuilder`
 - Custom `RenderShiftedBox` for padding and layout
 
 ---
@@ -162,7 +158,7 @@ CustomToggleSwitch(
 
 #### 3. CustomSlider
 
-A slider component for selecting a value from a range.
+A slider component for selecting a value from a range. Supports implicit animations for programmatic value changes.
 
 **Constructor:**
 ```dart
@@ -176,6 +172,8 @@ CustomSlider({
   Color inactiveColor = const Color(0xFFE0E0E0),
   double thumbRadius = 10.0,
   double trackHeight = 4.0,
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
 })
 ```
 
@@ -188,6 +186,8 @@ CustomSlider({
 - `inactiveColor`: Color of the inactive track
 - `thumbRadius`: Radius of the thumb
 - `trackHeight`: Height of the track
+- `duration`: Animation duration for value changes (default: 200ms)
+- `curve`: Animation curve (default: easeInOut)
 
 **Example Usage:**
 ```dart
@@ -204,6 +204,7 @@ CustomSlider(
 **Implementation Details:**
 - Uses `CustomPaint` for track and thumb rendering
 - `GestureDetector` handles drag updates to calculate value
+- implicitly animates value changes using `TweenAnimationBuilder` (animation is disabled during drag for responsiveness)
 - Maps pixel position to value range
 
 ---
@@ -261,7 +262,7 @@ VStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  VStackAlignment alignment = VStackAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
@@ -270,7 +271,7 @@ VStack({
 **Parameters:**
 - `children` (required): List of widgets to arrange vertically
 - `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
-- `alignment`: How to align children horizontally (default: start)
+- `crossAxisAlignment`: How to align children horizontally (default: start)
 - `mainAxisAlignment`: How to distribute children vertically (default: start)
 - `mainAxisSize`: Whether to take maximum or minimum vertical space (default: max)
 
@@ -301,7 +302,7 @@ VStack(
 // Centered with custom spacing
 VStack(
   spacing: 24.0,
-  alignment: VStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
     Icon(Icons.check_circle, size: 48, color: Colors.green),
@@ -313,7 +314,7 @@ VStack(
 // Stretched children
 VStack(
   spacing: 8.0,
-  alignment: VStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   children: [
     ElevatedButton(onPressed: () {}, child: Text('Button 1')),
     ElevatedButton(onPressed: () {}, child: Text('Button 2')),
@@ -355,7 +356,7 @@ HStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  HStackAlignment alignment = HStackAlignment.top,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
   MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
@@ -364,19 +365,9 @@ HStack({
 **Parameters:**
 - `children` (required): List of widgets to arrange horizontally
 - `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
-- `alignment`: How to align children vertically (default: top)
+- `crossAxisAlignment`: How to align children vertically (default: start)
 - `mainAxisAlignment`: How to distribute children horizontally (default: start)
 - `mainAxisSize`: Whether to take maximum or minimum horizontal space (default: max)
-
-**Alignment Options:**
-```dart
-enum HStackAlignment {
-  top,      // Align to the top edge
-  center,   // Center vertically
-  bottom,   // Align to the bottom edge
-  stretch,  // Stretch to fill vertical space
-}
-```
 
 **Example Usage:**
 ```dart
@@ -391,7 +382,7 @@ HStack(
 
 // Centered content
 HStack(
-  alignment: HStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
     CircularProgressIndicator(),
@@ -541,8 +532,8 @@ import 'package:primitive_ui/primitive_ui.dart';
 All components are now available:
 - `CustomCard`
 - `CustomToggleSwitch`
-- `VStack` and `VStackAlignment`
-- `HStack` and `HStackAlignment`
+- `VStack`
+- `HStack`
 - `ZStack` and `StackFit`
 
 ---
@@ -572,7 +563,7 @@ class _DemoScreenState extends State<DemoScreen> {
         padding: const EdgeInsets.all(16.0),
         child: VStack(
           spacing: 16.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Card with toggle switches
             CustomCard(

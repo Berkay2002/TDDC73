@@ -1,3 +1,10 @@
+## 0.0.5
+
+* **Layout Intelligence**: `VStack` and `HStack` now use standard Flutter `CrossAxisAlignment` instead of custom alignment enums.
+* **Implicit Animations**: `CustomCard` now implicitly animates color, elevation, and shadow changes.
+* **Implicit Animations**: `CustomSlider` now implicitly animates programmatic value changes while keeping drag interactions immediate.
+* **Refactor**: Standardized alignment APIs across layout components.
+
 ## 0.0.4
 
 * **Accessibility**: Added WAI-ARIA compliant semantics to interactive components.

@@ -1,21 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-/// Alignment options for HStack children.
-enum HStackAlignment {
-  /// Align children to the top.
-  top,
-
-  /// Center children vertically.
-  center,
-
-  /// Align children to the bottom.
-  bottom,
-
-  /// Stretch children to fill available height.
-  stretch,
-}
-
 /// A horizontal stack layout component built using only CustomMultiChildLayout.
 ///
 /// HStack arranges its children horizontally with configurable spacing and alignment.
@@ -26,7 +11,7 @@ enum HStackAlignment {
 /// ```dart
 /// HStack(
 ///   spacing: 16.0,
-///   alignment: HStackAlignment.center,
+///   crossAxisAlignment: CrossAxisAlignment.center,
 ///   children: [
 ///     Text('First'),
 ///     HCustomExpanded(
@@ -42,7 +27,7 @@ class HStack extends StatelessWidget {
     super.key,
     required this.children,
     this.spacing = 0.0,
-    this.alignment = HStackAlignment.top,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
   }) : assert(spacing >= 0.0, 'Spacing must be non-negative');
@@ -54,7 +39,7 @@ class HStack extends StatelessWidget {
   final double spacing;
 
   /// How to align children vertically.
-  final HStackAlignment alignment;
+  final CrossAxisAlignment crossAxisAlignment;
 
   /// How to align children horizontally.
   final MainAxisAlignment mainAxisAlignment;
@@ -70,7 +55,7 @@ class HStack extends StatelessWidget {
 
     return _HStackLayout(
       spacing: spacing,
-      alignment: alignment,
+      crossAxisAlignment: crossAxisAlignment,
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize: mainAxisSize,
       children: children,
@@ -135,14 +120,14 @@ class HCustomExpanded extends HCustomFlexible {
 class _HStackLayout extends MultiChildRenderObjectWidget {
   const _HStackLayout({
     required this.spacing,
-    required this.alignment,
+    required this.crossAxisAlignment,
     required this.mainAxisAlignment,
     required this.mainAxisSize,
     required super.children,
   });
 
   final double spacing;
-  final HStackAlignment alignment;
+  final CrossAxisAlignment crossAxisAlignment;
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
 
@@ -150,7 +135,7 @@ class _HStackLayout extends MultiChildRenderObjectWidget {
   RenderObject createRenderObject(BuildContext context) {
     return _RenderHStack(
       spacing: spacing,
-      alignment: alignment,
+      crossAxisAlignment: crossAxisAlignment,
       mainAxisAlignment: mainAxisAlignment,
       mainAxisSize: mainAxisSize,
       textDirection: Directionality.of(context),
@@ -161,7 +146,7 @@ class _HStackLayout extends MultiChildRenderObjectWidget {
   void updateRenderObject(BuildContext context, _RenderHStack renderObject) {
     renderObject
       ..spacing = spacing
-      ..alignment = alignment
+      ..crossAxisAlignment = crossAxisAlignment
       ..mainAxisAlignment = mainAxisAlignment
       ..mainAxisSize = mainAxisSize
       ..textDirection = Directionality.of(context);
@@ -175,12 +160,12 @@ class _RenderHStack extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderBox, _HStackParentData> {
   _RenderHStack({
     required double spacing,
-    required HStackAlignment alignment,
+    required CrossAxisAlignment crossAxisAlignment,
     required MainAxisAlignment mainAxisAlignment,
     required MainAxisSize mainAxisSize,
     required TextDirection textDirection,
   }) : _spacing = spacing,
-       _alignment = alignment,
+       _crossAxisAlignment = crossAxisAlignment,
        _mainAxisAlignment = mainAxisAlignment,
        _mainAxisSize = mainAxisSize,
        _textDirection = textDirection;
@@ -193,11 +178,11 @@ class _RenderHStack extends RenderBox
     markNeedsLayout();
   }
 
-  HStackAlignment _alignment;
-  HStackAlignment get alignment => _alignment;
-  set alignment(HStackAlignment value) {
-    if (_alignment == value) return;
-    _alignment = value;
+  CrossAxisAlignment _crossAxisAlignment;
+  CrossAxisAlignment get crossAxisAlignment => _crossAxisAlignment;
+  set crossAxisAlignment(CrossAxisAlignment value) {
+    if (_crossAxisAlignment == value) return;
+    _crossAxisAlignment = value;
     markNeedsLayout();
   }
 
@@ -253,7 +238,7 @@ class _RenderHStack extends RenderBox
         totalFlex += flex;
       } else {
         BoxConstraints childConstraints;
-        if (alignment == HStackAlignment.stretch) {
+        if (crossAxisAlignment == CrossAxisAlignment.stretch) {
           childConstraints = BoxConstraints(
             minWidth: 0,
             maxWidth: constraints.maxWidth,
@@ -297,7 +282,7 @@ class _RenderHStack extends RenderBox
         }
 
         BoxConstraints childConstraints;
-        double minH = (alignment == HStackAlignment.stretch) ? constraints.maxHeight : 0.0;
+        double minH = (crossAxisAlignment == CrossAxisAlignment.stretch) ? constraints.maxHeight : 0.0;
         double maxH = constraints.maxHeight;
 
         if (childParentData.fit == FlexFit.tight) {
@@ -347,7 +332,7 @@ class _RenderHStack extends RenderBox
     
     // For height, if stretch, use max constraint, else measured max height
     double finalHeight = constraints.hasBoundedHeight ? constraints.maxHeight : maxHeight;
-    if (alignment != HStackAlignment.stretch && !constraints.hasBoundedHeight) {
+    if (crossAxisAlignment != CrossAxisAlignment.stretch && !constraints.hasBoundedHeight) {
          finalHeight = maxHeight;
     }
     
@@ -404,18 +389,21 @@ class _RenderHStack extends RenderBox
         final childParentData = child.parentData! as _HStackParentData;
         
         double y;
-        switch (alignment) {
-            case HStackAlignment.top:
+        switch (crossAxisAlignment) {
+            case CrossAxisAlignment.start:
             y = 0.0;
             break;
-            case HStackAlignment.center:
+            case CrossAxisAlignment.center:
             y = (size.height - child.size.height) / 2;
             break;
-            case HStackAlignment.bottom:
+            case CrossAxisAlignment.end:
             y = size.height - child.size.height;
             break;
-            case HStackAlignment.stretch:
+            case CrossAxisAlignment.stretch:
             y = 0.0;
+            break;
+            case CrossAxisAlignment.baseline:
+            y = 0.0; // Fallback
             break;
         }
         

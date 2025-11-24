@@ -44,6 +44,12 @@ class CustomSlider extends StatefulWidget {
   /// Step size for semantic actions (increase/decrease). Defaults to 10% of the range.
   final double? semanticsStep;
 
+  /// Duration for implicit value animations
+  final Duration duration;
+
+  /// Curve for implicit value animations
+  final Curve curve;
+
   const CustomSlider({
     super.key,
     required this.value,
@@ -59,6 +65,8 @@ class CustomSlider extends StatefulWidget {
     this.trackHeight = 4.0,
     this.semanticsLabel,
     this.semanticsStep,
+    this.duration = const Duration(milliseconds: 200),
+    this.curve = Curves.easeInOut,
   }) : assert(value >= min && value <= max, 'Value must be between min and max'),
        assert(min < max, 'Min must be less than max');
 
@@ -70,7 +78,7 @@ class _CustomSliderState extends State<CustomSlider> {
   bool _isDragging = false;
 
   void _handleDragStart(DragStartDetails details, BoxConstraints constraints) {
-    _isDragging = true;
+    setState(() => _isDragging = true);
     if (widget.onChangeStart != null) {
       widget.onChangeStart!(widget.value);
     }
@@ -100,7 +108,7 @@ class _CustomSliderState extends State<CustomSlider> {
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    _isDragging = false;
+    setState(() => _isDragging = false);
     if (widget.onChangeEnd != null) {
       widget.onChangeEnd!(widget.value);
     }
@@ -180,21 +188,28 @@ class _CustomSliderState extends State<CustomSlider> {
             onHorizontalDragEnd: _handleDragEnd,
             onTapDown: (details) =>
                 _handleTapDown(details, BoxConstraints(maxWidth: width)),
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: CustomPaint(
-                painter: _SliderPainter(
-                  value: widget.value,
-                  min: widget.min,
-                  max: widget.max,
-                  activeColor: widget.activeColor,
-                  inactiveColor: widget.inactiveColor,
-                  thumbColor: widget.thumbColor ?? widget.activeColor,
-                  thumbRadius: widget.thumbRadius,
-                  trackHeight: widget.trackHeight,
-                ),
-              ),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: widget.value, end: widget.value),
+              duration: _isDragging ? Duration.zero : widget.duration,
+              curve: widget.curve,
+              builder: (context, animatedValue, child) {
+                return SizedBox(
+                  width: width,
+                  height: height,
+                  child: CustomPaint(
+                    painter: _SliderPainter(
+                      value: animatedValue,
+                      min: widget.min,
+                      max: widget.max,
+                      activeColor: widget.activeColor,
+                      inactiveColor: widget.inactiveColor,
+                      thumbColor: widget.thumbColor ?? widget.activeColor,
+                      thumbRadius: widget.thumbRadius,
+                      trackHeight: widget.trackHeight,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         );

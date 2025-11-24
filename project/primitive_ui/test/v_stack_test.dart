@@ -84,12 +84,12 @@ void main() {
   });
 
   group('VStack - Alignment', () {
-    testWidgets('VStackAlignment.start in LTR', (tester) async {
+    testWidgets('CrossAxisAlignment.start in LTR', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: VStack(
-              alignment: VStackAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
@@ -97,15 +97,15 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.start));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.start));
     });
 
-    testWidgets('VStackAlignment.center', (tester) async {
+    testWidgets('CrossAxisAlignment.center', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: VStack(
-              alignment: VStackAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
@@ -113,15 +113,15 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.center));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.center));
     });
 
-    testWidgets('VStackAlignment.end in LTR', (tester) async {
+    testWidgets('CrossAxisAlignment.end in LTR', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
             body: VStack(
-              alignment: VStackAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [SizedBox(height: 50, width: 100)],
             ),
           ),
@@ -129,17 +129,17 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.end));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.end));
     });
 
-    testWidgets('VStackAlignment.stretch fills width', (tester) async {
+    testWidgets('CrossAxisAlignment.stretch fills width', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
               width: 200,
               child: VStack(
-                alignment: VStackAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [Container(height: 50, color: Colors.red)],
               ),
             ),
@@ -148,7 +148,7 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.stretch));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.stretch));
     });
 
     testWidgets('RTL reverses start alignment', (tester) async {
@@ -158,7 +158,7 @@ void main() {
             textDirection: TextDirection.rtl,
             child: Scaffold(
               body: VStack(
-                alignment: VStackAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [SizedBox(height: 50, width: 100)],
               ),
             ),
@@ -167,7 +167,7 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.start));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.start));
     });
 
     testWidgets('RTL reverses end alignment', (tester) async {
@@ -177,7 +177,7 @@ void main() {
             textDirection: TextDirection.rtl,
             child: Scaffold(
               body: VStack(
-                alignment: VStackAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [SizedBox(height: 50, width: 100)],
               ),
             ),
@@ -186,7 +186,7 @@ void main() {
       );
 
       final vstack = tester.widget<VStack>(find.byType(VStack));
-      expect(vstack.alignment, equals(VStackAlignment.end));
+      expect(vstack.crossAxisAlignment, equals(CrossAxisAlignment.end));
     });
   });
 
