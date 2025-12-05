@@ -831,7 +831,7 @@ class _RepositoryListScreenState extends State<RepositoryListScreen>
           TextButton(
             // Note 51: Navigator.pop closes the dialog
             onPressed: () => Navigator.pop(context),
-            label: const Text('Close'),
+            child: const Text('Close'),
           ),
         ],
       ),

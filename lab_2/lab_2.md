@@ -1,5 +1,3 @@
-Here is the markdown content for the Lab 2 instructions from the provided URL.
-
 # Lab 2 - Interaction
 
 ## Purpose
