@@ -41,6 +41,8 @@ class CardData extends ChangeNotifier {
 
   int get maxCardNumberLength => isAmex ? 15 : 16;
 
+  int get maxCvvLength => isAmex ? 4 : 3;
+
   set cardNumber(String value) {
     _cardNumber = value;
     notifyListeners();

@@ -29,18 +29,38 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    // Height of the card to calculate overlap
+    const double cardHeight = 270;
+    const double cardOverlap = cardHeight / 2 + 50; // How much the card overlaps the form
+
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        CreditCardWidget(
-          cardData: _cardData,
-          isFlipped: _isCardFlipped,
-          currentFocus: _currentFocus,
+        // Form container with top padding to make room for the overlapping card
+        Padding(
+          padding: const EdgeInsets.only(top: cardOverlap),
+          child: CardInputFields(
+            cardData: _cardData,
+            onCardFlip: _onCardFlip,
+            onFocusChange: _onFocusChange,
+            topPadding: cardHeight - cardOverlap + 35, // Extra padding inside form for card
+          ),
         ),
-        const SizedBox(height: 40),
-        CardInputFields(
-          cardData: _cardData,
-          onCardFlip: _onCardFlip,
-          onFocusChange: _onFocusChange,
+        // Credit card positioned on top, overlapping the form
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: CreditCardWidget(
+                cardData: _cardData,
+                isFlipped: _isCardFlipped,
+                currentFocus: _currentFocus,
+              ),
+            ),
+          ),
         ),
       ],
     );

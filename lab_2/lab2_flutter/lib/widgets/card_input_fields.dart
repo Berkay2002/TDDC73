@@ -6,12 +6,14 @@ class CardInputFields extends StatefulWidget {
   final CardData cardData;
   final Function(bool) onCardFlip;
   final Function(FocusNode?) onFocusChange;
+  final double topPadding;
 
   const CardInputFields({
     super.key,
     required this.cardData,
     required this.onCardFlip,
     required this.onFocusChange,
+    this.topPadding = 35,
   });
 
   @override
@@ -107,7 +109,7 @@ class _CardInputFieldsState extends State<CardInputFields> {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(35),
+      padding: EdgeInsets.fromLTRB(35, widget.topPadding, 35, 35),
       child: Form(
         key: _formKey,
         child: Column(
@@ -370,6 +372,14 @@ class _CardInputFieldsState extends State<CardInputFields> {
   }
 
   Widget _buildCvvField() {
+    final maxCvvLength = widget.cardData.maxCvvLength;
+    
+    // Trim CVV if it exceeds the max length for current card type
+    if (_cvvController.text.length > maxCvvLength) {
+      _cvvController.text = _cvvController.text.substring(0, maxCvvLength);
+      widget.cardData.cardCvv = _cvvController.text;
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -388,7 +398,7 @@ class _CardInputFieldsState extends State<CardInputFields> {
           keyboardType: TextInputType.number,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(4),
+            LengthLimitingTextInputFormatter(maxCvvLength),
           ],
           onChanged: (value) {
             setState(() {
@@ -418,7 +428,7 @@ class _CardInputFieldsState extends State<CardInputFields> {
             if (value == null || value.isEmpty) {
               return 'Required';
             }
-            if (value.length < 3) {
+            if (value.length < maxCvvLength) {
               return 'Invalid CVV';
             }
             return null;
