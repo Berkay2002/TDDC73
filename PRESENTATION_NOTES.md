@@ -12,6 +12,7 @@ This document contains key talking points, structural diagrams, and deep-dive ex
 This diagram illustrates the declarative nature of the Flutter solution. Instead of defining XML and finding views, the UI is built as a tree of widgets.
 
 ```mermaid
+%%{init: {'theme': 'base'}}%%
 graph TD
     App[MyApp] --> MatApp[MaterialApp]
     MatApp --> Home[MyHomePage]
@@ -59,6 +60,7 @@ graph TD
 This diagram shows how `CreditCardForm` acts as the "Source of Truth," managing state for both the visual card and the input fields.
 
 ```mermaid
+%%{init: {'theme': 'base'}}%%
 sequenceDiagram
     participant Input as CardInputFields
     participant Parent as CreditCardForm (State)
@@ -102,6 +104,7 @@ sequenceDiagram
 This diagram illustrates the separation of concerns. The UI never touches the API directly; it goes through the Provider.
 
 ```mermaid
+%%{init: {'theme': 'base'}}%%
 graph LR
     subgraph UI Layer
         Screen[RepositoryListScreen]
@@ -119,11 +122,11 @@ graph LR
     end
 
     Filter -->|Select 'Dart'| Provider
-    Provider -->|fetchRepositories()| Service
+    Provider -->|"fetchRepositories()"| Service
     Service -->|HTTP GET| API
     API -->|JSON Response| Service
-    Service -->|List<GitHubRepository>| Provider
-    Provider -->|notifyListeners()| Screen
+    Service -->|"List[GitHubRepository]"| Provider
+    Provider -->|"notifyListeners()"| Screen
     Screen -->|Rebuilds with List| Screen
 
     style Provider fill:#e8f5e9,stroke:#2e7d32

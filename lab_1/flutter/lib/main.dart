@@ -47,11 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   shape: BoxShape.circle,
                   color: Colors.grey,
                 ),
-                child: const Center(child: Text("IMAGE")),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/google_logo.png',
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-              
               const SizedBox(height: 32),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -81,9 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 64),
-
               Row(
                 children: [
                   const Text(

@@ -45,17 +45,13 @@ fun Lab1Layout() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Image
-            // Using a system icon as placeholder if R.drawable is not set up in this raw file
-            // In a real project, use: painter = painterResource(id = R.drawable.your_image)
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.google_logo),
+                contentDescription = "Google Logo",
                 modifier = Modifier
                     .size(150.dp)
-                    .padding(top = 16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                // Placeholder for the circular image
-                 Text("IMAGE PLACEHOLDER")
-            }
+                    .padding(top = 16.dp)
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 

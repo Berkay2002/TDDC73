@@ -23,9 +23,11 @@ const App = () => {
 
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-            <View style={styles.image}>
-                <Text>IMAGE</Text>
-            </View>
+            <Image
+              source={require('./assets/google_logo.png')}
+              style={styles.image}
+              resizeMode="cover"
+            />
         </View>
 
         <View style={styles.buttonGrid}>
