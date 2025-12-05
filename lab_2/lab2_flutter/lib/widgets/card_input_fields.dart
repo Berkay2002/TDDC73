@@ -373,13 +373,13 @@ class _CardInputFieldsState extends State<CardInputFields> {
 
   Widget _buildCvvField() {
     final maxCvvLength = widget.cardData.maxCvvLength;
-    
+
     // Trim CVV if it exceeds the max length for current card type
     if (_cvvController.text.length > maxCvvLength) {
       _cvvController.text = _cvvController.text.substring(0, maxCvvLength);
       widget.cardData.cardCvv = _cvvController.text;
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
