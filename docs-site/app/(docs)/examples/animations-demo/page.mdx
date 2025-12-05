@@ -1,0 +1,26 @@
+---
+title: Animation Demo
+description: Implicit animations in Primitive UI components
+---
+
+import { AppEmbed } from '@/components/AppEmbed'
+
+# Animation Demo
+
+Primitive UI components now support implicit animations for smooth state transitions.
+
+## Live Demo
+
+This demo showcases:
+- **PrimitiveCard**: Animating color, elevation, and border radius.
+- **PrimitiveSlider**: Animating value changes programmatically.
+
+<AppEmbed 
+  src="/demo/#/animations" 
+  title="Implicit Animations Demo"
+  height={700}
+/>
+
+## How it works
+
+The animations are built using `TweenAnimationBuilder` and implicit animation patterns, ensuring that state changes result in smooth visual transitions without manual `AnimationController` management for simple properties.

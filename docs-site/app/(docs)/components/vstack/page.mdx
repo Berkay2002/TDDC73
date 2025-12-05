@@ -1,11 +1,12 @@
 ---
 title: VStack
-description: A vertical stack layout component with spacing and alignment
+description: A vertical stack layout component with spacing, alignment, and flex support
 asIndexPage: true
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
+import { AppEmbed } from '@/components/AppEmbed'
 
 # VStack
 
@@ -13,11 +14,17 @@ A vertical stack layout component that arranges its children vertically with con
 
 ## Overview
 
-`VStack` provides vertical layout capabilities using only a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood without relying on `Column`, `Flexible`, or `Expanded`.
+`VStack` provides vertical layout capabilities using a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood, including support for flexible children via `CustomFlexible` and `CustomExpanded`.
 
 <Callout type="info">
-**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`
+**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`, `ParentDataWidget`
 </Callout>
+
+<AppEmbed
+  src="/demo/#/snippet/vstack"
+  title="VStack Showcase"
+  height={600}
+/>
 
 ## Basic Usage
 
@@ -27,9 +34,11 @@ import 'package:primitive_ui/primitive_ui.dart';
 VStack(
   spacing: 16.0,
   children: [
-    Text('First'),
-    Text('Second'),
-    Text('Third'),
+    Text('Fixed Height'),
+    CustomExpanded(
+      child: Container(color: Colors.blue),
+    ),
+    Text('Fixed Height'),
   ],
 )
 ```
@@ -43,7 +52,8 @@ VStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  VStackAlignment alignment = VStackAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
 ```
@@ -67,11 +77,18 @@ VStack({
       description: 'Vertical spacing between children (must be >= 0)'
     },
     {
-      name: 'alignment',
-      type: 'VStackAlignment',
+      name: 'crossAxisAlignment',
+      type: 'CrossAxisAlignment',
       required: false,
-      default: 'VStackAlignment.start',
+      default: 'CrossAxisAlignment.start',
       description: 'How to align children horizontally'
+    },
+    {
+      name: 'mainAxisAlignment',
+      type: 'MainAxisAlignment',
+      required: false,
+      default: 'MainAxisAlignment.start',
+      description: 'How to align children vertically'
     },
     {
       name: 'mainAxisSize',
@@ -83,15 +100,31 @@ VStack({
   ]}
 />
 
-### VStackAlignment Enum
+### CustomFlexible & CustomExpanded
+
+Wrap children in these widgets to control their flex behavior.
+
+#### CustomFlexible
 
 ```dart
-enum VStackAlignment {
-  start,   // Align to start (left in LTR, right in RTL)
-  center,  // Center children horizontally
-  end,     // Align to end (right in LTR, left in RTL)
-  stretch, // Stretch children to fill available width
-}
+CustomFlexible({
+  Key? key,
+  int flex = 1,
+  FlexFit fit = FlexFit.loose,
+  required Widget child,
+})
+```
+
+#### CustomExpanded
+
+Shortcut for `CustomFlexible(fit: FlexFit.tight)`.
+
+```dart
+CustomExpanded({
+  Key? key,
+  int flex = 1,
+  required Widget child,
+})
 ```
 
 ## Examples
@@ -102,7 +135,7 @@ enum VStackAlignment {
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.start,
+  crossAxisAlignment: CrossAxisAlignment.start,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -115,7 +148,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -128,7 +161,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.end,
+  crossAxisAlignment: CrossAxisAlignment.end,
   spacing: 8.0,
   children: [
     Container(width: 100, height: 50, color: Colors.red),
@@ -141,7 +174,7 @@ VStack(
   <Tabs.Tab>
 ```dart
 VStack(
-  alignment: VStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   spacing: 8.0,
   children: [
     Container(height: 50, color: Colors.red),
@@ -153,254 +186,94 @@ VStack(
   </Tabs.Tab>
 </Tabs>
 
-### Spacing Variations
+### Flexible Layouts
 
+<Tabs items={['Expanded', 'Weighted Flex', 'Mixed']}>
+  <Tabs.Tab>
 ```dart
-// Tight spacing
+// Fills available vertical space
 VStack(
-  spacing: 4.0,
   children: [
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
-  ],
-)
-
-// Comfortable spacing
-VStack(
-  spacing: 16.0,
-  children: [
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
-  ],
-)
-
-// Wide spacing
-VStack(
-  spacing: 32.0,
-  children: [
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
+    Container(height: 50, color: Colors.red),
+    CustomExpanded(
+      child: Container(color: Colors.blue), // Takes remaining space
+    ),
+    Container(height: 50, color: Colors.green),
   ],
 )
 ```
-
-### Form Layout
-
+  </Tabs.Tab>
+  <Tabs.Tab>
 ```dart
-CustomCard(
-  child: VStack(
-    spacing: 16.0,
-    alignment: VStackAlignment.stretch,
-    children: [
-      Text(
-        'Login Form',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      ),
-      TextField(
-        decoration: InputDecoration(labelText: 'Email'),
-      ),
-      TextField(
-        decoration: InputDecoration(labelText: 'Password'),
-        obscureText: true,
-      ),
-      ElevatedButton(
-        onPressed: () {},
-        child: Text('Login'),
-      ),
-    ],
-  ),
-)
-```
-
-### Settings List
-
-```dart
+// Proportional distribution (1:2 ratio)
 VStack(
-  spacing: 12.0,
   children: [
-    Text(
-      'Settings',
-      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    CustomFlexible(
+      flex: 1,
+      child: Container(color: Colors.red),
     ),
-    CustomCard(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Notifications'),
-          CustomToggleSwitch(
-            value: notificationsEnabled,
-            onChanged: (v) => setState(() => notificationsEnabled = v),
-          ),
-        ],
-      ),
-    ),
-    CustomCard(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Dark Mode'),
-          CustomToggleSwitch(
-            value: darkModeEnabled,
-            onChanged: (v) => setState(() => darkModeEnabled = v),
-          ),
-        ],
-      ),
+    CustomFlexible(
+      flex: 2,
+      child: Container(color: Colors.blue),
     ),
   ],
 )
 ```
-
-### Nested Layouts
-
+  </Tabs.Tab>
+  <Tabs.Tab>
 ```dart
+// Fixed + Flexible
 VStack(
-  spacing: 24.0,
+  spacing: 10,
   children: [
-    Text('Dashboard', style: TextStyle(fontSize: 28)),
-    VStack(
-      spacing: 12.0,
-      children: [
-        Text('Section 1', style: TextStyle(fontSize: 20)),
-        CustomCard(child: Text('Content 1')),
-        CustomCard(child: Text('Content 2')),
-      ],
+    Text("Header"),
+    CustomExpanded(
+      child: Container(color: Colors.grey[200]),
     ),
-    VStack(
-      spacing: 12.0,
-      children: [
-        Text('Section 2', style: TextStyle(fontSize: 20)),
-        CustomCard(child: Text('Content 3')),
-        CustomCard(child: Text('Content 4')),
-      ],
-    ),
+    Text("Footer"),
   ],
 )
 ```
+  </Tabs.Tab>
+</Tabs>
 
 ## Implementation Details
 
 ### Layout Algorithm
 
-The VStack layout process follows these steps:
+The VStack layout process has been upgraded to support two-pass layout for flex children:
 
-1. **Constraint Creation**: Based on alignment mode
-   - `stretch`: Force children to take full width
-   - Others: Allow children to size themselves
-
-2. **Child Measurement**: Layout each child and track dimensions
+1. **Pass 1 (Fixed Children)**: Measure all non-flex children.
    ```dart
-   child.layout(childConstraints, parentUsesSize: true);
-   maxWidth = max(maxWidth, child.size.width);
-   totalHeight += child.size.height;
-   ```
-
-3. **Spacing Calculation**: Add spacing between all children except the last
-   ```dart
-   if (childIndex < childCount - 1) {
-     totalHeight += spacing;
+   if (flex == 0) {
+      child.layout(...);
+      totalNonFlexHeight += child.size.height;
    }
    ```
 
-4. **Self-Sizing**: Determine VStack's own size
-   - `MainAxisSize.max`: Use maximum available height
-   - `MainAxisSize.min`: Use minimum height needed
-
-5. **Child Positioning**: Calculate horizontal position based on alignment
+2. **Calculate Free Space**: Determine space available for flex children.
    ```dart
-   switch (alignment) {
-     case VStackAlignment.start:
-       x = textDirection == TextDirection.ltr ? 0.0 : width - child.size.width;
-     case VStackAlignment.center:
-       x = (width - child.size.width) / 2;
-     // ...
-   }
+   freeSpace = availableHeight - totalNonFlexHeight - totalSpacing;
    ```
 
-### RTL Support
+3. **Pass 2 (Flex Children)**: Measure flex children using allocated space.
+   ```dart
+   childHeight = (freeSpace * flex) / totalFlex;
+   child.layout(constraints.tighten(height: childHeight));
+   ```
 
-VStack respects text direction for `start` and `end` alignments:
+4. **Positioning**: Place all children in sequence.
 
-```dart
-// In LTR: start = left, end = right
-// In RTL: start = right, end = left
-x = textDirection == TextDirection.ltr
-    ? 0.0
-    : width - child.size.width;
-```
+### Parent Data
 
-### Intrinsic Dimensions
-
-VStack implements all intrinsic dimension methods:
-
-- `computeMinIntrinsicWidth`: Maximum of children's min widths
-- `computeMaxIntrinsicWidth`: Maximum of children's max widths
-- `computeMinIntrinsicHeight`: Sum of children's min heights + spacing
-- `computeMaxIntrinsicHeight`: Sum of children's max heights + spacing
-
-### Empty State Handling
-
-```dart
-if (children.isEmpty) {
-  return const SizedBox.shrink();
-}
-
-if (children.length == 1) {
-  return children[0]; // No layout needed for single child
-}
-```
-
-## Common Patterns
-
-### Conditional Spacing
-
-```dart
-VStack(
-  spacing: isCompact ? 8.0 : 16.0,
-  children: items.map((item) => ItemWidget(item)).toList(),
-)
-```
-
-### Dynamic Children
-
-```dart
-VStack(
-  spacing: 12.0,
-  children: [
-    Text('Items:'),
-    ...items.map((item) => CustomCard(
-      child: Text(item.name),
-    )),
-    if (items.isEmpty) Text('No items'),
-  ],
-)
-```
-
-### Scrollable VStack
-
-```dart
-SingleChildScrollView(
-  child: VStack(
-    spacing: 16.0,
-    children: List.generate(
-      50,
-      (index) => CustomCard(
-        child: Text('Item $index'),
-      ),
-    ),
-  ),
-)
-```
+`VStack` uses `_VStackParentData` to store `flex` and `fit` properties for each child, populated by `CustomFlexible`.
 
 ## Limitations
 
 <Callout type="warning">
 **Known Limitations:**
-- No support for `Flexible` or `Expanded` widgets
 - No built-in overflow handling (use `SingleChildScrollView` when needed)
-- No spacer or divider components built-in
+- No spacer or divider components built-in (use `CustomExpanded` with `SizedBox` or `Container` for spacer)
 - All children are measured even if not visible
 </Callout>
 
@@ -408,7 +281,7 @@ SingleChildScrollView(
 
 | Feature | VStack | Column |
 |---------|--------|--------|
-| Flexible/Expanded | ❌ Not supported | ✅ Supported |
+| Flexible/Expanded | ✅ Supported (via CustomFlexible) | ✅ Supported |
 | Baseline alignment | ❌ Not supported | ✅ Supported |
 | Text direction | ✅ Supported | ✅ Supported |
 | Intrinsic sizing | ✅ Implemented | ✅ Implemented |
@@ -421,17 +294,17 @@ SingleChildScrollView(
 - Learning how layout systems work
 - Building educational projects
 - Spacing between children is uniform
+- You need precise control over spacing (using `spacing` param)
 
 ### Use Column Instead When:
-- You need `Flexible` or `Expanded`
-- Complex layout requirements
+- You need baseline alignment
 - Performance is critical with many children
-- Using baseline text alignment
+- You rely on standard Flutter widgets that expect `Column`
 
 ## Related Components
 
 - [ZStack](/components/zstack) - For layered layouts
-- [CustomCard](/components/custom-card) - Common VStack child
+- [PrimitiveCard](/components/primitive-card) - Common VStack child
 
 ## Source Code
 

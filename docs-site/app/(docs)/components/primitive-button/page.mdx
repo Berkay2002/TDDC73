@@ -1,0 +1,109 @@
+---
+title: PrimitiveButton
+description: A customizable button component with multiple variants, sizes, and states.
+---
+
+import { AppEmbed } from '@/components/AppEmbed'
+import { ApiTable } from '@/components/ApiTable'
+
+# PrimitiveButton
+
+A highly customizable button component that adheres to the "Primitive UI" philosophy: accessible logic with distinct visual variants.
+
+## Overview
+
+The `PrimitiveButton` abstracts away the complexity of managing different button states (hover, press, disabled, loading) and visual styles (primary, secondary, ghost, etc.) into a single, cohesive API.
+
+<AppEmbed 
+  src="/demo/#/snippet/primitive_button" 
+  title="Primitive Button Variants"
+  height={500}
+/>
+
+## Basic Usage
+
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+// Default Primary Button
+PrimitiveButton(
+  onPressed: () => print('Clicked'),
+  child: Text('Submit'),
+)
+
+// Destructive Variant
+PrimitiveButton(
+  variant: PrimitiveButtonVariant.destructive,
+  onPressed: () => deleteItem(),
+  child: Text('Delete'),
+)
+
+// Loading State
+PrimitiveButton(
+  isLoading: true,
+  onPressed: () {},
+  child: Text('Saving...'),
+)
+```
+
+## API Reference
+
+<ApiTable
+  parameters={[
+    {
+      name: 'onPressed',
+      type: 'VoidCallback?',
+      required: true,
+      description: 'Callback invoked when the button is pressed. If null, the button is disabled.'
+    },
+    {
+      name: 'variant',
+      type: 'PrimitiveButtonVariant',
+      required: false,
+      default: 'primary',
+      description: 'The visual style of the button (primary, secondary, outline, ghost, destructive, link).'
+    },
+    {
+      name: 'size',
+      type: 'PrimitiveButtonSize',
+      required: false,
+      default: 'md',
+      description: 'The size of the button (sm, md, lg, icon).'
+    },
+    {
+      name: 'isLoading',
+      type: 'bool',
+      required: false,
+      default: 'false',
+      description: 'If true, shows a spinner and disables interaction.'
+    },
+    {
+      name: 'leading',
+      type: 'Widget?',
+      required: false,
+      default: 'null',
+      description: 'A widget to display before the child (e.g., an Icon).'
+    },
+     {
+      name: 'trailing',
+      type: 'Widget?',
+      required: false,
+      default: 'null',
+      description: 'A widget to display after the child.'
+    },
+    {
+      name: 'isDisabled',
+      type: 'bool',
+      required: false,
+      default: 'false',
+      description: 'If true, visually grays out the button and prevents interaction.'
+    },
+  ]}
+/>
+
+## Philosophy
+
+This component bridges the gap between raw `GestureDetector` primitives and high-level Material buttons. It provides:
+1.  **State Management**: Handles hover and press animations automatically.
+2.  **Visual Consistency**: Enforces a design system via the `variant` prop.
+3.  **Flexibility**: Allows for arbitrary children while providing smart defaults for text and icons.

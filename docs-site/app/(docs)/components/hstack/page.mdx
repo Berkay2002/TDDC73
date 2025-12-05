@@ -1,0 +1,423 @@
+---
+title: HStack
+description: A horizontal stack layout component with spacing, alignment, and flex support
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+import { ApiTable } from '@/components/ApiTable'
+import { AppEmbed } from '@/components/AppEmbed'
+
+# HStack
+
+A horizontal stack layout component that arranges its children horizontally with configurable spacing and alignment.
+
+## Overview
+
+`HStack` provides horizontal layout capabilities using a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood, including support for flexible children via `HCustomFlexible` and `HCustomExpanded`.
+
+<Callout type="info">
+**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`, `ParentDataWidget`
+</Callout>
+
+<AppEmbed
+  src="/demo/#/snippet/hstack"
+  title="HStack Showcase"
+  height={550}
+/>
+
+## Basic Usage
+
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+HStack(
+  spacing: 16.0,
+  children: [
+    Text('Fixed Width'),
+    HCustomExpanded(
+      child: Container(color: Colors.blue),
+    ),
+    Text('Fixed Width'),
+  ],
+)
+```
+
+## API Reference
+
+### Constructor
+
+```dart
+HStack({
+  Key? key,
+  required List<Widget> children,
+  double spacing = 0.0,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  MainAxisSize mainAxisSize = MainAxisSize.max,
+})
+```
+
+### Parameters
+
+<ApiTable
+  parameters={[
+    {
+      name: 'children',
+      type: 'List<Widget>',
+      required: true,
+      default: null,
+      description: 'The widgets to display in the horizontal stack'
+    },
+    {
+      name: 'spacing',
+      type: 'double',
+      required: false,
+      default: '0.0',
+      description: 'Horizontal spacing between children (must be >= 0)'
+    },
+    {
+      name: 'crossAxisAlignment',
+      type: 'CrossAxisAlignment',
+      required: false,
+      default: 'CrossAxisAlignment.start',
+      description: 'How to align children vertically'
+    },
+    {
+      name: 'mainAxisAlignment',
+      type: 'MainAxisAlignment',
+      required: false,
+      default: 'MainAxisAlignment.start',
+      description: 'How to align children horizontally'
+    },
+    {
+      name: 'mainAxisSize',
+      type: 'MainAxisSize',
+      required: false,
+      default: 'MainAxisSize.max',
+      description: 'Whether to take maximum or minimum horizontal space'
+    }
+  ]}
+/>
+
+### HCustomFlexible & HCustomExpanded
+
+Wrap children in these widgets to control their flex behavior.
+
+#### HCustomFlexible
+
+```dart
+HCustomFlexible({
+  Key? key,
+  int flex = 1,
+  FlexFit fit = FlexFit.loose,
+  required Widget child,
+})
+```
+
+#### HCustomExpanded
+
+Shortcut for `HCustomFlexible(fit: FlexFit.tight)`.
+
+```dart
+HCustomExpanded({
+  Key? key,
+  int flex = 1,
+  required Widget child,
+})
+```
+
+## Examples
+
+### Different Alignments
+
+<Tabs items={['Top', 'Center', 'Bottom', 'Stretch']}>
+  <Tabs.Tab>
+```dart
+HStack(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  crossAxisAlignment: CrossAxisAlignment.end,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 100, color: Colors.red),
+    Container(width: 50, height: 150, color: Colors.green),
+    Container(width: 50, height: 80, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, color: Colors.red),
+    Container(width: 50, color: Colors.green),
+    Container(width: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Flexible Layouts
+
+<Tabs items={['Expanded', 'Weighted Flex', 'Mixed']}>
+  <Tabs.Tab>
+```dart
+// Fills available horizontal space
+HStack(
+  children: [
+    Container(width: 50, color: Colors.red),
+    HCustomExpanded(
+      child: Container(color: Colors.blue), // Takes remaining space
+    ),
+    Container(width: 50, color: Colors.green),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+// Proportional distribution (1:2 ratio)
+HStack(
+  children: [
+    HCustomFlexible(
+      flex: 1,
+      child: Container(color: Colors.red),
+    ),
+    HCustomFlexible(
+      flex: 2,
+      child: Container(color: Colors.blue),
+    ),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+// Fixed + Flexible
+HStack(
+  spacing: 10,
+  children: [
+    Text("Header"),
+    HCustomExpanded(
+      child: Container(color: Colors.grey[200]),
+    ),
+    Text("Footer"),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Main Axis Alignment
+
+<Tabs items={['Start', 'Center', 'End', 'Space Between']}>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.start,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.center,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.end,
+  spacing: 8.0,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+HStack(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Container(width: 50, height: 50, color: Colors.red),
+    Container(width: 50, height: 50, color: Colors.green),
+    Container(width: 50, height: 50, color: Colors.blue),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Toolbar Layout
+
+```dart
+PrimitiveCard(
+  child: HStack(
+    spacing: 16.0,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        'Dashboard',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      HStack(
+        spacing: 8.0,
+        children: [
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+          CircleAvatar(child: Text('U')),
+        ],
+      ),
+    ],
+  ),
+)
+```
+
+## Implementation Details
+
+### Layout Algorithm
+
+The HStack layout process has been upgraded to support two-pass layout for flex children:
+
+1. **Pass 1 (Fixed Children)**: Measure all non-flex children.
+   ```dart
+   if (flex == 0) {
+      child.layout(...);
+      totalNonFlexWidth += child.size.width;
+   }
+   ```
+
+2. **Calculate Free Space**: Determine space available for flex children.
+   ```dart
+   freeSpace = availableWidth - totalNonFlexWidth - totalSpacing;
+   ```
+
+3. **Pass 2 (Flex Children)**: Measure flex children using allocated space.
+   ```dart
+   childWidth = (freeSpace * flex) / totalFlex;
+   child.layout(constraints.tighten(width: childWidth));
+   ```
+
+4. **Positioning**: Place all children in sequence.
+
+### RTL Support
+
+HStack respects text direction for horizontal positioning:
+
+```dart
+if (textDirection == TextDirection.rtl) {
+   currentX = width - leadingSpace;
+   // ...
+   currentX -= child.size.width;
+   // ...
+   currentX -= betweenSpace;
+} else {
+   currentX = leadingSpace;
+   // ...
+   currentX += child.size.width + betweenSpace;
+}
+```
+
+### Intrinsic Dimensions
+
+HStack implements all intrinsic dimension methods:
+
+- `computeMinIntrinsicWidth`: Sum of children's min widths + spacing
+- `computeMaxIntrinsicWidth`: Sum of children's max widths + spacing
+- `computeMinIntrinsicHeight`: Maximum of children's min heights
+- `computeMaxIntrinsicHeight`: Maximum of children's max heights
+
+## Common Patterns
+
+### Disabled State
+
+```dart
+// This is an example from PrimitiveToggleSwitch. Replace with relevant HStack example.
+bool _isDisabled = true;
+
+HStack(
+  children: [
+    Text('Item 1'),
+    Container(width: 20, height: 20, color: Colors.grey),
+    Text('Item 2'),
+  ],
+)
+```
+
+## Differences from Row
+
+| Feature | HStack | Row |
+|---------|--------|-----|
+| Flexible/Expanded | ✅ Supported (via HCustomFlexible) | ✅ Supported |
+| Baseline alignment | ❌ Not supported | ✅ Supported |
+| Text direction | ✅ Supported | ✅ Supported |
+| Intrinsic sizing | ✅ Implemented | ✅ Implemented |
+| Performance | Good for simple layouts | Optimized for all cases |
+
+## Best Practices
+
+### Use HStack When:
+- You need simple horizontal layouts
+- Learning how layout systems work
+- Building educational projects
+- Spacing between children is uniform
+- You need precise control over spacing (using `spacing` param)
+
+### Use Row Instead When:
+- You need baseline alignment
+- Performance is critical with many children
+- You rely on standard Flutter widgets that expect `Row`
+
+## Related Components
+
+- [VStack](/components/vstack) - For vertical layouts
+- [ZStack](/components/zstack) - For layered layouts
+
+## Source Code
+
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/h_stack.dart).

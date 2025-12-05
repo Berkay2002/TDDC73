@@ -13,6 +13,7 @@ export async function getLibraryVersion(): Promise<string> {
     if (match && match[1]) {
       return match[1]
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // Silently fail and return default in case of path issues
     console.warn('Warning: Could not read library version from pubspec.yaml')

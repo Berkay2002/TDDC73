@@ -74,8 +74,8 @@ project/
 │   ├── lib/
 │   │   ├── primitive_ui.dart
 │   │   └── src/components/
-│   │       ├── custom_card.dart
-│   │       ├── custom_toggle_switch.dart
+│   │       ├── primitive_card.dart
+│   │       ├── primitive_toggle_switch.dart
 │   │       ├── v_stack.dart
 │   │       └── z_stack.dart
 │   └── test/                  # Widget tests
@@ -87,8 +87,8 @@ project/
 
 **Components Implemented:**
 
-1. **CustomCard** - Container with shadow, rounded corners, padding
-2. **CustomToggleSwitch** - Animated on/off switch
+1. **PrimitiveCard** - Container with shadow, rounded corners, padding
+2. **PrimitiveToggleSwitch** - Animated on/off switch
 3. **VStack** - Vertical stack layout
 4. **ZStack** - Layered stack layout (z-ordering)
 

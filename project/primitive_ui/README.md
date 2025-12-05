@@ -19,27 +19,37 @@ Instead of using high-level widgets like `Button`, `Card`, `Column`, `Row`, or `
 
 This approach provides deep insight into how Flutter's rendering engine works and demonstrates the fundamental concepts behind every widget you use in Flutter.
 
+## Accessibility
+
+Primitive UI components are designed to be accessible and WAI-ARIA compliant where applicable. All interactive components use Flutter's `Semantics` widget to expose:
+- **Roles**: Buttons, sliders, switches, and containers.
+- **States**: Toggled, enabled/disabled, values.
+- **Actions**: Tap, increase, decrease.
+- **Labels**: Custom semantic labels via `semanticsLabel`.
+
 ---
 
 ## Components
 
-Primitive UI includes 4 core components: 2 UI components and 2 layout components.
+Primitive UI includes 7 core components: 4 UI components and 3 layout components.
 
 ### UI Components
 
-#### 1. CustomCard
+#### 1. PrimitiveCard
 
-A container widget with shadow, rounded corners, and padding - all rendered using Canvas.
+A container widget with shadow, rounded corners, and padding - all rendered using Canvas. Supports implicit animations for style changes.
 
 **Constructor:**
 ```dart
-CustomCard({
+PrimitiveCard({
   Key? key,
   required Widget child,
   Color color = Colors.white,
   double borderRadius = 8.0,
   double elevation = 2.0,
   EdgeInsets padding = const EdgeInsets.all(16.0),
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
 })
 ```
 
@@ -49,30 +59,23 @@ CustomCard({
 - `borderRadius`: Corner radius in logical pixels (default: 8.0)
 - `elevation`: Shadow depth in logical pixels (default: 2.0)
 - `padding`: Internal spacing around the child (default: 16.0 on all sides)
+- `duration`: Animation duration for style changes (default: 200ms)
+- `curve`: Animation curve (default: easeInOut)
 
 **Example Usage:**
 ```dart
 // Basic card
-CustomCard(
+PrimitiveCard(
   child: Text('Hello World'),
 )
 
-// Customized card
-CustomCard(
-  color: Colors.blue[50]!,
-  borderRadius: 16.0,
-  elevation: 8.0,
-  padding: const EdgeInsets.symmetric(
-    horizontal: 24.0,
-    vertical: 16.0,
-  ),
-  child: Column(
-    children: [
-      Text('Card Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      SizedBox(height: 8),
-      Text('Card content goes here'),
-    ],
-  ),
+// Animated card
+PrimitiveCard(
+  color: _isSelected ? Colors.blue[50]! : Colors.white,
+  elevation: _isSelected ? 8.0 : 2.0,
+  duration: const Duration(milliseconds: 300),
+  child: Text('Tap me'),
+  onTap: () => setState(() => _isSelected = !_isSelected),
 )
 ```
 
@@ -80,17 +83,18 @@ CustomCard(
 - Uses `CustomPaint` with a custom `CustomPainter` for rendering
 - `Canvas.drawShadow()` for elevation effect
 - `Canvas.drawRRect()` for rounded corners
+- Implicitly animates `color`, `elevation`, `shadowColor`, and `borderRadius` using `TweenAnimationBuilder`
 - Custom `RenderShiftedBox` for padding and layout
 
 ---
 
-#### 2. CustomToggleSwitch
+#### 2. PrimitiveToggleSwitch
 
 An animated toggle switch with smooth transitions between on/off states.
 
 **Constructor:**
 ```dart
-CustomToggleSwitch({
+PrimitiveToggleSwitch({
   Key? key,
   required bool value,
   required ValueChanged<bool> onChanged,
@@ -114,7 +118,7 @@ CustomToggleSwitch({
 // Basic toggle switch
 bool _isEnabled = false;
 
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _isEnabled,
   onChanged: (bool newValue) {
     setState(() {
@@ -124,7 +128,7 @@ CustomToggleSwitch(
 )
 
 // Customized toggle switch
-CustomToggleSwitch(
+PrimitiveToggleSwitch(
   value: _darkMode,
   onChanged: (bool value) {
     setState(() => _darkMode = value);
@@ -146,14 +150,224 @@ CustomToggleSwitch(
 **Animation Behavior:**
 - Tap triggers 200ms animation with `easeInOut` curve
 - Thumb smoothly slides between positions
+// ...existing code...
 - Colors interpolate during transition
 - Callback fires immediately on tap (doesn't wait for animation)
 
 ---
 
+#### 3. PrimitiveSlider
+
+A slider component for selecting a value from a range. Supports implicit animations for programmatic value changes.
+
+**Constructor:**
+```dart
+PrimitiveSlider({
+  Key? key,
+  required double value,
+  ValueChanged<double>? onChanged,
+  double min = 0.0,
+  double max = 1.0,
+  Color activeColor = const Color(0xFF2196F3),
+  Color inactiveColor = const Color(0xFFE0E0E0),
+  double thumbRadius = 10.0,
+  double trackHeight = 4.0,
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
+})
+```
+
+**Parameters:**
+- `value` (required): Current value
+- `onChanged`: Callback when value changes
+- `min`: Minimum value (default: 0.0)
+- `max`: Maximum value (default: 1.0)
+- `activeColor`: Color of the active track and thumb
+- `inactiveColor`: Color of the inactive track
+- `thumbRadius`: Radius of the thumb
+- `trackHeight`: Height of the track
+- `duration`: Animation duration for value changes (default: 200ms)
+- `curve`: Animation curve (default: easeInOut)
+
+**Example Usage:**
+```dart
+PrimitiveSlider(
+  value: _currentValue,
+  min: 0.0,
+  max: 100.0,
+  onChanged: (value) {
+    setState(() => _currentValue = value);
+  },
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` for track and thumb rendering
+- `GestureDetector` handles drag updates to calculate value
+- implicitly animates value changes using `TweenAnimationBuilder` (animation is disabled during drag for responsiveness)
+- Maps pixel position to value range
+
+---
+
+#### 4. PrimitiveCircularProgress
+
+An indeterminate circular progress indicator.
+
+**Constructor:**
+```dart
+PrimitiveCircularProgress({
+  Key? key,
+  Color color = const Color(0xFF2196F3),
+  double strokeWidth = 4.0,
+  double size = 40.0,
+})
+```
+
+**Parameters:**
+- `color`: Color of the indicator
+- `strokeWidth`: Width of the stroke
+- `size`: Diameter of the indicator
+
+**Example Usage:**
+```dart
+PrimitiveCircularProgress(
+  color: Colors.purple,
+  size: 50.0,
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` to draw arcs
+- `AnimationController` rotates the canvas
+- Demonstrates continuous animation with custom painting
+
+---
+
+#### 5. PrimitiveButton
+
+A highly customizable button component with multiple variants, sizes, and states. It provides a foundation for interactive elements with built-in visual feedback for hover, press, loading, and disabled states.
+
+**Constructor:**
+```dart
+PrimitiveButton({
+  Key? key,
+  required VoidCallback? onPressed,
+  Widget? child,
+  PrimitiveButtonVariant variant = PrimitiveButtonVariant.primary,
+  PrimitiveButtonSize size = PrimitiveButtonSize.md,
+  bool isLoading = false,
+  bool isDisabled = false,
+  Widget? leading,
+  Widget? trailing,
+})
+```
+
+**Parameters:**
+- `onPressed` (required): Callback invoked when the button is pressed. If null, the button is disabled.
+- `child`: The main content of the button (e.g., Text).
+- `variant`: The visual style of the button (primary, secondary, destructive, outline, ghost, link).
+- `size`: The size of the button (sm, md, lg, icon).
+- `isLoading`: If true, shows a spinner and disables interaction.
+- `isDisabled`: If true, visually grays out the button and prevents interaction.
+- `leading`: A widget to display before the child (e.g., an Icon).
+- `trailing`: A widget to display after the child.
+
+**Example Usage:**
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+// Primary button
+PrimitiveButton(
+  onPressed: () => print('Primary button tapped!'),
+  child: const Text('Confirm'),
+)
+
+// Destructive button with icon and loading state
+bool _isDeleting = false;
+
+PrimitiveButton(
+  onPressed: () {
+    setState(() => _isDeleting = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _isDeleting = false);
+    });
+  },
+  variant: PrimitiveButtonVariant.destructive,
+  isLoading: _isDeleting,
+  leading: const Icon(Icons.delete),
+  child: const Text('Delete Account'),
+)
+
+// Icon button (small size)
+PrimitiveButton(
+  size: PrimitiveButtonSize.icon,
+  onPressed: () => print('Add item'),
+  child: const Icon(Icons.add),
+)
+```
+
+**Implementation Details:**
+- Uses `CustomPaint` for rendering, and `GestureDetector` for interaction.
+- Manages hover, press, loading, and disabled states internally.
+- Styles (colors, borders, text styles) are dynamically resolved based on `variant`, `size`, and current state.
+- Supports leading/trailing icons and text content.
+
+---
+
+#### 6. PrimitiveInput
+
+A flexible text input component built on Flutter's `EditableText` primitive.
+
+**Constructor:**
+```dart
+PrimitiveInput({
+  Key? key,
+  TextEditingController? controller,
+  String? placeholder,
+  bool obscureText = false,
+  PrimitiveInputVariant variant = PrimitiveInputVariant.outline,
+  PrimitiveInputSize size = PrimitiveInputSize.md,
+  Widget? leading,
+  Widget? trailing,
+  bool hasError = false,
+  bool enabled = true,
+  // ... standard text input params
+})
+```
+
+**Parameters:**
+- `placeholder`: Text displayed when empty.
+- `variant`: `outline`, `filled`, or `flushed`.
+- `size`: `sm`, `md`, `lg`.
+- `leading` / `trailing`: Widgets for icons or buttons.
+
+**Example Usage:**
+```dart
+PrimitiveInput(
+  placeholder: 'Search...',
+  leading: Icon(Icons.search),
+  variant: PrimitiveInputVariant.filled,
+)
+```
+
+**Implementation Details:**
+- Wraps `EditableText` directly to avoid Material `TextField` overhead.
+- Uses `AnimatedContainer` for decoration transitions.
+- Manages focus state via `FocusNode` listeners.
+- Implements custom placeholder logic using `Stack`.
+
+---
+
 ### Layout Components
 
-#### 3. VStack
+#### 7. VStack
+// ...existing code...
+
+---
+
+### Layout Components
+
+#### 5. VStack
 
 A layout component that arranges children vertically with configurable spacing and alignment.
 
@@ -163,7 +377,8 @@ VStack({
   Key? key,
   required List<Widget> children,
   double spacing = 0.0,
-  VStackAlignment alignment = VStackAlignment.start,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   MainAxisSize mainAxisSize = MainAxisSize.max,
 })
 ```
@@ -171,17 +386,20 @@ VStack({
 **Parameters:**
 - `children` (required): List of widgets to arrange vertically
 - `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
-- `alignment`: How to align children horizontally (default: start)
+- `crossAxisAlignment`: How to align children horizontally (default: start)
+- `mainAxisAlignment`: How to distribute children vertically (default: start)
 - `mainAxisSize`: Whether to take maximum or minimum vertical space (default: max)
 
-**Alignment Options:**
+**Flexible Children:**
+You can wrap children in `CustomFlexible` or `CustomExpanded` to control how they share available space, similar to `Column`.
+
 ```dart
-enum VStackAlignment {
-  start,    // Align to the left edge
-  center,   // Center horizontally
-  end,      // Align to the right edge
-  stretch,  // Stretch to fill horizontal space
-}
+VStack(
+  children: [
+    CustomExpanded(child: Container(color: Colors.red)),
+    Container(height: 50, color: Colors.blue),
+  ],
+)
 ```
 
 **Example Usage:**
@@ -199,7 +417,8 @@ VStack(
 // Centered with custom spacing
 VStack(
   spacing: 24.0,
-  alignment: VStackAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center,
   children: [
     Icon(Icons.check_circle, size: 48, color: Colors.green),
     Text('Success!', style: TextStyle(fontSize: 24)),
@@ -210,7 +429,7 @@ VStack(
 // Stretched children
 VStack(
   spacing: 8.0,
-  alignment: VStackAlignment.stretch,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
   children: [
     ElevatedButton(onPressed: () {}, child: Text('Button 1')),
     ElevatedButton(onPressed: () {}, child: Text('Button 2')),
@@ -218,13 +437,12 @@ VStack(
   ],
 )
 
-// Minimum vertical space
+// Space between children
 VStack(
-  spacing: 12.0,
-  mainAxisSize: MainAxisSize.min,
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
-    Text('Compact'),
-    Text('Layout'),
+    Text('Top'),
+    Text('Bottom'),
   ],
 )
 ```
@@ -233,17 +451,79 @@ VStack(
 - Custom `RenderBox` with `ContainerRenderObjectMixin`
 - Manual layout constraint calculations
 - Supports intrinsic sizing for proper nested layouts
-- No `Flexible` or `Expanded` support (out of scope for primitive implementation)
+- Supports `CustomFlexible` and `CustomExpanded` for proportional sizing
 
 **Layout Algorithm:**
 1. Measure each child with appropriate constraints
 2. Calculate total height (sum of child heights + spacing)
-3. Position children vertically with spacing
+3. Position children vertically with spacing and main axis distribution
 4. Apply horizontal alignment to each child
 
 ---
 
-#### 4. ZStack
+#### 6. HStack
+
+A layout component that arranges children horizontally with configurable spacing and alignment.
+
+**Constructor:**
+```dart
+HStack({
+  Key? key,
+  required List<Widget> children,
+  double spacing = 0.0,
+  CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
+  MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+  MainAxisSize mainAxisSize = MainAxisSize.max,
+})
+```
+
+**Parameters:**
+- `children` (required): List of widgets to arrange horizontally
+- `spacing`: Uniform spacing between children in logical pixels (default: 0.0)
+- `crossAxisAlignment`: How to align children vertically (default: start)
+- `mainAxisAlignment`: How to distribute children horizontally (default: start)
+- `mainAxisSize`: Whether to take maximum or minimum horizontal space (default: max)
+
+**Example Usage:**
+```dart
+// Basic horizontal stack
+HStack(
+  spacing: 16.0,
+  children: [
+    Icon(Icons.star),
+    Text('4.5 Stars'),
+  ],
+)
+
+// Centered content
+HStack(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    CircularProgressIndicator(),
+    SizedBox(width: 16),
+    Text('Loading...'),
+  ],
+)
+
+// Space between items
+HStack(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text('Left'),
+    Text('Right'),
+  ],
+)
+```
+
+**Implementation Details:**
+- Similar to `VStack` but operates on the horizontal axis
+- Custom `RenderBox` implementation
+- Handles RTL text direction automatically
+
+---
+
+#### 7. ZStack
 
 A layout component that layers children on top of each other (z-ordering/stacking).
 
@@ -365,9 +645,10 @@ import 'package:primitive_ui/primitive_ui.dart';
 ```
 
 All components are now available:
-- `CustomCard`
-- `CustomToggleSwitch`
-- `VStack` and `VStackAlignment`
+- `PrimitiveCard`
+- `PrimitiveToggleSwitch`
+- `VStack`
+- `HStack`
 - `ZStack` and `StackFit`
 
 ---
@@ -397,10 +678,10 @@ class _DemoScreenState extends State<DemoScreen> {
         padding: const EdgeInsets.all(16.0),
         child: VStack(
           spacing: 16.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Card with toggle switches
-            CustomCard(
+            PrimitiveCard(
               elevation: 4.0,
               borderRadius: 12.0,
               child: VStack(
@@ -410,7 +691,7 @@ class _DemoScreenState extends State<DemoScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Notifications'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: _notificationsEnabled,
                         onChanged: (value) {
                           setState(() => _notificationsEnabled = value);
@@ -422,7 +703,7 @@ class _DemoScreenState extends State<DemoScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Dark Mode'),
-                      CustomToggleSwitch(
+                      PrimitiveToggleSwitch(
                         value: _darkMode,
                         onChanged: (value) {
                           setState(() => _darkMode = value);
@@ -436,7 +717,7 @@ class _DemoScreenState extends State<DemoScreen> {
             ),
 
             // Layered badge example
-            CustomCard(
+            PrimitiveCard(
               child: ZStack(
                 alignment: Alignment.topRight,
                 children: [
@@ -534,11 +815,6 @@ While `AnimationController` is a higher-level API, implementing animation timing
 
 ### Trade-offs and Limitations
 
-**No Flexible/Expanded Support in VStack:**
-- Implementing flex layout would require significant complexity
-- The goal is demonstrating basic layout, not full flex algorithm
-- Users can wrap children in `SizedBox` for fixed sizes
-
 **No Positioned Support in ZStack:**
 - Unlike Flutter's `Stack`, we don't support absolute positioning
 - All children use alignment-based positioning
@@ -597,7 +873,7 @@ While `AnimationController` is a higher-level API, implementing animation timing
 
 ## Testing
 
-Comprehensive widget tests are included for the `CustomToggleSwitch` component, covering:
+Comprehensive widget tests are included for the `PrimitiveToggleSwitch` component, covering:
 
 - **Rendering:** Initial on/off states
 - **Interaction:** Tap behavior and state changes
@@ -619,7 +895,7 @@ flutter test
 
 **Test Coverage:**
 - 14 test cases
-- 100% coverage of CustomToggleSwitch functionality
+- 100% coverage of PrimitiveToggleSwitch functionality
 - Demonstrates understanding of Flutter widget testing
 
 ---
@@ -640,12 +916,12 @@ flutter test
 
 ### Best Practices
 
-**CustomCard:**
+**PrimitiveCard:**
 - Only repaints when color, elevation, or border radius change
 - Uses efficient `RRect` for rounded corners
 - Shadow is rendered once per paint
 
-**CustomToggleSwitch:**
+**PrimitiveToggleSwitch:**
 - Animation is smooth (60 FPS) with easeInOut curve
 - State changes trigger minimal rebuilds
 - Color interpolation is performed in paint method
@@ -673,7 +949,7 @@ Then run:
 flutter pub get
 ```
 
-### "CustomCard not rendering shadow"
+### "PrimitiveCard not rendering shadow"
 
 Ensure you're providing enough space for the shadow. The shadow extends beyond the card by the `elevation` amount.
 

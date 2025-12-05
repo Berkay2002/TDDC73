@@ -3,27 +3,89 @@ title: Architecture
 description: Understanding the internals of Primitive UI
 ---
 
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import Link from "next/link"
+
 # Architecture
 
 Dive deep into how Primitive UI works under the hood. Learn about the primitives, rendering pipeline, and design decisions that shape the library.
 
 ## Topics
 
-Explore these architecture topics to understand how Primitive UI is built:
-
-- **[Primitives Explained](/architecture/primitives-explained)** - Learn about CustomPaint, Canvas, RenderBox, and the core building blocks
-- **[Rendering Pipeline](/architecture/rendering-pipeline)** - Understand how Flutter transforms widgets into pixels on screen
-- **[Design Decisions](/architecture/design-decisions)** - Discover the architectural choices and trade-offs made in Primitive UI
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+  <Link href="/architecture/primitives-explained" className="no-underline">
+    <Card className="h-full transition-colors hover:border-foreground/50">
+      <CardHeader>
+        <CardTitle>Primitives Explained</CardTitle>
+        <CardDescription>
+          Learn about CustomPaint, Canvas, RenderBox, and the core building blocks
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/architecture/rendering-pipeline" className="no-underline">
+    <Card className="h-full transition-colors hover:border-foreground/50">
+      <CardHeader>
+        <CardTitle>Rendering Pipeline</CardTitle>
+        <CardDescription>
+          Understand how Flutter transforms widgets into pixels on screen
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/architecture/design-decisions" className="no-underline">
+    <Card className="h-full transition-colors hover:border-foreground/50">
+      <CardHeader>
+        <CardTitle>Design Decisions</CardTitle>
+        <CardDescription>
+          Discover the architectural choices and trade-offs made in Primitive UI
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+</div>
 
 ## Why Architecture Matters
 
-Understanding the architecture helps you:
-
-- **Debug effectively** - Know where to look when things go wrong
-- **Optimize performance** - Identify bottlenecks and optimization opportunities
-- **Extend the library** - Build your own primitive components
-- **Learn Flutter deeply** - Gain insights that apply to all Flutter development
-
----
-
-Start with [Primitives Explained](/architecture/primitives-explained) to learn the foundational concepts.
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+  <Card>
+    <CardHeader>
+      <CardTitle>Debug Effectively</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Know where to look when things go wrong
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Optimize Performance</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Identify bottlenecks and optimization opportunities
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Extend the Library</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Build your own primitive components
+      </div>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Learn Flutter Deeply</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="text-muted-foreground">
+        Gain insights that apply to all Flutter development
+      </div>
+    </CardContent>
+  </Card>
+</div>

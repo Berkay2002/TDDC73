@@ -1,18 +1,30 @@
 /* eslint-disable import/no-anonymous-default-export */
 export default {
   index: {
-    title: 'Home',
+    title: 'Primitive UI',
     display: 'hidden'
   },
+  _: {
+    type: 'separator',
+    title: 'Overview'
+  },
   'getting-started': 'Getting Started',
+  accessibility: 'Accessibility',
+  releases: 'Releases',
+  _2: {
+    type: 'separator',
+    title: 'Components'
+  },
   components: {
     title: 'Components',
-    items: {
-      'custom-card': 'CustomCard',
-      'custom-toggle-switch': 'CustomToggleSwitch',
-      'vstack': 'VStack',
-      'zstack': 'ZStack'
-    }
+      items: {
+        'primitive-card': { title: 'PrimitiveCard' },
+        'h-stack': { title: 'HStack' },
+        'v-stack': { title: 'VStack' },
+        'z-stack': { title: 'ZStack' },
+        'primitive-button': { title: 'PrimitiveButton' },
+        'primitive-input': { title: 'PrimitiveInput' },
+      }
   },
   examples: {
     title: 'Examples',

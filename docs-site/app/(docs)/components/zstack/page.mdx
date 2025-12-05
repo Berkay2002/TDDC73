@@ -1,23 +1,30 @@
 ---
 title: ZStack
-description: A layered stack layout component for z-ordering widgets
+description: A layered stack layout component with alignment and absolute positioning
 asIndexPage: true
 ---
 
 import { Callout, Steps, Tabs } from 'nextra/components'
 import { ApiTable } from '@/components/ApiTable'
+import { AppEmbed } from '@/components/AppEmbed'
 
 # ZStack
 
-A layered stack layout component that positions children on top of each other with configurable alignment.
+A layered stack layout component that positions children on top of each other with configurable alignment and absolute positioning.
 
 ## Overview
 
-`ZStack` provides z-ordering (layering) capabilities using only a custom `RenderBox` implementation. It demonstrates how Flutter's layered layout works without relying on `Stack` or `Positioned` widgets.
+`ZStack` provides z-ordering (layering) and absolute positioning capabilities using a custom `RenderBox` implementation. It demonstrates how Flutter's layered layout works without relying on the native `Stack` widget, now with support for `CustomPositioned`.
 
 <Callout type="info">
-**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`
+**Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`, `ParentDataWidget`
 </Callout>
+
+<AppEmbed
+  src="/demo/#/snippet/zstack"
+  title="ZStack Showcase"
+  height={550}
+/>
 
 ## Basic Usage
 
@@ -28,7 +35,11 @@ ZStack(
   alignment: Alignment.center,
   children: [
     Container(width: 200, height: 200, color: Colors.blue),
-    Container(width: 100, height: 100, color: Colors.red),
+    CustomPositioned(
+      right: 10,
+      top: 10,
+      child: Container(width: 50, height: 50, color: Colors.red),
+    ),
   ],
 )
 ```
@@ -39,7 +50,7 @@ Children are painted in order - the last child appears on top.
 
 ## API Reference
 
-### Constructor
+### ZStack Constructor
 
 ```dart
 ZStack({
@@ -50,7 +61,7 @@ ZStack({
 })
 ```
 
-### Parameters
+### ZStack Parameters
 
 <ApiTable
   parameters={[
@@ -59,21 +70,21 @@ ZStack({
       type: 'List<Widget>',
       required: true,
       default: null,
-      description: 'The widgets to layer (first = bottom, last = top)'
+      description: 'The widgets to layer (first = bottom, last = top). Can include CustomPositioned.'
     },
     {
       name: 'alignment',
       type: 'AlignmentGeometry',
       required: false,
       default: 'Alignment.center',
-      description: 'How to align children within the stack'
+      description: 'How to align non-positioned children within the stack'
     },
     {
       name: 'fit',
       type: 'ZStackFit',
       required: false,
       default: 'ZStackFit.loose',
-      description: 'How children should be sized to fit the stack'
+      description: 'How non-positioned children should be sized to fit the stack'
     }
   ]}
 />
@@ -88,19 +99,84 @@ enum ZStackFit {
 }
 ```
 
-### Alignment Options
+### CustomPositioned Widget
 
-ZStack supports all standard Flutter alignments:
+Allows absolute positioning of children within a `ZStack`.
+
+#### Constructor
 
 ```dart
-Alignment.topLeft       Alignment.topCenter       Alignment.topRight
-Alignment.centerLeft    Alignment.center          Alignment.centerRight
-Alignment.bottomLeft    Alignment.bottomCenter    Alignment.bottomRight
+CustomPositioned({
+  Key? key,
+  double? left,
+  double? top,
+  double? right,
+  double? bottom,
+  double? width,
+  double? height,
+  required Widget child,
+})
 ```
+
+#### Parameters
+
+<ApiTable
+  parameters={[
+    {
+      name: 'left',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Distance from the left edge of the ZStack'
+    },
+    {
+      name: 'top',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Distance from the top edge of the ZStack'
+    },
+    {
+      name: 'right',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Distance from the right edge of the ZStack'
+    },
+    {
+      name: 'bottom',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Distance from the bottom edge of the ZStack'
+    },
+    {
+      name: 'width',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Explicit width for the positioned child'
+    },
+    {
+      name: 'height',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Explicit height for the positioned child'
+    },
+    {
+      name: 'child',
+      type: 'Widget',
+      required: true,
+      default: null,
+      description: 'The widget to position'
+    }
+  ]}
+/>
 
 ## Examples
 
-### Different Alignments
+### Different Alignments (for non-positioned children)
 
 <Tabs items={['Center', 'Top Left', 'Bottom Right', 'Custom']}>
   <Tabs.Tab>
@@ -149,36 +225,54 @@ ZStack(
   </Tabs.Tab>
 </Tabs>
 
-### Different Fit Modes
+### Positioned Children
 
+<Tabs items={['Top Right', 'Bottom Left', 'Stretched']}>
+  <Tabs.Tab>
 ```dart
-// Loose: Children can size themselves
 ZStack(
-  fit: ZStackFit.loose,
   children: [
-    Container(width: 200, height: 200, color: Colors.blue),
-    Container(width: 100, height: 100, color: Colors.red),
-  ],
-)
-
-// Expand: Children fill entire stack
-ZStack(
-  fit: ZStackFit.expand,
-  children: [
-    Container(color: Colors.blue),
-    Container(color: Colors.red.withOpacity(0.5)),
-  ],
-)
-
-// Passthrough: Children get exact constraints
-ZStack(
-  fit: ZStackFit.passthrough,
-  children: [
-    Container(color: Colors.blue),
-    Text('Constrained to stack size'),
+    Container(width: 200, height: 200, color: Colors.blue[100]),
+    CustomPositioned(
+      right: 10,
+      top: 10,
+      child: Container(width: 50, height: 50, color: Colors.red),
+    ),
   ],
 )
 ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+ZStack(
+  children: [
+    Container(width: 200, height: 200, color: Colors.green[100]),
+    CustomPositioned(
+      left: 20,
+      bottom: 20,
+      child: Container(width: 60, height: 40, color: Colors.purple),
+    ),
+  ],
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+ZStack(
+  children: [
+    Container(width: 200, height: 200, color: Colors.orange[100]),
+    CustomPositioned(
+      left: 10,
+      right: 10,
+      top: 10,
+      bottom: 10,
+      child: Container(color: Colors.teal), // Stretches to fill available space
+    ),
+  ],
+)
+```
+  </Tabs.Tab>
+</Tabs>
 
 ### Badge Example
 
@@ -189,17 +283,21 @@ ZStack(
     // Base icon
     Icon(Icons.notifications, size: 48),
     // Badge overlay
-    Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        color: Colors.red,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          '3',
-          style: TextStyle(color: Colors.white, fontSize: 12),
+    CustomPositioned(
+      right: 0,
+      top: 0,
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Text(
+            '3',
+            style: TextStyle(color: Colors.white, fontSize: 12),
+          ),
         ),
       ),
     ),
@@ -215,7 +313,7 @@ ZStack(
   children: [
     // Background image
     Image.network(
-      'https://example.com/image.jpg',
+      'https://picsum.photos/id/237/200/300',
       fit: BoxFit.cover,
     ),
     // Dark overlay
@@ -237,130 +335,43 @@ ZStack(
 )
 ```
 
-### Avatar with Status Badge
-
-```dart
-ZStack(
-  children: [
-    // Avatar circle
-    Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          'JD',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
-      ),
-    ),
-    // Online status indicator
-    Positioned(
-      right: 0,
-      bottom: 0,
-      child: Container(
-        width: 16,
-        height: 16,
-        decoration: BoxDecoration(
-          color: Colors.green,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-      ),
-    ),
-  ],
-)
-```
-
-### Card with Floating Action
-
-```dart
-ZStack(
-  alignment: Alignment.bottomRight,
-  children: [
-    CustomCard(
-      child: VStack(
-        spacing: 12.0,
-        children: [
-          Text('Card Title', style: TextStyle(fontSize: 20)),
-          Text('Card content goes here...'),
-        ],
-      ),
-    ),
-    // Floating action button
-    Container(
-      margin: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: IconButton(
-        icon: Icon(Icons.add, color: Colors.white),
-        onPressed: () {},
-      ),
-    ),
-  ],
-)
-```
-
 ## Implementation Details
 
 ### Layout Algorithm
 
-The ZStack layout process:
+The `ZStack` layout process now supports positioned children with a two-pass approach:
 
-1. **Determine Child Constraints**: Based on fit mode
+1. **Pass 1 (Non-Positioned Children)**: Measure non-positioned children first to determine the overall stack size (if `fit` is `loose`).
    ```dart
-   switch (fit) {
-     case ZStackFit.loose:
-       childConstraints = constraints.loosen();
-     case ZStackFit.expand:
-       childConstraints = BoxConstraints.tight(constraints.biggest);
-     case ZStackFit.passthrough:
-       childConstraints = constraints;
+   if (!childParentData.isPositioned) {
+        child.layout(nonPositionedConstraints, parentUsesSize: true);
+        maxWidth = max(maxWidth, child.size.width);
+        maxHeight = max(maxHeight, child.size.height);
    }
    ```
 
-2. **Layout All Children**: Measure each child and track maximum dimensions
+2. **Determine Stack Size**: Based on `fit` mode and measured non-positioned children.
+
+3. **Pass 2 (All Children)**: Layout all children. For `CustomPositioned` children, constraints are calculated based on `left`, `top`, `right`, `bottom`, `width`, and `height` properties. Non-positioned children are laid out using the stack's `alignment`.
    ```dart
-   child.layout(childConstraints, parentUsesSize: true);
-   maxWidth = max(maxWidth, child.size.width);
-   maxHeight = max(maxHeight, child.size.height);
+   if (childParentData.isPositioned) {
+        // Calculate specific constraints and offset for positioned child
+   } else {
+       // Position non-positioned child based on ZStack's alignment
+   }
    ```
 
-3. **Self-Sizing**: Determine ZStack's size
-   - `expand`: Use constraints' biggest size
-   - Others: Use maximum child size
+### Parent Data
 
-4. **Position Children**: Calculate offset based on alignment
-   ```dart
-   final dx = resolvedAlignment
-       .alongOffset(size - child.size as Offset)
-       .dx;
-   final dy = resolvedAlignment
-       .alongOffset(size - child.size as Offset)
-       .dy;
-   ```
+`ZStack` uses `_ZStackParentData` to store positioning properties (`left`, `top`, `right`, `bottom`, `width`, `height`) for each child, populated by `CustomPositioned`.
 
 ### Alignment Resolution
 
-ZStack properly resolves alignment for text direction:
+`ZStack` properly resolves alignment for non-positioned children based on `textDirection`:
 
 ```dart
 final resolvedAlignment = alignment.resolve(textDirection);
 ```
-
-This ensures that alignments like `AlignmentDirectional.start` work correctly in both LTR and RTL layouts.
 
 ### Paint Order
 
@@ -374,7 +385,7 @@ defaultPaint(context, offset);
 
 ### Intrinsic Dimensions
 
-ZStack calculates intrinsic dimensions as the maximum of all children:
+`ZStack` calculates intrinsic dimensions based on its non-positioned children:
 
 ```dart
 double computeMinIntrinsicWidth(double height) {
@@ -399,9 +410,11 @@ ZStack(
       ),
     ),
     // Middle layer: pattern
-    Opacity(
-      opacity: 0.1,
-      child: Image.asset('assets/pattern.png'),
+    CustomPositioned.fill(
+      child: Opacity(
+        opacity: 0.1,
+        child: Image.network('https://picsum.photos/seed/picsum/200/300', fit: BoxFit.cover),
+      ),
     ),
     // Top layer: content
     Center(child: Text('Content')),
@@ -415,13 +428,15 @@ ZStack(
 ZStack(
   children: [
     // Main content
-    MyContent(),
+    Container(height: 200, color: Colors.white, child: Center(child: Text('My Content'))),
     // Loading overlay (conditional)
     if (isLoading)
-      Container(
-        color: Colors.black54,
-        child: Center(
-          child: CircularProgressIndicator(),
+      CustomPositioned.fill(
+        child: Container(
+          color: Colors.black54,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
   ],
@@ -436,63 +451,65 @@ ZStack(
     // Base widget
     Container(width: 100, height: 100, color: Colors.blue),
     // Top-right badge
-    Align(
-      alignment: Alignment.topRight,
-      child: Badge(text: 'New'),
+    CustomPositioned(
+      right: 0,
+      top: 0,
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+        child: Center(child: Text('N', style: TextStyle(color: Colors.white, fontSize: 10))),
+      ),
     ),
     // Bottom-left badge
-    Align(
-      alignment: Alignment.bottomLeft,
-      child: Badge(text: 'Hot'),
+    CustomPositioned(
+      left: 0,
+      bottom: 0,
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+        child: Center(child: Text('A', style: TextStyle(color: Colors.white, fontSize: 10))),
+      ),
     ),
   ],
 )
 ```
 
-## Limitations
-
-<Callout type="warning">
-**Known Limitations:**
-- No `Positioned` widget support (use `Alignment` instead)
-- All children are laid out even if not visible
-- No clip behavior built-in
-- Cannot individually control child fit modes
-</Callout>
-
 ## Differences from Stack
 
 | Feature | ZStack | Stack |
 |---------|--------|-------|
-| Positioned | ❌ Not supported | ✅ Supported |
+| Positioned | ✅ Supported (via CustomPositioned) | ✅ Supported |
 | Fit modes | ✅ Per-stack | ✅ Per-child |
 | Clip behavior | ❌ No built-in | ✅ Built-in |
 | Alignment | ✅ Supported | ✅ Supported |
+| Intrinsic sizing | ✅ Implemented | ✅ Implemented |
 | Performance | Good for simple cases | Optimized for all cases |
 
 ## Best Practices
 
 ### Use ZStack When:
-- You need simple layering
-- All children share the same alignment
+- You need simple layering with alignment
+- You need absolute positioning for children
 - Learning how layering works
 - Building educational projects
 
 ### Use Stack Instead When:
-- You need `Positioned` widgets
-- Complex positioning requirements
-- Clipping behavior is needed
-- Different fit modes per child
+- Complex clipping behavior is needed
+- Different fit modes per child are required
 
 ### Tips:
 - Remember paint order: last child is on top
-- Use `fit: ZStackFit.expand` for full-size overlays
+- Use `ZStackFit.expand` for full-size overlays or backgrounds
+- Use `CustomPositioned.fill` as a shortcut for `CustomPositioned(left: 0, top: 0, right: 0, bottom: 0, child: ...)`
 - Consider `Opacity` for semi-transparent overlays
 - Use `IgnorePointer` to make overlays non-interactive
 
 ## Related Components
 
 - [VStack](/components/vstack) - For vertical layouts
-- [CustomCard](/components/custom-card) - Common ZStack child
+- [PrimitiveCard](/components/primitive-card) - Common ZStack child
 
 ## Source Code
 

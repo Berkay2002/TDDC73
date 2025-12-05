@@ -1,0 +1,224 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:primitive_ui/primitive_ui.dart';
+
+void main() {
+  group('PrimitiveCard', () {
+    testWidgets('renders with child widget', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: PrimitiveCard(child: Text('Hello'))),
+        ),
+      );
+
+      expect(find.text('Hello'), findsOneWidget);
+    });
+
+    testWidgets('applies custom background color', (tester) async {
+      const testColor = Color(0xFF123456);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(color: testColor, child: Text('Test')),
+          ),
+        ),
+      );
+
+      // Card should render without errors
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('Test'), findsOneWidget);
+    });
+
+    testWidgets('renders with default white color', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: PrimitiveCard(child: Text('Default'))),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('Default'), findsOneWidget);
+    });
+
+    testWidgets('applies custom border radius', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(borderRadius: 16.0, child: Text('Rounded')),
+          ),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('Rounded'), findsOneWidget);
+    });
+
+    testWidgets('renders with default border radius', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: PrimitiveCard(child: Text('Default Radius'))),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+    });
+
+    testWidgets('renders with elevation', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(elevation: 4.0, child: Text('Elevated')),
+          ),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('Elevated'), findsOneWidget);
+    });
+
+    testWidgets('renders with zero elevation', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: PrimitiveCard(elevation: 0.0, child: Text('Flat'))),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('Flat'), findsOneWidget);
+    });
+
+    testWidgets('applies custom padding', (tester) async {
+      const testPadding = EdgeInsets.all(32.0);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(
+              padding: testPadding,
+              child: SizedBox(width: 100, height: 100),
+            ),
+          ),
+        ),
+      );
+
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
+      expect(card.padding, equals(testPadding));
+    });
+
+    testWidgets('applies asymmetric padding', (tester) async {
+      const testPadding = EdgeInsets.fromLTRB(10, 20, 30, 40);
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(
+              padding: testPadding,
+              child: SizedBox(width: 50, height: 50),
+            ),
+          ),
+        ),
+      );
+
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
+      expect(card.padding, equals(testPadding));
+    });
+
+    testWidgets('card size includes padding', (tester) async {
+      const childSize = Size(100, 100);
+      const padding = EdgeInsets.all(16.0);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(
+              padding: padding,
+              child: SizedBox(width: childSize.width, height: childSize.height),
+            ),
+          ),
+        ),
+      );
+
+      final cardRenderBox = tester.renderObject<RenderBox>(
+        find.byType(PrimitiveCard),
+      );
+
+      // Card size should be child size + padding
+      expect(
+        cardRenderBox.size.width,
+        equals(childSize.width + padding.horizontal),
+      );
+      expect(
+        cardRenderBox.size.height,
+        equals(childSize.height + padding.vertical),
+      );
+    });
+  });
+
+  group('PrimitiveCard - Edge Cases', () {
+    testWidgets('handles very large elevation', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(
+              elevation: 100.0, // Very large elevation
+              child: Text('High'),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+      expect(find.text('High'), findsOneWidget);
+    });
+
+    testWidgets('handles minimal constraints', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(child: SizedBox(width: 10, height: 10)),
+          ),
+        ),
+      );
+
+      expect(find.byType(PrimitiveCard), findsOneWidget);
+    });
+
+    test('throws assertion error for negative elevation', () {
+      expect(
+        () => PrimitiveCard(elevation: -1.0, child: const Text('Invalid')),
+        throwsAssertionError,
+      );
+    });
+
+    test('throws assertion error for negative border radius', () {
+      expect(
+        () => PrimitiveCard(borderRadius: -5.0, child: const Text('Invalid')),
+        throwsAssertionError,
+      );
+    });
+  });
+
+  group('PrimitiveCard - Animations', () {
+    testWidgets('accepts custom duration and curve', (tester) async {
+      const duration = Duration(seconds: 1);
+      const curve = Curves.bounceOut;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: PrimitiveCard(
+              duration: duration,
+              curve: curve,
+              child: Text('Animated'),
+            ),
+          ),
+        ),
+      );
+
+      final card = tester.widget<PrimitiveCard>(find.byType(PrimitiveCard));
+      expect(card.duration, equals(duration));
+      expect(card.curve, equals(curve));
+    });
+  });
+}

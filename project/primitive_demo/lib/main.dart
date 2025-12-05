@@ -5,15 +5,15 @@
 /// Canvas, GestureDetector, and custom RenderBox).
 ///
 /// Components demonstrated:
-/// - CustomCard: Container with shadow, rounded corners, and padding
-/// - CustomToggleSwitch: Animated toggle switch
+/// - PrimitiveCard: Container with shadow, rounded corners, and padding
+/// - PrimitiveToggleSwitch: Animated toggle switch
 /// - VStack: Vertical stack layout with spacing and alignment
 /// - ZStack: Layered stack layout with z-ordering
 ///
 /// The demo is organized into 6 sections:
 /// 1. Header with dark mode toggle
-/// 2. CustomCard variations (different elevations, border radii)
-/// 3. CustomToggleSwitch examples (interactive toggles)
+/// 2. PrimitiveCard variations (different elevations, border radii)
+/// 3. PrimitiveToggleSwitch examples (interactive toggles)
 /// 4. VStack layout demos (all alignment modes)
 /// 5. ZStack layout demos (layering examples)
 /// 6. Combined components (practical usage patterns)
@@ -21,16 +21,40 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:primitive_ui/primitive_ui.dart';
+import 'package:primitive_demo/demos/primitive_slider_demo.dart';
+import 'package:primitive_demo/demos/primitive_circular_progress_demo.dart';
+import 'package:primitive_demo/demos/v_stack_demo.dart';
+import 'package:primitive_demo/demos/h_stack_flex_demo.dart';
+import 'package:primitive_demo/demos/z_stack_positioned_demo.dart';
+import 'package:primitive_demo/demos/accessibility_demo.dart';
+import 'package:primitive_demo/demos/animations_demo.dart';
+import 'package:primitive_demo/snippets.dart';
 
 void main() {
-  runApp(const PrimitiveUIDemo());
+  // Manual route parsing for robust deep linking
+  String? initialRoute;
+  try {
+    final fragment = Uri.base.fragment;
+    if (fragment.isNotEmpty) {
+      // Remove leading # if present (though fragment usually doesn't have it)
+      // and ensure it starts with /
+      initialRoute = fragment.startsWith('/') ? fragment : '/$fragment';
+      print('Parsed initial route from fragment: $initialRoute');
+    }
+  } catch (e) {
+    print('Error parsing initial route: $e');
+  }
+
+  runApp(PrimitiveUIDemo(initialRoute: initialRoute));
 }
 
 /// Root application widget.
 ///
 /// Sets up Material app with theme and navigation.
 class PrimitiveUIDemo extends StatelessWidget {
-  const PrimitiveUIDemo({super.key});
+  final String? initialRoute;
+  
+  const PrimitiveUIDemo({super.key, this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +64,85 @@ class PrimitiveUIDemo extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DemoHomePage(),
+      initialRoute: initialRoute ?? '/',
+      routes: {
+        '/': (context) => const DemoHomePage(),
+        '/slider': (context) => const PrimitiveSliderDemo(),
+        '/progress': (context) => const PrimitiveCircularProgressDemo(),
+        '/vstack': (context) => const VStackDemo(),
+        '/hstack': (context) => const HStackFlexDemo(),
+        '/zstack': (context) => const ZStackPositionedDemo(),
+        '/accessibility': (context) => const AccessibilityDemo(),
+        '/animations': (context) => const AnimationsDemo(),
+        
+        // Snippets
+        '/snippet/simple_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SimpleCardSnippet()),
+        '/snippet/custom_styled_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CustomStyledCardSnippet()),
+        '/snippet/basic_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: BasicToggleSnippet()),
+        '/snippet/vstack_simple': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackSimpleSnippet()),
+        '/snippet/vstack_aligned': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackAlignedSnippet()),
+        '/snippet/zstack_simple': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ZStackSimpleSnippet()),
+        '/snippet/card_with_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CardWithToggleSnippet()),
+        '/snippet/vstack_with_cards': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackWithCardsSnippet()),
+        '/snippet/card_with_vstack': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CardWithVStackSnippet()),
+        '/snippet/settings_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsListSnippet()),
+        '/snippet/info_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: InfoCardSnippet()),
+        '/snippet/badge_overlay': (context) => const Scaffold(backgroundColor: Colors.transparent, body: BadgeOverlaySnippet()),
+        '/snippet/grid_of_cards': (context) => const Scaffold(backgroundColor: Colors.transparent, body: GridOfCardsSnippet()),
+        '/snippet/scrollable_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ScrollableListSnippet()),
+        '/snippet/stretched_layout': (context) => const Scaffold(backgroundColor: Colors.transparent, body: StretchedLayoutSnippet()),
+        '/snippet/counter_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CounterCardSnippet()),
+        '/snippet/feedback_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: FeedbackToggleSnippet()),
+        '/snippet/complex_form_layout': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ComplexFormLayoutSnippet()),
+        '/snippet/conditional_rendering': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ConditionalRenderingSnippet()),
+        '/snippet/image_card_with_overlay': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ImageCardWithOverlaySnippet()),
+        '/snippet/multi_layer_status': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: MultiLayerStatusIndicatorSnippet(),
+            ),
+        '/snippet/primitive_button': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveButtonSnippet(),
+            ),
+        '/snippet/primitive_input': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveInputSnippet(),
+            ),
+        '/snippet/primitive_card': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveCardSnippet(),
+            ),
+        '/snippet/primitive_slider': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveSliderSnippet(),
+            ),
+        '/snippet/primitive_circular_progress': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveCircularProgressSnippet(),
+            ),
+        '/snippet/primitive_toggle_switch': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: PrimitiveToggleSwitchSnippet(),
+            ),
+        '/snippet/hstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: HStackSnippet(),
+            ),
+        '/snippet/vstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: VStackShowcaseSnippet(),
+            ),
+        '/snippet/zstack': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: ZStackShowcaseSnippet(),
+            ),
+        '/snippet/settings_view_with_provider': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsViewWithProviderSnippet()),
+        '/snippet/responsive_grid': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ResponsiveGridSnippet()),
+        '/snippet/themed_components': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ThemedComponentsSnippet()),
+        '/snippet/optimized_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: OptimizedListSnippet()),
+        '/snippet/safe_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SafeCardSnippet()),
+        '/snippet/complete_dashboard': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CompleteDashboardSnippet()),
+      },
     );
   }
 }
@@ -80,15 +182,15 @@ class _DemoHomePageState extends State<DemoHomePage> {
         // Main layout using VStack - demonstrates vertical layout component
         child: VStack(
           spacing: 24.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // SECTION 1: Header with dark mode toggle
             _buildHeader(),
 
-            // SECTION 2: CustomCard variations
+            // SECTION 2: PrimitiveCard variations
             _buildCardDemoSection(),
 
-            // SECTION 3: CustomToggleSwitch examples
+            // SECTION 3: PrimitiveToggleSwitch examples
             _buildToggleSwitchSection(),
 
             // SECTION 4: VStack alignment demonstrations
@@ -99,8 +201,76 @@ class _DemoHomePageState extends State<DemoHomePage> {
 
             // SECTION 6: Combined components in practical patterns
             _buildCombinedExample(),
+
+            // SECTION 7: New Components
+            _buildNewComponentsSection(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildNewComponentsSection(BuildContext context) {
+    return PrimitiveCard(
+      color: _darkMode ? Colors.grey[850]! : Colors.white,
+      elevation: 2.0,
+      borderRadius: 12.0,
+      padding: const EdgeInsets.all(20.0),
+      child: VStack(
+        spacing: 16.0,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Component Demos',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: _darkMode ? Colors.white : Colors.black87,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/slider');
+            },
+            child: const Text('PrimitiveSlider Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/progress');
+            },
+            child: const Text('PrimitiveCircularProgress Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/vstack');
+            },
+            child: const Text('VStack Flexible Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/hstack');
+            },
+            child: const Text('HStack Flex Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/zstack');
+            },
+            child: const Text('ZStack Positioned Demo'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/accessibility');
+            },
+            child: const Text('Accessibility Demo (v0.0.4)'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/animations');
+            },
+            child: const Text('Implicit Animations Demo (v0.0.5)'),
+          ),
+        ],
       ),
     );
   }
@@ -108,18 +278,18 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// SECTION 1: Header with Dark Mode Toggle
   ///
   /// Demonstrates:
-  /// - CustomCard as a container
-  /// - CustomToggleSwitch controlling app-wide state
+  /// - PrimitiveCard as a container
+  /// - PrimitiveToggleSwitch controlling app-wide state
   /// - VStack for vertical layout inside card
   Widget _buildHeader() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 4.0,
       borderRadius: 12.0,
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 12.0,
-        alignment: VStackAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Primitive UI Components',
@@ -148,7 +318,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 ),
               ),
               const SizedBox(width: 12),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _darkMode,
                 onChanged: (value) => setState(() => _darkMode = value),
                 activeColor: Colors.deepPurple,
@@ -160,7 +330,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
-  /// SECTION 2: CustomCard Variations
+  /// SECTION 2: PrimitiveCard Variations
   ///
   /// Demonstrates:
   /// - Different elevation levels (shadow depth)
@@ -174,7 +344,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 12.0),
           child: Text(
-            'CustomCard Variations',
+            'PrimitiveCard Variations',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -184,9 +354,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
         ),
         VStack(
           spacing: 16.0,
-          alignment: VStackAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomCard(
+            PrimitiveCard(
               color: Colors.blue[50]!,
               elevation: 1.0,
               borderRadius: 8.0,
@@ -196,7 +366,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 style: TextStyle(color: Colors.blue[900]),
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               color: Colors.green[50]!,
               elevation: 4.0,
               borderRadius: 12.0,
@@ -206,7 +376,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 style: TextStyle(color: Colors.green[900]),
               ),
             ),
-            CustomCard(
+            PrimitiveCard(
               color: Colors.orange[50]!,
               elevation: 8.0,
               borderRadius: 16.0,
@@ -222,7 +392,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     );
   }
 
-  /// SECTION 3: CustomToggleSwitch Examples
+  /// SECTION 3: PrimitiveToggleSwitch Examples
   ///
   /// Demonstrates:
   /// - Interactive toggle switches
@@ -231,17 +401,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Controlling UI visibility with toggles
   /// - Multiple independent toggle states
   Widget _buildToggleSwitchSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'CustomToggleSwitch Examples',
+            'PrimitiveToggleSwitch Examples',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -272,7 +442,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   color: _darkMode ? Colors.white : Colors.black87,
                 ),
               ),
-              CustomToggleSwitch(
+              PrimitiveToggleSwitch(
                 value: _showCard,
                 onChanged: (value) => setState(() => _showCard = value),
                 activeColor: Colors.green,
@@ -280,7 +450,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             ],
           ),
           if (_showCard)
-            CustomCard(
+            PrimitiveCard(
               color: Colors.green[100]!,
               elevation: 2.0,
               borderRadius: 8.0,
@@ -310,7 +480,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             color: _darkMode ? Colors.white : Colors.black87,
           ),
         ),
-        CustomToggleSwitch(value: value, onChanged: onChanged),
+        PrimitiveToggleSwitch(value: value, onChanged: onChanged),
       ],
     );
   }
@@ -323,14 +493,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - How VStack handles different content types
   /// - Manual vertical layout without Column widget
   Widget _buildVStackDemoSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'VStack Layout Examples',
@@ -347,10 +517,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
               color: _darkMode ? Colors.grey[400] : Colors.grey[600],
             ),
           ),
-          _buildAlignmentDemo('Start Alignment', VStackAlignment.start),
-          _buildAlignmentDemo('Center Alignment', VStackAlignment.center),
-          _buildAlignmentDemo('End Alignment', VStackAlignment.end),
-          _buildAlignmentDemo('Stretch Alignment', VStackAlignment.stretch),
+          _buildAlignmentDemo('Start Alignment', CrossAxisAlignment.start),
+          _buildAlignmentDemo('Center Alignment', CrossAxisAlignment.center),
+          _buildAlignmentDemo('End Alignment', CrossAxisAlignment.end),
+          _buildAlignmentDemo('Stretch Alignment', CrossAxisAlignment.stretch),
         ],
       ),
     );
@@ -359,7 +529,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// Helper: Builds an alignment demo card.
   ///
   /// Shows how VStack children align based on the specified alignment mode.
-  Widget _buildAlignmentDemo(String title, VStackAlignment alignment) {
+  Widget _buildAlignmentDemo(String title, CrossAxisAlignment crossAxisAlignment) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -381,7 +551,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           padding: const EdgeInsets.all(8.0),
           child: VStack(
             spacing: 8.0,
-            alignment: alignment,
+            crossAxisAlignment: crossAxisAlignment,
             children: [
               _buildColorBox(Colors.red, 'Item 1'),
               _buildColorBox(Colors.blue, 'Item 2'),
@@ -412,14 +582,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Practical badge overlay example
   /// - How ZStack differs from Flutter's Stack widget
   Widget _buildZStackDemoSection() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 2.0,
       borderRadius: 12.0,
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'ZStack Layout Examples',
@@ -540,14 +710,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// - Professional UI layout
   /// - Practical usage patterns for primitive components
   Widget _buildCombinedExample() {
-    return CustomCard(
+    return PrimitiveCard(
       color: _darkMode ? Colors.grey[850]! : Colors.white,
       elevation: 3.0,
       borderRadius: 12.0,
       padding: const EdgeInsets.all(20.0),
       child: VStack(
         spacing: 16.0,
-        alignment: VStackAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'Combined Components Example',
@@ -566,16 +736,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           VStack(
             spacing: 12.0,
-            alignment: VStackAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomCard(
+              PrimitiveCard(
                 color: Colors.indigo[100]!,
                 elevation: 2.0,
                 borderRadius: 8.0,
                 padding: const EdgeInsets.all(16.0),
                 child: VStack(
                   spacing: 12.0,
-                  alignment: VStackAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       'Settings Panel',
@@ -586,7 +756,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     ),
                     VStack(
                       spacing: 8.0,
-                      alignment: VStackAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _buildSettingRow(
                           'Notifications',
@@ -612,7 +782,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           const SizedBox(height: 8),
           Text(
-            '✓ CustomCard + VStack + CustomToggleSwitch',
+            '✓ PrimitiveCard + VStack + PrimitiveToggleSwitch',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
@@ -639,8 +809,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 16)),
-          CustomToggleSwitch(
+          Expanded(
+            child: Text(label, style: const TextStyle(fontSize: 16)),
+          ),
+          PrimitiveToggleSwitch(
             value: value,
             onChanged: onChanged,
             activeColor: Colors.indigo,

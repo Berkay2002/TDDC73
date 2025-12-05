@@ -3,31 +3,106 @@ title: Components
 description: Comprehensive guide to all Primitive UI components
 ---
 
+import Link from 'next/link'
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+
 # Components
 
 Explore the complete component library built entirely from primitive Flutter components.
 
 ## Available Components
 
-Primitive UI provides four core components, each demonstrating different aspects of Flutter's rendering system:
+Primitive UI provides a suite of components demonstrating different aspects of Flutter's rendering system:
 
 ### UI Components
 
-- **[CustomCard](/components/custom-card)** - A card component built with CustomPaint, featuring elevation shadows and rounded corners
-- **[CustomToggleSwitch](/components/custom-toggle-switch)** - An animated toggle switch with smooth transitions and gesture handling
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 not-prose">
+  <Link href="/components/primitive-card" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveCard</CardTitle>
+        <CardDescription>A container widget with shadow, rounded corners, padding, and tap interaction.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/primitive-toggle-switch" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveToggleSwitch</CardTitle>
+        <CardDescription>An animated toggle switch with smooth transitions and gesture handling.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/primitive-slider" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveSlider</CardTitle>
+        <CardDescription>A slider component for selecting values, demonstrating continuous gesture handling.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/primitive-circular-progress" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveCircularProgress</CardTitle>
+        <CardDescription>A circular progress indicator supporting both indeterminate and determinate modes.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/primitive-button" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveButton</CardTitle>
+        <CardDescription>A highly customizable button with multiple variants, sizes, and states.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/primitive-input" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">PrimitiveInput</CardTitle>
+        <CardDescription>A composable text input built on EditableText with variants and decorations.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+</div>
 
 ### Layout Components
 
-- **[VStack](/components/vstack)** - Vertical stack layout with custom spacing and alignment
-- **[ZStack](/components/zstack)** - Layered stack for overlapping widgets with alignment control
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6 not-prose">
+  <Link href="/components/hstack" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">HStack</CardTitle>
+        <CardDescription>Horizontal stack layout with spacing, alignment, and flex support.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/vstack" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">VStack</CardTitle>
+        <CardDescription>Vertical stack layout with spacing, alignment, and flex support.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+  <Link href="/components/zstack" className="no-underline block group">
+    <Card className="h-full cursor-pointer transition-all group-hover:bg-muted/50 group-hover:shadow-md group-hover:scale-[1.01]">
+      <CardHeader>
+        <CardTitle className="text-xl">ZStack</CardTitle>
+        <CardDescription>Layered stack for overlapping widgets with alignment and absolute positioning.</CardDescription>
+      </CardHeader>
+    </Card>
+  </Link>
+</div>
 
 ## Component Categories
 
 ### Visual Components
-CustomCard and CustomToggleSwitch demonstrate how to use `CustomPaint` and `Canvas` to create custom visual elements with shadows, colors, and animations.
+PrimitiveCard, PrimitiveSlider, PrimitiveCircularProgress, and PrimitiveToggleSwitch demonstrate how to use `CustomPaint` and `Canvas` to create custom visual elements with shadows, colors, and animations.
 
 ### Layout Components
-VStack and ZStack show how to implement custom layout logic using `RenderBox` and constraint-based sizing.
+VStack, HStack, and ZStack show how to implement custom layout logic using `RenderBox`, constraint-based sizing, and parent data for advanced positioning and flexibility.
 
 ---
 

@@ -64,8 +64,8 @@ npm run lint     # Run ESLint
 - ✅ Getting Started (`pages/getting-started.mdx`)
 - ✅ Installation (`pages/installation.mdx`)
 - ✅ Component docs:
-  - CustomCard
-  - CustomToggleSwitch
+  - PrimitiveCard
+  - PrimitiveToggleSwitch
   - VStack
   - ZStack
 

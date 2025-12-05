@@ -1,0 +1,273 @@
+---
+title: PrimitiveSlider
+description: A slider component built from scratch using CustomPaint and GestureDetector
+asIndexPage: true
+---
+
+import { Callout, Steps, Tabs } from 'nextra/components'
+import { ApiTable } from '@/components/ApiTable'
+import { AppEmbed } from '@/components/AppEmbed'
+
+# PrimitiveSlider
+
+A slider component for selecting a value from a range. It demonstrates how to handle continuous drag gestures and map them to a value range, rendering the result with custom painting.
+
+## Overview
+
+`PrimitiveSlider` provides a range selection interface using only primitive Flutter components. It tracks gestures to update a value and repaints the slider track and thumb accordingly.
+
+<Callout type="info">
+**Primitives Used:** `CustomPaint`, `Canvas`, `GestureDetector`
+</Callout>
+
+<AppEmbed
+  src="/demo/#/snippet/primitive_slider"
+  title="Primitive Slider Showcase"
+  height={500}
+/>
+
+## Basic Usage
+
+```dart
+import 'package:primitive_ui/primitive_ui.dart';
+
+double _value = 0.5;
+
+PrimitiveSlider(
+  value: _value,
+  onChanged: (newValue) {
+    setState(() {
+      _value = newValue;
+    });
+  },
+)
+```
+
+## API Reference
+
+### Constructor
+
+```dart
+PrimitiveSlider({
+  Key? key,
+  required double value,
+  ValueChanged<double>? onChanged,
+  double min = 0.0,
+  double max = 1.0,
+  Color activeColor = const Color(0xFF2196F3),
+  Color inactiveColor = const Color(0xFFE0E0E0),
+  Color thumbColor = const Color(0xFFFFFFFF),
+  double thumbRadius = 10.0,
+  double trackHeight = 4.0,
+  ValueChanged<double>? onChangeStart,
+  ValueChanged<double>? onChangeEnd,
+  String? semanticsLabel,
+  double? semanticsStep,
+  Duration duration = const Duration(milliseconds: 200),
+  Curve curve = Curves.easeInOut,
+})
+```
+
+### Parameters
+
+<ApiTable
+  parameters={[
+    {
+      name: 'value',
+      type: 'double',
+      required: true,
+      default: null,
+      description: 'The currently selected value for this slider'
+    },
+    {
+      name: 'onChanged',
+      type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
+      description: 'Called during a drag when the user is selecting a new value'
+    },
+    {
+      name: 'min',
+      type: 'double',
+      required: false,
+      default: '0.0',
+      description: 'The minimum value the user can select'
+    },
+    {
+      name: 'max',
+      type: 'double',
+      required: false,
+      default: '1.0',
+      description: 'The maximum value the user can select'
+    },
+    {
+      name: 'activeColor',
+      type: 'Color',
+      required: false,
+      default: 'Color(0xFF2196F3)',
+      description: 'The color of the track up to the thumb'
+    },
+    {
+      name: 'inactiveColor',
+      type: 'Color',
+      required: false,
+      default: 'Color(0xFFE0E0E0)',
+      description: 'The color of the track after the thumb'
+    },
+    {
+      name: 'thumbColor',
+      type: 'Color',
+      required: false,
+      default: 'Color(0xFFFFFFFF)',
+      description: 'The color of the thumb (circle)'
+    },
+    {
+      name: 'thumbRadius',
+      type: 'double',
+      required: false,
+      default: '10.0',
+      description: 'The radius of the thumb shape'
+    },
+    {
+      name: 'trackHeight',
+      type: 'double',
+      required: false,
+      default: '4.0',
+      description: 'The thickness of the track'
+    },
+    {
+      name: 'onChangeStart',
+      type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
+      description: 'Called when the user starts selecting a new value'
+    },
+    {
+      name: 'onChangeEnd',
+      type: 'ValueChanged<double>?',
+      required: false,
+      default: 'null',
+      description: 'Called when the user is done selecting a new value'
+    },
+    {
+      name: 'semanticsLabel',
+      type: 'String?',
+      required: false,
+      default: 'null',
+      description: 'Accessibility label (defaults to "Slider")'
+    },
+    {
+      name: 'semanticsStep',
+      type: 'double?',
+      required: false,
+      default: 'null',
+      description: 'Value step for keyboard actions (defaults to 10% of range)'
+    },
+    {
+      name: 'duration',
+      type: 'Duration',
+      required: false,
+      default: 'Duration(milliseconds: 200)',
+      description: 'Animation duration for programmatic value changes'
+    },
+    {
+      name: 'curve',
+      type: 'Curve',
+      required: false,
+      default: 'Curves.easeInOut',
+      description: 'Animation curve for programmatic value changes'
+    }
+  ]}
+/>
+
+## Examples
+
+### Custom Colors and Thumb
+
+<Tabs items={['Standard', 'Custom Colors', 'Custom Thumb']}>
+  <Tabs.Tab>
+```dart
+PrimitiveSlider(
+  value: _value,
+  onChanged: (v) => setState(() => _value = v),
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+PrimitiveSlider(
+  value: _volume,
+  min: 0.0,
+  max: 100.0,
+  activeColor: Colors.purple,
+  inactiveColor: Colors.purple.withOpacity(0.2),
+  onChanged: (value) => setState(() => _volume = value),
+)
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```dart
+PrimitiveSlider(
+  value: _progress,
+  thumbRadius: 16.0,
+  thumbColor: Colors.red,
+  trackHeight: 8.0,
+  activeColor: Colors.red[200]!,
+  onChanged: (value) => setState(() => _progress = value),
+)
+```
+  </Tabs.Tab>
+</Tabs>
+
+### Handling Drag Events
+
+```dart
+PrimitiveSlider(
+  value: _sliderValue,
+  onChanged: (value) {
+    setState(() => _sliderValue = value);
+  },
+  onChangeStart: (value) {
+    print('Started dragging at $value');
+  },
+  onChangeEnd: (value) {
+    print('Finished dragging at $value');
+  },
+)
+```
+
+## Implementation Details
+
+The `PrimitiveSlider` is implemented using:
+
+1.  **`GestureDetector`**: Specifically `onHorizontalDragUpdate`, `onHorizontalDragStart`, `onHorizontalDragEnd`, and `onTapDown`. These callbacks provide the global position of the interaction.
+2.  **Coordinate Mapping**: The component converts the global touch position to a local position using `RenderBox.globalToLocal`. It then calculates the percentage of the drag along the track width.
+3.  **`CustomPaint`**: A `CustomPainter` draws two lines (active and inactive track) and a circle (thumb) based on the current value.
+4.  **Shadows**: The thumb has a subtle shadow drawn using `BoxShadow` painting logic on the canvas.
+
+### Implicit Animations
+
+The slider supports implicit animations for value changes:
+- When `value` changes programmatically (not via drag), it animates smoothly to the new position using `TweenAnimationBuilder`.
+- During drag interactions, the animation duration is set to zero to ensure immediate responsiveness.
+
+This allows for smooth "seek" behavior when tapping the track or updating the value from an external source, without sacrificing the direct feel of dragging.
+
+This component demonstrates the core concept of "unidirectional data flow" in UI: the gesture updates the state, which triggers a rebuild, which passes the new value to the painter.
+
+## Limitations
+
+<Callout type="warning">
+**Known Limitations:**
+- Width must be bounded by parent (e.g., inside a SizedBox or constrained column) or it defaults to 200.0.
+- No support for divisions or discrete values yet.
+</Callout>
+
+## Related Components
+
+- [PrimitiveCircularProgress](/components/primitive-circular-progress) - Another value indicator
+- [PrimitiveToggleSwitch](/components/primitive-toggle-switch) - For boolean values
+
+## Source Code
+
+View the complete implementation in the [GitHub repository](https://github.com/Berkay2002/TDDC73/blob/main/project/primitive_ui/lib/src/components/primitive_slider.dart).
