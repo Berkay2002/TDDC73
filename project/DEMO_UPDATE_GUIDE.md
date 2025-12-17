@@ -1,4 +1,4 @@
-# AI Agent Workflow Guide: Updating Demos & Snippets
+# Workflow Guide: Updating Demos & Snippets
 
 This guide outlines the standard operating procedure for creating, updating, and deploying Flutter demo snippets to the documentation site. Follow these steps to ensure that interactive demos render correctly and seamlessly within the Nextra documentation.
 
