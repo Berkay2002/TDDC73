@@ -179,10 +179,13 @@ class _CardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Ensure border radius is non-negative
+    final double effectiveBorderRadius = borderRadius.clamp(0.0, double.infinity);
+    
     // Create rounded rectangle for the card shape
     final RRect cardRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Radius.circular(borderRadius),
+      Radius.circular(effectiveBorderRadius),
     );
 
     // Draw shadow if elevation > 0
