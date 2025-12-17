@@ -6,7 +6,7 @@ A modern Flutter application for discovering trending GitHub repositories across
 ![Dart](https://img.shields.io/badge/Dart-3.9.2-0175C2?logo=dart)
 ![Material Design 3](https://img.shields.io/badge/Material%20Design-3-757575?logo=material-design)
 
-## 📱 Features
+##  Features
 
 ### Core Functionality
 - **Real-time Repository Discovery**: Browse trending GitHub repositories using the GitHub API
@@ -30,7 +30,7 @@ A modern Flutter application for discovering trending GitHub repositories across
 - **Type Safety**: Leverages Dart's strong typing and null safety
 - **Clean Architecture**: Separation of concerns with models, services, providers, and screens
 
-## 🏗️ Architecture
+##  Architecture
 
 The project follows a layered architecture pattern:
 
@@ -63,7 +63,7 @@ lib/
 - `RepositoryListScreen`: Displays filterable repository list
 - `RepositoryDetailScreen`: Shows comprehensive repository details
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -104,7 +104,7 @@ lib/
    flutter run
    ```
 
-## 📦 Dependencies
+##  Dependencies
 
 ### Core Dependencies
 - **[provider](https://pub.dev/packages/provider)** `^6.0.5` - State management solution
@@ -115,7 +115,7 @@ lib/
 ### Development Dependencies
 - **flutter_lints** `^5.0.0` - Recommended linting rules for Flutter
 
-## 🎨 Design System
+##  Design System
 
 ### Color Scheme
 - **Primary Color**: GitHub Green (#2DA44E)
@@ -132,7 +132,7 @@ lib/
 - **Icons**: Material Design icon set
 - **Animations**: 200-400ms durations with easing curves
 
-## 🔌 API Integration
+##  API Integration
 
 ### GitHub REST API v3
 
@@ -177,7 +177,7 @@ lib/
 }
 ```
 
-## 📖 Code Structure and Patterns
+##  Code Structure and Patterns
 
 ### State Management with Provider
 
@@ -236,7 +236,7 @@ Hero(
 )
 ```
 
-## 🧪 Testing
+##  Testing
 
 Run tests with:
 ```bash
@@ -248,7 +248,7 @@ flutter test
 - Widget tests for UI components
 - Integration tests for user flows
 
-## 🛠️ Development
+##  Development
 
 ### Code Style
 The project follows official Dart and Flutter style guidelines enforced by `flutter_lints`.
@@ -285,7 +285,7 @@ flutter format .
    git push origin feature/new-feature
    ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -308,7 +308,7 @@ flutter pub get
 - Verify GitHub API is accessible
 - Check for firewall/proxy restrictions
 
-## 📚 Learning Resources
+##  Learning Resources
 
 ### Flutter Documentation
 - [Flutter Official Docs](https://docs.flutter.dev/)
@@ -328,7 +328,7 @@ flutter pub get
 - [HTTP Requests in Flutter](https://docs.flutter.dev/cookbook/networking/fetch-data)
 - [Flutter Animations](https://docs.flutter.dev/development/ui/animations)
 
-## 📖 Educational Comments
+##  Educational Comments
 
 This codebase includes extensive educational comments following these principles:
 
@@ -343,15 +343,15 @@ Each file contains numbered notes (Note 1, Note 2, etc.) that:
 - Highlight Material Design principles
 - Demonstrate best practices
 
-## 📄 License
+##  License
 
 This project is created for educational purposes as part of TDDC73 course work.
 
-## 👥 Contributing
+##  Contributing
 
 This is an academic project. For course-related questions, please contact the course instructors.
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] GitHub authentication for higher API rate limits
 - [ ] Favorite/bookmark repositories locally
@@ -364,7 +364,7 @@ This is an academic project. For course-related questions, please contact the co
 - [ ] Multi-language UI support
 - [ ] Custom theme customization
 
-## 📞 Support
+##  Support
 
 For technical issues:
 1. Check the [Troubleshooting](#-troubleshooting) section
@@ -373,5 +373,5 @@ For technical issues:
 
 ---
 
-**Built with ❤️ using Flutter and Material Design 3**
+**Built with  using Flutter and Material Design 3**
 

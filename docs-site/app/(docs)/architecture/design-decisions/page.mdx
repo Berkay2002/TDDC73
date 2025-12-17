@@ -23,10 +23,10 @@ Primitive UI was built to teach how Flutter's rendering engine works:
 - ✅ Reveals performance optimization strategies
 
 **What It Sacrifices:**
-- ❌ Feature completeness
-- ❌ Production-ready robustness
-- ❌ Comprehensive accessibility
-- ❌ Full platform parity
+- ❌ Feature completeness (compared to Material/Cupertino widgets)
+- ❌ Production-ready robustness (error handling, edge cases)
+- ❌ Advanced accessibility (focuses on basic semantic labels)
+- ❌ Full platform parity (some desktop-specific features limited)
 
 ### Secondary: Clean Implementation
 
@@ -52,7 +52,11 @@ void performLayout() {
 
 ## Component Selection
 
-### Why These 4 Components?
+### Why These Components?
+
+Primitive UI includes a carefully selected set of components that each demonstrate different aspects of Flutter's rendering system:
+
+#### UI Components (6)
 
 **PrimitiveCard** - Demonstrates:
 - CustomPaint usage
@@ -66,11 +70,46 @@ void performLayout() {
 - Color interpolation
 - State management
 
+**PrimitiveButton** - Demonstrates:
+- Stateful interactions (hover, press)
+- Scale animations
+- Variant-based styling
+- MouseRegion for desktop
+- Conditional rendering (loading states)
+
+**PrimitiveSlider** - Demonstrates:
+- Drag gesture handling
+- Value mapping and clamping
+- Real-time visual feedback
+- TweenAnimationBuilder for smooth transitions
+- Semantic accessibility
+
+**PrimitiveInput** - Demonstrates:
+- EditableText integration
+- Focus management
+- Keyboard input handling
+- State-based styling (focus, hover, error)
+- Complex widget composition
+
+**PrimitiveCircularProgress** - Demonstrates:
+- Rotation animations
+- Indeterminate vs determinate states
+- Canvas arc drawing
+- Continuous animation loops
+
+#### Layout Components (3)
+
 **VStack** - Demonstrates:
-- Multi-child layout
+- Vertical multi-child layout
 - Constraint system
 - Intrinsic sizing
 - RTL support
+
+**HStack** - Demonstrates:
+- Horizontal multi-child layout
+- Flex-based sizing (Flexible/Expanded)
+- MainAxisAlignment distribution
+- Complex constraint negotiation
 
 **ZStack** - Demonstrates:
 - Layered painting
@@ -78,7 +117,7 @@ void performLayout() {
 - Fit modes
 - Paint ordering
 
-**Together:** These 4 components cover the essential patterns needed to understand Flutter's rendering system.
+**Together:** These components provide comprehensive coverage of Flutter's rendering patterns, from basic painting to complex gesture handling and layout algorithms.
 
 ## PrimitiveCard Design
 
@@ -161,14 +200,27 @@ Padding(
 ```dart
 class _RenderCardLayout extends RenderShiftedBox {
   // Manual layout with padding
+  void performLayout() {
+    // 1. Deflate constraints by padding
+    // 2. Layout child
+    // 3. Add padding back to size
+    // 4. Position child with padding offset
+  }
 }
 ```
 
 **Rationale:**
-- Demonstrates RenderBox implementation
-- Shows constraint deflation
-- Teaches layout algorithm
+- Demonstrates RenderShiftedBox implementation
+- Shows constraint deflation pattern
+- Teaches manual layout with padding
+- Implements intrinsic sizing correctly
 - One fewer widget in tree
+
+**Additional Features:**
+- Tap interaction with `GestureDetector`
+- Visual feedback (elevation changes on press)
+- Implicit animations via `TweenAnimationBuilder`
+- Smooth transitions between states
 
 ## PrimitiveToggleSwitch Design
 
@@ -233,60 +285,112 @@ final double thumbRadius = trackHeight * 0.4;
 - 45%: Tight fit, less padding
 - 50%: Touches track edges
 
-## VStack Design
+## Layout Component Designs
 
-### Alignment Options
+### VStack Design
 
-**Decision:** Custom enum instead of MainAxisAlignment
+#### Alignment Options
+
+**Decision:** Use Flutter's standard alignment enums
 
 ```dart
-enum VStackAlignment {
-  start, center, end, stretch,
-}
+VStack(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.start,
+  mainAxisSize: MainAxisSize.max,
+  children: [...],
+)
 ```
 
-**Why Not MainAxisAlignment?**
-```dart
-enum MainAxisAlignment {
-  start, center, end, spaceBetween, spaceAround, spaceEvenly,
-}
-```
+**Why Use Standard Enums?**
 
 **Rationale:**
-- VStack doesn't support space distribution
-- Simpler mental model
-- `stretch` is more clear than using constraints
-- Educational focus on core alignments
+- **Familiarity:** Developers already know these from Column
+- **Educational:** Shows how standard Flutter enums work
+- **Progressive Learning:** VStack mirrors Column's API, making concepts transferable
+- **Complete Support:** Includes all MainAxisAlignment modes (start, center, end, spaceBetween, spaceAround, spaceEvenly)
 
-### No Flexible/Expanded
+**What It Demonstrates:**
+- How `MainAxisAlignment` distributes space vertically
+- How `CrossAxisAlignment` positions children horizontally
+- How `MainAxisSize` affects stack sizing (max vs min)
+- RTL support through `TextDirection`
 
-**Decision:** Omit flex-based sizing
+### Flex Support (Both VStack & HStack)
 
-**Why?**
+#### Flexible and Expanded Patterns
 
-1. **Complexity:** Flex algorithm is complex
-2. **Scope:** Beyond primitive basics
-3. **Education:** Core layout first, advanced features later
-4. **Alternative:** Use `MainAxisSize` for simpler sizing control
+**Decision:** Full flex support in both VStack and HStack
 
-**What You Learn:**
-Understanding VStack prepares you to appreciate Column's flexibility system.
+```dart
+// Vertical flex
+VStack(
+  children: [
+    Text('Fixed'),
+    VCustomExpanded(
+      child: Container(color: Colors.red),
+    ),
+    Text('Fixed'),
+  ],
+)
 
-### RTL Support
+// Horizontal flex
+HStack(
+  children: [
+    Text('Fixed'),
+    HCustomExpanded(
+      child: Container(color: Colors.blue),
+    ),
+    Text('Fixed'),
+  ],
+)
+```
+
+**Why Include Flex?**
+
+1. **Educational Value:** Demonstrates the two-pass flex algorithm
+2. **Common Pattern:** Flex is fundamental in Flutter layouts
+3. **Constraint Negotiation:** Shows complex layout scenarios
+4. **Real-world Usage:** Mirrors Row/Column behavior
+
+**How It Works:**
+- **Pass 1:** Layout non-flex children, calculate remaining space
+- **Pass 2:** Distribute remaining space to flex children based on flex factors
+- Supports both `FlexFit.tight` (Expanded) and `FlexFit.loose` (Flexible)
+
+### HStack Design
+
+#### MainAxisAlignment Distribution
+
+**Decision:** Support all 6 alignment modes
+
+```dart
+enum MainAxisAlignment {
+  start, center, end,
+  spaceBetween, spaceAround, spaceEvenly,
+}
+```
+
+**Educational Value:**
+- Shows space distribution algorithms
+- Demonstrates when each mode is useful
+- Teaches the math behind layout
+
+#### RTL Support
 
 **Decision:** Full RTL support with TextDirection
 
+Both VStack and HStack properly handle right-to-left text direction:
+
 ```dart
-// Resolve alignment based on text direction
-switch (alignment) {
-  case VStackAlignment.start:
-    x = textDirection == TextDirection.ltr
-        ? 0.0
-        : width - child.size.width;
-  case VStackAlignment.end:
-    x = textDirection == TextDirection.ltr
-        ? width - child.size.width
-        : 0.0;
+// HStack resolves positioning based on text direction
+if (textDirection == TextDirection.rtl) {
+  currentX -= child.size.width;
+  childParentData.offset = Offset(currentX, y);
+  currentX -= betweenSpace;
+} else {
+  childParentData.offset = Offset(currentX, y);
+  currentX += child.size.width + betweenSpace;
 }
 ```
 
@@ -295,6 +399,170 @@ switch (alignment) {
 - Shows alignment resolution
 - Teaches TextDirection handling
 - Production-ready behavior
+
+## Interactive Component Designs
+
+### PrimitiveButton Design
+
+#### Variant System
+
+**Decision:** Six distinct button variants
+
+```dart
+enum PrimitiveButtonVariant {
+  primary, secondary, destructive,
+  outline, ghost, link,
+}
+```
+
+**Why These Variants?**
+- **primary/secondary/destructive:** Common semantic actions
+- **outline/ghost:** Visual hierarchy without color
+- **link:** Minimal style for inline actions
+
+**Educational Value:**
+- Shows conditional styling patterns
+- Demonstrates color scheme usage
+- Teaches variant-based component design
+
+#### State Management
+
+**Decision:** Track hover, pressed, disabled states
+
+```dart
+bool _isHovered = false;
+bool _isPressed = false;
+bool get _effectiveDisabled => widget.isDisabled || widget.isLoading;
+```
+
+**Why Multiple States?**
+- **Hover:** Desktop interaction feedback
+- **Pressed:** Touch/click visual feedback
+- **Disabled:** Prevents interaction
+- **Loading:** Async action indicator
+
+**Interaction:**
+- Uses `MouseRegion` for hover (desktop)
+- Uses `GestureDetector` for press (all platforms)
+- Combines `AnimationController` with `ScaleTransition`
+
+### PrimitiveSlider Design
+
+#### Gesture Handling
+
+**Decision:** Support both tap and drag
+
+```dart
+GestureDetector(
+  onTapDown: (details) => _handleTapDown(details, constraints),
+  onHorizontalDragStart: (details) => _handleDragStart(details, constraints),
+  onHorizontalDragUpdate: (details) => _handleDragUpdate(details, constraints),
+  onHorizontalDragEnd: _handleDragEnd,
+)
+```
+
+**Why Both Gestures?**
+- **Tap:** Quick value selection
+- **Drag:** Precise value adjustment
+- **Real-world UX:** Matches native sliders
+
+#### Value Mapping
+
+**Decision:** Map screen coordinates to value range
+
+```dart
+final double percent = relativeDx / effectiveWidth;
+final double newValue = widget.min + percent * (widget.max - widget.min);
+```
+
+**Educational Value:**
+- Linear interpolation math
+- Coordinate system transformations
+- Clamping and bounds checking
+
+### PrimitiveInput Design
+
+#### EditableText Integration
+
+**Decision:** Use low-level EditableText instead of TextField
+
+```dart
+EditableText(
+  controller: _controller,
+  focusNode: _focusNode,
+  style: textStyle,
+  cursorColor: colorScheme.primary,
+  // ...
+)
+```
+
+**Why EditableText?**
+- **Primitives Focus:** Lower-level than TextField
+- **Full Control:** Custom decoration and layout
+- **Educational:** Shows text input fundamentals
+
+**What You Learn:**
+- Focus management
+- Cursor customization
+- Text selection handling
+- Input masking and validation
+
+#### Variant System
+
+**Decision:** Three input styles
+
+```dart
+enum PrimitiveInputVariant {
+  outline,  // Full border
+  filled,   // Background color
+  flushed,  // Bottom border only
+}
+```
+
+**Rationale:**
+- Common design patterns
+- Different visual weights
+- Shows border customization
+
+### PrimitiveCircularProgress Design
+
+#### Indeterminate Animation
+
+**Decision:** Continuous rotation for indeterminate state
+
+```dart
+if (widget.value == null) {
+  _controller.repeat();
+}
+
+// In painter
+if (isIndeterminate) {
+  canvas.rotate(progress * 2 * math.pi);
+  canvas.drawArc(/* fixed arc */);
+}
+```
+
+**Why Rotation?**
+- **Visual Feedback:** Shows activity
+- **Standard Pattern:** Matches platform conventions
+- **Simplicity:** Single animation controller
+
+#### Determinate vs Indeterminate
+
+**Decision:** Support both modes with same component
+
+```dart
+// Indeterminate
+PrimitiveCircularProgress()
+
+// Determinate
+PrimitiveCircularProgress(value: 0.7)
+```
+
+**Educational Value:**
+- Conditional rendering logic
+- Animation control patterns
+- Null safety for optional behavior
 
 ## ZStack Design
 
@@ -316,49 +584,58 @@ enum ZStackFit {
 - **expand**: Common pattern - children fill stack
 - **passthrough**: Educational - shows constraint passing
 
-**Why Not Per-Child Fit?**
-```dart
-// Stack allows per-child positioning with Positioned
-Positioned(
-  left: 10,
-  top: 10,
-  child: child,
-)
-```
+**Educational Value:**
+- Shows how constraints flow through layout
+- Demonstrates different sizing strategies
+- Each mode teaches a different constraint pattern
 
-**Rationale:**
-- Positioned is complex
-- Global fit is simpler
-- Alignment is sufficient for basic layering
-- Teaches core stacking concept
+### CustomPositioned Support
 
-### Alignment vs Positioned
-
-**Decision:** Use Alignment, not Positioned
+**Decision:** Full positioned child support via `CustomPositioned`
 
 **What We Provide:**
 ```dart
 ZStack(
-  alignment: Alignment.topRight,
-  children: [...],
+  children: [
+    Container(width: 200, height: 200, color: Colors.blue),
+    CustomPositioned(
+      left: 10,
+      top: 10,
+      right: 10,
+      bottom: 10,
+      width: 50,
+      height: 50,
+      child: Icon(Icons.close),
+    ),
+  ],
 )
 ```
 
-**What We Don't:**
+**Why Include Positioning?**
+- **Educational Value:** Demonstrates parent data pattern
+- **Real-world Use:** Badges, overlays, and absolute positioning are common
+- **Layout Algorithm:** Shows two-pass layout (non-positioned first, positioned second)
+- **Constraint Calculation:** Teaches how positioned constraints are computed from edges
+
+**Implementation Details:**
 ```dart
-// No Positioned support
-Positioned(
-  left: 10,
-  top: 20,
-  child: child,
-)
+// Two-pass layout algorithm
+1. Layout non-positioned children → determine stack size
+2. Layout positioned children with calculated constraints
+3. Position all children based on their properties
 ```
+
+**How Positioning Works:**
+- Uses `ParentDataWidget` to attach positioning data
+- Calculates constraints based on `left`, `right`, `width`, etc.
+- Non-positioned children use alignment
+- Positioned children ignore alignment
 
 **Rationale:**
-- Positioned requires additional parent data
-- Alignment covers 80% of use cases
-- Simpler implementation
-- Focus on core layering
+- Positioned is a fundamental layout concept
+- Demonstrates advanced parent data usage
+- Shows constraint negotiation complexity
+- Teaches the difference between aligned and absolute positioning
 
 ## API Design Principles
 
@@ -370,26 +647,31 @@ PrimitiveCard(
   color: Color(0xFFFFFFFF),
   borderRadius: 8.0,
   elevation: 2.0,
-  padding: EdgeInsets.all(16.0),
-)
+  padProgressive Complexity** - Start simple (VStack) → Advanced (HStack with flex)
+2. **Clear Abstraction Levels** - Primitives → UI Components → Layout Components
+3. **Explicit Code** - Easy to follow and understand
+4. **Comprehensive Tests** - Catches regressions
+5. **Real-world Patterns** - Button variants, input states, sliders match familiar UIs
 
-// ❌ Too implicit (not our approach)
-PrimitiveCard.elevated()
-PrimitiveCard.flat()
-```
+### What We'd Change
 
-**Rationale:** Show all properties, no magic defaults
-
-### Assertions for Safety
+1. **Add More Examples** - Real-world usage patterns and edge cases
+2. **Platform Differences** - Document web vs mobile vs desktop behavior differences
+3. **Animation Details** - More detailed explanations about vsync, frame timing, and animation curves
+4. **Performance Metrics** - Actual benchmark data comparing primitives to Flutter widgets
+5. **Accessibility** - More comprehensive semantic support beyond basic labels
+6. **Error Handling** - Better validation and error messages for constraint violations
 
 ```dart
 const PrimitiveCard({
   required this.child,
   this.elevation = 2.0,
-}) : assert(elevation >= 0.0, 'Elevation cannot be negative');
-```
-
-**Why?**
+}) :Progressive complexity works** - Simple components (Card) → Complex components (Button, Input)
+- **Trade-offs are necessary** - Education vs features, simplicity vs flexibility
+- **Good defaults matter** - 200ms animations, 40% thumb size, 6px border radius
+- **Documentation is crucial** - Code should be self-explanatory
+- **Testing validates behavior** - Not just that it works, but that it works correctly
+- **Real patterns are valuable** - Button variants, flex layouts, and gestures mirror production code
 - Catch errors early
 - Clear error messages
 - Better debugging experience
@@ -485,11 +767,18 @@ testWidgets('Toggle switches on tap', (tester) async {
 });
 ```
 
+✅ **Accessibility:**
+```dart
+testWidgets('Slider has semantic labels', (tester) async {
+  // Verify semantic properties for screen readers
+});
+```
+
 ### What We Don't Test
 
 ❌ Pixel-perfect rendering (too brittle)
 ❌ Performance benchmarks (platform-dependent)
-❌ Accessibility (not implemented)
+❌ Complex accessibility flows (limited implementation)
 
 **Rationale:** Focus on behavioral correctness
 
@@ -534,17 +823,19 @@ class PrimitiveCard extends StatelessWidget {
 
 ### What Worked Well
 
-1. **Limited Scope** - 4 components is manageable
-2. **Clear Abstraction Levels** - Primitives → Components
+1. **Progressive Complexity** - Start simple (Card, Toggle) → Advanced (Input, Flex layouts, Positioning)
+2. **Clear Abstraction Levels** - Custom RenderBox → Layout → Interactive components
 3. **Explicit Code** - Easy to follow and understand
-4. **Comprehensive Tests** - Catches regressions
+4. **Comprehensive Tests** - Catches regressions and validates behavior
+5. **Real-world Patterns** - Variant systems, flex layouts, positioning mirror production code
 
 ### What We'd Change
 
-1. **Add More Examples** - Real-world usage patterns
-2. **Platform Differences** - Document web vs mobile
-3. **Animation Details** - More about vsync and frames
-4. **Performance Metrics** - Actual benchmark data
+1. **Add More Examples** - Real-world usage patterns and edge cases
+2. **Platform Differences** - Document web vs mobile vs desktop behavior differences
+3. **Animation Details** - More detailed explanations about vsync, frame timing, and curves
+4. **Performance Metrics** - Actual benchmark data comparing primitives to Flutter widgets
+5. **Error Handling** - Better validation and error messages for constraint violations
 
 ## Conclusion
 

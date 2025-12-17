@@ -14,7 +14,7 @@ A vertical stack layout component that arranges its children vertically with con
 
 ## Overview
 
-`VStack` provides vertical layout capabilities using a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood, including support for flexible children via `CustomFlexible` and `CustomExpanded`.
+`VStack` provides vertical layout capabilities using a custom `RenderBox` implementation. It demonstrates how Flutter's layout system works under the hood, including support for flexible children via `VCustomFlexible` and `VCustomExpanded`.
 
 <Callout type="info">
 **Primitives Used:** Custom `RenderBox`, `CustomMultiChildLayout`, `ParentDataWidget`
@@ -35,7 +35,7 @@ VStack(
   spacing: 16.0,
   children: [
     Text('Fixed Height'),
-    CustomExpanded(
+    VCustomExpanded(
       child: Container(color: Colors.blue),
     ),
     Text('Fixed Height'),
@@ -100,14 +100,14 @@ VStack({
   ]}
 />
 
-### CustomFlexible & CustomExpanded
+### VCustomFlexible & VCustomExpanded
 
 Wrap children in these widgets to control their flex behavior.
 
-#### CustomFlexible
+#### VCustomFlexible
 
 ```dart
-CustomFlexible({
+VCustomFlexible({
   Key? key,
   int flex = 1,
   FlexFit fit = FlexFit.loose,
@@ -115,12 +115,12 @@ CustomFlexible({
 })
 ```
 
-#### CustomExpanded
+#### VCustomExpanded
 
-Shortcut for `CustomFlexible(fit: FlexFit.tight)`.
+Shortcut for `VCustomFlexible(fit: FlexFit.tight)`.
 
 ```dart
-CustomExpanded({
+VCustomExpanded({
   Key? key,
   int flex = 1,
   required Widget child,
@@ -195,7 +195,7 @@ VStack(
 VStack(
   children: [
     Container(height: 50, color: Colors.red),
-    CustomExpanded(
+    VCustomExpanded(
       child: Container(color: Colors.blue), // Takes remaining space
     ),
     Container(height: 50, color: Colors.green),
@@ -208,11 +208,11 @@ VStack(
 // Proportional distribution (1:2 ratio)
 VStack(
   children: [
-    CustomFlexible(
+    VCustomFlexible(
       flex: 1,
       child: Container(color: Colors.red),
     ),
-    CustomFlexible(
+    VCustomFlexible(
       flex: 2,
       child: Container(color: Colors.blue),
     ),
@@ -227,7 +227,7 @@ VStack(
   spacing: 10,
   children: [
     Text("Header"),
-    CustomExpanded(
+    VCustomExpanded(
       child: Container(color: Colors.grey[200]),
     ),
     Text("Footer"),
@@ -266,14 +266,14 @@ The VStack layout process has been upgraded to support two-pass layout for flex 
 
 ### Parent Data
 
-`VStack` uses `_VStackParentData` to store `flex` and `fit` properties for each child, populated by `CustomFlexible`.
+`VStack` uses `_VStackParentData` to store `flex` and `fit` properties for each child, populated by `VCustomFlexible`.
 
 ## Limitations
 
 <Callout type="warning">
 **Known Limitations:**
 - No built-in overflow handling (use `SingleChildScrollView` when needed)
-- No spacer or divider components built-in (use `CustomExpanded` with `SizedBox` or `Container` for spacer)
+- No spacer or divider components built-in (use `VCustomExpanded` with `SizedBox` or `Container` for spacer)
 - All children are measured even if not visible
 </Callout>
 
@@ -281,7 +281,7 @@ The VStack layout process has been upgraded to support two-pass layout for flex 
 
 | Feature | VStack | Column |
 |---------|--------|--------|
-| Flexible/Expanded | ✅ Supported (via CustomFlexible) | ✅ Supported |
+| Flexible/Expanded | ✅ Supported (via VCustomFlexible) | ✅ Supported |
 | Baseline alignment | ❌ Not supported | ✅ Supported |
 | Text direction | ✅ Supported | ✅ Supported |
 | Intrinsic sizing | ✅ Implemented | ✅ Implemented |

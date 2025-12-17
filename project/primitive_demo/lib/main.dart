@@ -132,6 +132,10 @@ class PrimitiveUIDemo extends StatelessWidget {
               backgroundColor: Colors.transparent,
               body: VStackShowcaseSnippet(),
             ),
+        '/snippet/vstack_flex': (context) => const Scaffold(
+              backgroundColor: Colors.transparent,
+              body: VStackFlexSnippet(),
+            ),
         '/snippet/zstack': (context) => const Scaffold(
               backgroundColor: Colors.transparent,
               body: ZStackShowcaseSnippet(),

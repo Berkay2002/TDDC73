@@ -1855,6 +1855,112 @@ class ZStackShowcaseSnippet extends StatelessWidget {
   }
 }
 
+// Snippet for VStack Flex Features (VCustomFlexible & VCustomExpanded)
+class VStackFlexSnippet extends StatelessWidget {
+  const VStackFlexSnippet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('VCustomExpanded', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 300,
+                child: PrimitiveCard(
+                  child: VStack(
+                    spacing: 8.0,
+                    children: [
+                      Container(
+                        height: 60,
+                        color: Colors.red.shade200,
+                        child: const Center(child: Text('Fixed (60px)')),
+                      ),
+                      VCustomExpanded(
+                        child: Container(
+                          color: Colors.green.shade200,
+                          child: const Center(child: Text('Expanded (fills remaining)')),
+                        ),
+                      ),
+                      Container(
+                        height: 60,
+                        color: Colors.blue.shade200,
+                        child: const Center(child: Text('Fixed (60px)')),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('VCustomFlexible with Flex Ratios', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 300,
+                child: PrimitiveCard(
+                  child: VStack(
+                    spacing: 8.0,
+                    children: [
+                      VCustomFlexible(
+                        flex: 1,
+                        child: Container(
+                          color: Colors.purple.shade200,
+                          child: const Center(child: Text('Flex: 1 (1/3)')),
+                        ),
+                      ),
+                      VCustomFlexible(
+                        flex: 2,
+                        child: Container(
+                          color: Colors.orange.shade200,
+                          child: const Center(child: Text('Flex: 2 (2/3)')),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text('Mixed: Fixed + Flexible', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 300,
+                child: PrimitiveCard(
+                  child: VStack(
+                    spacing: 8.0,
+                    children: [
+                      Container(
+                        height: 50,
+                        color: Colors.teal.shade200,
+                        child: const Center(child: Text('Header (50px)')),
+                      ),
+                      VCustomExpanded(
+                        child: Container(
+                          color: Colors.grey.shade200,
+                          child: const Center(child: Text('Content (expanded)')),
+                        ),
+                      ),
+                      Container(
+                        height: 50,
+                        color: Colors.amber.shade200,
+                        child: const Center(child: Text('Footer (50px)')),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CompleteDashboardSnippet extends StatefulWidget {
   const CompleteDashboardSnippet({super.key});
   @override

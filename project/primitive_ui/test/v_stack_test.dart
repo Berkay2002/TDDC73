@@ -401,8 +401,8 @@ void main() {
     });
   });
 
-  group('VStack - CustomFlexible', () {
-    testWidgets('CustomExpanded expands child to fill space', (tester) async {
+  group('VStack - VCustomFlexible', () {
+    testWidgets('VCustomExpanded expands child to fill space', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -411,24 +411,28 @@ void main() {
               child: VStack(
                 children: [
                   SizedBox(height: 100, width: 100),
-                  CustomExpanded(child: Container(color: Colors.red)),
+                  VCustomExpanded(child: Container(color: Colors.red)),
                 ],
               ),
             ),
           ),
         ),
       );
-      
-      final vstackRenderBox = tester.renderObject<RenderBox>(find.byType(VStack));
+
+      final vstackRenderBox = tester.renderObject<RenderBox>(
+        find.byType(VStack),
+      );
       expect(vstackRenderBox.size.height, equals(300.0));
-      
-      final redContainer = tester.renderObject<RenderBox>(find.byType(Container));
+
+      final redContainer = tester.renderObject<RenderBox>(
+        find.byType(Container),
+      );
       // First child is 100. Spacing is 0. Height is 300.
       // Remaining is 200. Expanded should take 200.
       expect(redContainer.size.height, equals(200.0));
     });
 
-    testWidgets('CustomFlexible with flex factors', (tester) async {
+    testWidgets('VCustomFlexible with flex factors', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -436,26 +440,26 @@ void main() {
               height: 300,
               child: VStack(
                 children: [
-                  CustomFlexible(flex: 1, child: Container(key: Key('flex1'))),
-                  CustomFlexible(flex: 2, child: Container(key: Key('flex2'))),
+                  VCustomFlexible(flex: 1, child: Container(key: Key('flex1'))),
+                  VCustomFlexible(flex: 2, child: Container(key: Key('flex2'))),
                 ],
               ),
             ),
           ),
         ),
       );
-      
+
       final flex1 = tester.renderObject<RenderBox>(find.byKey(Key('flex1')));
       final flex2 = tester.renderObject<RenderBox>(find.byKey(Key('flex2')));
-      
+
       // Total 300. Flex total 3.
       // Flex 1 = 100. Flex 2 = 200.
       expect(flex1.size.height, equals(100.0));
       expect(flex2.size.height, equals(200.0));
     });
 
-    testWidgets('CustomFlexible mixed with fixed children', (tester) async {
-       await tester.pumpWidget(
+    testWidgets('VCustomFlexible mixed with fixed children', (tester) async {
+      await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
@@ -463,19 +467,81 @@ void main() {
               child: VStack(
                 spacing: 10,
                 children: [
-                   SizedBox(height: 90, width: 100), // Fixed: 90
-                   CustomExpanded(child: Container(key: Key('expanded'))), // Expanded
+                  SizedBox(height: 90, width: 100), // Fixed: 90
+                  VCustomExpanded(
+                    child: Container(key: Key('expanded')),
+                  ), // Expanded
                 ],
               ),
             ),
           ),
         ),
       );
-      
+
       // Height 400. Fixed 90. Spacing 10.
       // Remaining = 400 - 90 - 10 = 300.
-      final expanded = tester.renderObject<RenderBox>(find.byKey(Key('expanded')));
+      final expanded = tester.renderObject<RenderBox>(
+        find.byKey(Key('expanded')),
+      );
       expect(expanded.size.height, equals(300.0));
+    });
+
+    testWidgets('VCustomFlexible with FlexFit.loose', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              height: 300,
+              child: VStack(
+                children: [
+                  VCustomFlexible(
+                    flex: 1,
+                    fit: FlexFit.loose,
+                    child: Container(
+                      key: Key('loose'),
+                      height: 50, // Requests smaller size
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final loose = tester.renderObject<RenderBox>(find.byKey(Key('loose')));
+      // FlexFit.loose allows child to be smaller than allocated space
+      expect(loose.size.height, equals(50.0));
+    });
+
+    testWidgets('Multiple VCustomExpanded children split space equally', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              height: 300,
+              child: VStack(
+                children: [
+                  VCustomExpanded(child: Container(key: Key('exp1'))),
+                  VCustomExpanded(child: Container(key: Key('exp2'))),
+                  VCustomExpanded(child: Container(key: Key('exp3'))),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final exp1 = tester.renderObject<RenderBox>(find.byKey(Key('exp1')));
+      final exp2 = tester.renderObject<RenderBox>(find.byKey(Key('exp2')));
+      final exp3 = tester.renderObject<RenderBox>(find.byKey(Key('exp3')));
+
+      // Each should get 100 (300/3)
+      expect(exp1.size.height, equals(100.0));
+      expect(exp2.size.height, equals(100.0));
+      expect(exp3.size.height, equals(100.0));
     });
   });
 }

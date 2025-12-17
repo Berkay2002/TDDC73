@@ -246,7 +246,9 @@ bool hitTest(BoxHitTestResult result, {required Offset position}) {
 
 </Steps>
 
-## Case Study: PrimitiveCard Rendering
+## Case Studies
+
+### Case Study 1: PrimitiveCard Rendering
 
 Let's trace a complete render of `PrimitiveCard`:
 
@@ -332,6 +334,191 @@ void paint(Canvas canvas, Size size) {
 **Step 3:** `_CardLayout` paints child (`Text`) at offset (16, 16)
 
 **Step 4:** `Text` renders "Hello" using font renderer
+
+### Case Study 2: HStack with Flex Layout
+
+Let's trace a flex layout scenario with `HStack`:
+
+#### Initial Build
+
+```dart
+HStack(
+  spacing: 8.0,
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text('Start'),
+    HCustomExpanded(
+      flex: 2,
+      child: Container(color: Colors.blue),
+    ),
+    HCustomExpanded(
+      flex: 1,
+      child: Container(color: Colors.red),
+    ),
+    Text('End'),
+  ],
+)
+```
+
+#### Layout Pass
+
+**Step 1:** Root receives constraints (400x100 max)
+
+**Step 2:** `_RenderHStack.performLayout()` - Pass 1 (non-flex children):
+```dart
+// Layout 'Start' text
+Text('Start').layout() → sizes to (40x20)
+totalNonFlexWidth = 40
+
+// Layout 'End' text
+Text('End').layout() → sizes to (30x20)
+totalNonFlexWidth = 70
+
+// Calculate available space for flex children
+totalSpacing = 8 * 3 = 24  // 4 children - 1
+flexSpace = 400 - 70 - 24 = 306
+```
+
+**Step 3:** Pass 2 (flex children):
+```dart
+// Expanded(flex: 2) gets 2/3 of flex space
+blueContainer.layout(maxWidth: 306 * 2/3 = 204) → sizes to (204x100)
+
+// Expanded(flex: 1) gets 1/3 of flex space
+redContainer.layout(maxWidth: 306 * 1/3 = 102) → sizes to (102x100)
+```
+
+**Step 4:** Position children with spacing:
+```dart
+// MainAxisAlignment.spaceBetween is ignored when flex is present
+'Start' → x: 0
+blueContainer → x: 48 (40 + 8)
+redContainer → x: 260 (48 + 204 + 8)
+'End' → x: 370 (260 + 102 + 8)
+```
+
+**Educational Value:** Shows two-pass layout and flex space distribution.
+
+### Case Study 3: PrimitiveSlider Gesture Handling
+
+Let's trace a user interaction with `PrimitiveSlider`:
+
+#### User Drags Thumb
+
+**Step 1:** User touches down
+```dart
+GestureDetector.onHorizontalDragStart()
+  ↓
+_handleDragStart()
+  ↓
+setState(() => _isDragging = true)
+  ↓
+Build phase triggered
+```
+
+**Step 2:** User moves finger
+```dart
+GestureDetector.onHorizontalDragUpdate()
+  ↓
+_handleDragUpdate(details)
+  ↓
+// Convert global position to local
+localDx = globalToLocal(details.globalPosition).dx
+  ↓
+// Map to value range
+percent = localDx / width
+newValue = min + percent * (max - min)
+  ↓
+widget.onChanged!(newValue)
+  ↓
+Parent rebuilds slider with new value
+```
+
+**Step 3:** Paint with new value
+```dart
+CustomPaint(
+  painter: _SliderPainter(
+    value: newValue, // Updated
+    // ...
+  ),
+)
+  ↓
+paint() calculates thumb position
+thumbX = trackLeft + (percent * trackWidth)
+  ↓
+canvas.drawCircle(thumbX, centerY, radius)
+```
+
+**Frame Timeline:**
+- Frame 1: Touch → setState → build → layout → paint
+- Frame 2-N: Drag updates → onChanged → rebuild → paint
+- Each frame ~16ms @ 60fps
+
+**Educational Value:** Shows gesture → state → render pipeline.
+
+### Case Study 4: PrimitiveButton State Changes
+
+Let's trace hover and press interactions:
+
+#### Desktop Hover Interaction
+
+**Step 1:** Mouse enters button area
+```dart
+MouseRegion.onEnter()
+  ↓
+setState(() => _isHovered = true)
+  ↓
+Build triggered
+```
+
+**Step 2:** Build with hover state
+```dart
+// Resolve colors based on hover
+backgroundColor = variant == primary
+  ? colorScheme.primary.withOpacity(0.9)  // Slightly dimmed
+  : colorScheme.primary
+
+AnimatedContainer(
+  duration: Duration(milliseconds: 150),
+  decoration: BoxDecoration(
+    color: backgroundColor,  // Animated color change
+  ),
+)
+```
+
+**Step 3:** User clicks
+```dart
+GestureDetector.onTapDown()
+  ↓
+_handleTapDown()
+  ↓
+setState(() => _isPressed = true)
+_controller.forward()  // Start scale animation
+  ↓
+Build triggered
+```
+
+**Step 4:** Scale animation
+```dart
+// Every frame for 100ms
+ScaleTransition(
+  scale: 1.0 → 0.97,  // Animated by controller
+  child: button,
+)
+```
+
+**Step 5:** User releases
+```dart
+GestureDetector.onTapUp()
+  ↓
+_handleTapUp()
+  ↓
+setState(() => _isPressed = false)
+_controller.reverse()  // Animate back to 1.0
+widget.onPressed?.call()
+```
+
+**Educational Value:** Multiple overlapping animations and state changes.
 
 ## Performance Characteristics
 

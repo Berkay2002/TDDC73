@@ -71,7 +71,7 @@ CustomPaint(
 - Can have a child widget that appears above/below the painting
 
 **In Primitive UI:**
-Used by `PrimitiveCard` and `PrimitiveToggleSwitch` for rendering.
+Used by `PrimitiveCard`, `PrimitiveToggleSwitch`, `PrimitiveSlider`, and `PrimitiveCircularProgress` for rendering.
 
 ### Canvas API
 
@@ -207,7 +207,7 @@ GestureDetector(
 ```
 
 **In Primitive UI:**
-Used by `PrimitiveToggleSwitch` for tap detection.
+Used by `PrimitiveToggleSwitch`, `PrimitiveButton`, `PrimitiveSlider`, and `PrimitiveInput` for gesture detection and interaction.
 
 ### Gesture Arena
 
@@ -357,7 +357,7 @@ Uses: `CustomPaint` → Canvas (directly)
 - PrimitiveCard is simpler and more explicit
 - Card is production-ready, PrimitiveCard is educational
 
-### VStack vs Column
+### VStack vs Column, HStack vs Row
 
 **High-Level Column:**
 ```dart
@@ -384,10 +384,82 @@ VStack(
 
 Features: Simple spacing and alignment only.
 
+**Primitive HStack:**
+```dart
+HStack(
+  spacing: 8.0,
+  children: [
+    Text('A'),
+    HCustomExpanded(child: Container()),
+    Text('B'),
+  ],
+)
+```
+
+Features: Full flex support with custom Flexible/Expanded widgets.
+
 **Learning Value:**
 - VStack shows the core layout algorithm
-- Column adds complexity for flexibility
-- Understanding VStack helps you use Column better
+- HStack demonstrates the flex algorithm and space distribution
+- Column/Row add complexity for production features
+- Understanding VStack/HStack helps you use Column/Row better
+
+### PrimitiveButton vs ElevatedButton/TextButton
+
+**High-Level Buttons:**
+```dart
+ElevatedButton(
+  onPressed: () {},
+  child: Text('Click'),
+)
+```
+
+Uses: Material theme system, ink splash, complex state management
+
+**Primitive PrimitiveButton:**
+```dart
+PrimitiveButton(
+  onPressed: () {},
+  variant: PrimitiveButtonVariant.primary,
+  child: Text('Click'),
+)
+```
+
+Uses: Direct `GestureDetector`, `MouseRegion`, `AnimationController`
+
+**Differences:**
+- Material buttons have ink splash effects
+- PrimitiveButton uses simple scale animation
+- PrimitiveButton shows explicit state management
+- Educational focus on interaction patterns
+
+### PrimitiveInput vs TextField
+
+**High-Level TextField:**
+```dart
+TextField(
+  decoration: InputDecoration(
+    labelText: 'Email',
+  ),
+)
+```
+
+Uses: Material decoration system, automatic focus behavior
+
+**Primitive PrimitiveInput:**
+```dart
+PrimitiveInput(
+  placeholder: 'Email',
+  variant: PrimitiveInputVariant.outline,
+)
+```
+
+Uses: Direct `EditableText`, manual focus management, custom decoration
+
+**Differences:**
+- TextField has built-in validation, labels, helpers
+- PrimitiveInput shows low-level text input handling
+- Educational focus on focus management and keyboard input
 
 ## Performance Characteristics
 

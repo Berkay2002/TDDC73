@@ -286,16 +286,16 @@ ZStack(
 ## Comparison with Standard Flutter
 
 This demo intentionally uses:
-- ✅ Standard Material app wrapper (allowed for demo)
-- ✅ Standard `Scaffold`, `AppBar` (allowed for demo)
-- ✅ Standard `SingleChildScrollView` (allowed for demo)
-- ✅ `Row` for horizontal layouts (allowed for demo)
+-  Standard Material app wrapper (allowed for demo)
+-  Standard `Scaffold`, `AppBar` (allowed for demo)
+-  Standard `SingleChildScrollView` (allowed for demo)
+-  `Row` for horizontal layouts (allowed for demo)
 
 **But for the library components themselves:**
-- ❌ NO `Column` (we use `VStack`)
-- ❌ NO `Stack` (we use `ZStack`)
-- ❌ NO `Card` widget (we use `PrimitiveCard`)
-- ❌ NO `Switch` widget (we use `PrimitiveToggleSwitch`)
+-  NO `Column` (we use `VStack`)
+-  NO `Stack` (we use `ZStack`)
+-  NO `Card` widget (we use `PrimitiveCard`)
+-  NO `Switch` widget (we use `PrimitiveToggleSwitch`)
 
 This shows how primitive components can replace standard widgets while maintaining functionality and aesthetics.
 

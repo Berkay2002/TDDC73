@@ -6,7 +6,7 @@ This repository contains all coursework for **TDDC73 Interaction Programming** a
 
 ## Repository Structure
 
-### 📱 Lab 1: Multi-Framework UI Comparison
+###  Lab 1: Multi-Framework UI Comparison
 
 **Location:** `lab_1/`
 
@@ -26,7 +26,7 @@ Implementing the same UI across multiple mobile frameworks to compare developmen
 
 ---
 
-### 💳 Lab 2: Credit Card Form with Validation
+###  Lab 2: Credit Card Form with Validation
 
 **Location:** `lab_2/`
 
@@ -51,7 +51,7 @@ Interactive credit card form with real-time validation and visual feedback.
 
 ---
 
-### 🌟 Lab 3: GitHub Trending App
+###  Lab 3: GitHub Trending App
 
 **Location:** `lab_3/`
 
@@ -75,25 +75,25 @@ Application displaying trending GitHub repositories with filtering and search ca
 
 ---
 
-### 🎨 Project: Primitive UI Library (Grade 5)
+###  Project: Primitive UI Library (Grade 5)
 
 **Location:** `project/`
 
 A custom Flutter GUI library built entirely from scratch using only primitive components.
 
-**🌐 [Live Demo](https://tddc73.vercel.app/examples)**
+** [Live Demo](https://tddc73.vercel.app/examples)**
 
 **Project Structure:**
 ```
 project/
-├── primitive_ui/              # Flutter package (the library)
-│   ├── lib/
-│   │   ├── primitive_ui.dart
-│   │   └── src/components/
-│   └── test/                  # Widget tests
-├── primitive_demo/            # Demo application
-│   └── lib/main.dart
-└── GETTING_STARTED_FLUTTER.md # Flutter tutorial for beginners
+ primitive_ui/              # Flutter package (the library)
+    lib/
+       primitive_ui.dart
+       src/components/
+    test/                  # Widget tests
+ primitive_demo/            # Demo application
+    lib/main.dart
+ GETTING_STARTED_FLUTTER.md # Flutter tutorial for beginners
 ```
 
 **Components Implemented:**

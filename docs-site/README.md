@@ -2,7 +2,7 @@
 
 Official documentation website for Primitive UI - built with Next.js 16 and Nextra 4.
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -21,7 +21,7 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-## 📝 Development
+##  Development
 
 ### Scripts
 
@@ -46,24 +46,24 @@ npm run lint     # Run ESLint
 - `public/` - Static assets
 - `theme.config.tsx` - Nextra theme configuration
 
-## 🎨 Features
+##  Features
 
-- ✅ Full-text search with Pagefind
-- ✅ Version switching component
-- ✅ DartPad integration for live examples
-- ✅ Dark mode support
-- ✅ Responsive design
-- ✅ Syntax highlighting for Dart/Flutter
-- ✅ Interactive playgrounds
+-  Full-text search with Pagefind
+-  Version switching component
+-  DartPad integration for live examples
+-  Dark mode support
+-  Responsive design
+-  Syntax highlighting for Dart/Flutter
+-  Interactive playgrounds
 
-## 📚 Documentation Structure
+##  Documentation Structure
 
 ### Completed Pages
 
-- ✅ Home page (`pages/index.mdx`)
-- ✅ Getting Started (`pages/getting-started.mdx`)
-- ✅ Installation (`pages/installation.mdx`)
-- ✅ Component docs:
+-  Home page (`pages/index.mdx`)
+-  Getting Started (`pages/getting-started.mdx`)
+-  Installation (`pages/installation.mdx`)
+-  Component docs:
   - PrimitiveCard
   - PrimitiveToggleSwitch
   - VStack
@@ -78,7 +78,7 @@ npm run lint     # Run ESLint
 - [ ] Troubleshooting page
 - [ ] FAQ page
 
-## 🚢 Deployment
+##  Deployment
 
 ### Vercel (Recommended)
 
@@ -93,7 +93,7 @@ npm run build
 npm run start
 ```
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Framework:** Next.js 16
 - **Documentation:** Nextra 4
@@ -102,10 +102,10 @@ npm run start
 - **Styling:** Tailwind CSS 4
 - **Deployment:** Vercel
 
-## 📄 License
+##  License
 
 MIT - Created for TDDC73 at Linköping University
 
-## 🤝 Contributing
+##  Contributing
 
 This is an educational project. Feel free to fork and adapt for your own learning!
