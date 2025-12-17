@@ -53,7 +53,7 @@ void main() {
 /// Sets up Material app with theme and navigation.
 class PrimitiveUIDemo extends StatelessWidget {
   final String? initialRoute;
-  
+
   const PrimitiveUIDemo({super.key, this.initialRoute});
 
   @override
@@ -74,78 +74,156 @@ class PrimitiveUIDemo extends StatelessWidget {
         '/zstack': (context) => const ZStackPositionedDemo(),
         '/accessibility': (context) => const AccessibilityDemo(),
         '/animations': (context) => const AnimationsDemo(),
-        
+
         // Snippets
-        '/snippet/simple_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SimpleCardSnippet()),
-        '/snippet/custom_styled_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CustomStyledCardSnippet()),
-        '/snippet/basic_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: BasicToggleSnippet()),
-        '/snippet/vstack_simple': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackSimpleSnippet()),
-        '/snippet/vstack_aligned': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackAlignedSnippet()),
-        '/snippet/zstack_simple': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ZStackSimpleSnippet()),
-        '/snippet/card_with_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CardWithToggleSnippet()),
-        '/snippet/vstack_with_cards': (context) => const Scaffold(backgroundColor: Colors.transparent, body: VStackWithCardsSnippet()),
-        '/snippet/card_with_vstack': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CardWithVStackSnippet()),
-        '/snippet/settings_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsListSnippet()),
-        '/snippet/info_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: InfoCardSnippet()),
-        '/snippet/badge_overlay': (context) => const Scaffold(backgroundColor: Colors.transparent, body: BadgeOverlaySnippet()),
-        '/snippet/grid_of_cards': (context) => const Scaffold(backgroundColor: Colors.transparent, body: GridOfCardsSnippet()),
-        '/snippet/scrollable_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ScrollableListSnippet()),
-        '/snippet/stretched_layout': (context) => const Scaffold(backgroundColor: Colors.transparent, body: StretchedLayoutSnippet()),
-        '/snippet/counter_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CounterCardSnippet()),
-        '/snippet/feedback_toggle': (context) => const Scaffold(backgroundColor: Colors.transparent, body: FeedbackToggleSnippet()),
-        '/snippet/complex_form_layout': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ComplexFormLayoutSnippet()),
-        '/snippet/conditional_rendering': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ConditionalRenderingSnippet()),
-        '/snippet/image_card_with_overlay': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ImageCardWithOverlaySnippet()),
+        '/snippet/simple_card': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SimpleCardSnippet(),
+        ),
+        '/snippet/custom_styled_card': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CustomStyledCardSnippet(),
+        ),
+        '/snippet/basic_toggle': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BasicToggleSnippet(),
+        ),
+        '/snippet/vstack_simple': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: VStackSimpleSnippet(),
+        ),
+        '/snippet/vstack_aligned': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: VStackAlignedSnippet(),
+        ),
+        '/snippet/zstack_simple': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ZStackSimpleSnippet(),
+        ),
+        '/snippet/card_with_toggle': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CardWithToggleSnippet(),
+        ),
+        '/snippet/vstack_with_cards': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: VStackWithCardsSnippet(),
+        ),
+        '/snippet/card_with_vstack': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CardWithVStackSnippet(),
+        ),
+        '/snippet/settings_list': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SettingsListSnippet(),
+        ),
+        '/snippet/info_card': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: InfoCardSnippet(),
+        ),
+        '/snippet/badge_overlay': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BadgeOverlaySnippet(),
+        ),
+        '/snippet/grid_of_cards': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: GridOfCardsSnippet(),
+        ),
+        '/snippet/scrollable_list': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ScrollableListSnippet(),
+        ),
+        '/snippet/stretched_layout': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: StretchedLayoutSnippet(),
+        ),
+        '/snippet/counter_card': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CounterCardSnippet(),
+        ),
+        '/snippet/feedback_toggle': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FeedbackToggleSnippet(),
+        ),
+        '/snippet/complex_form_layout': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ComplexFormLayoutSnippet(),
+        ),
+        '/snippet/conditional_rendering': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ConditionalRenderingSnippet(),
+        ),
+        '/snippet/image_card_with_overlay': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ImageCardWithOverlaySnippet(),
+        ),
         '/snippet/multi_layer_status': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: MultiLayerStatusIndicatorSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: MultiLayerStatusIndicatorSnippet(),
+        ),
         '/snippet/primitive_button': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveButtonSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveButtonSnippet(),
+        ),
         '/snippet/primitive_input': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveInputSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveInputSnippet(),
+        ),
         '/snippet/primitive_card': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveCardSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveCardSnippet(),
+        ),
         '/snippet/primitive_slider': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveSliderSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveSliderSnippet(),
+        ),
         '/snippet/primitive_circular_progress': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveCircularProgressSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveCircularProgressSnippet(),
+        ),
         '/snippet/primitive_toggle_switch': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: PrimitiveToggleSwitchSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: PrimitiveToggleSwitchSnippet(),
+        ),
         '/snippet/hstack': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: HStackSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: HStackSnippet(),
+        ),
         '/snippet/vstack': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: VStackShowcaseSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: VStackShowcaseSnippet(),
+        ),
         '/snippet/vstack_flex': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: VStackFlexSnippet(),
-            ),
+          backgroundColor: Colors.transparent,
+          body: VStackFlexSnippet(),
+        ),
         '/snippet/zstack': (context) => const Scaffold(
-              backgroundColor: Colors.transparent,
-              body: ZStackShowcaseSnippet(),
-            ),
-        '/snippet/settings_view_with_provider': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SettingsViewWithProviderSnippet()),
-        '/snippet/responsive_grid': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ResponsiveGridSnippet()),
-        '/snippet/themed_components': (context) => const Scaffold(backgroundColor: Colors.transparent, body: ThemedComponentsSnippet()),
-        '/snippet/optimized_list': (context) => const Scaffold(backgroundColor: Colors.transparent, body: OptimizedListSnippet()),
-        '/snippet/safe_card': (context) => const Scaffold(backgroundColor: Colors.transparent, body: SafeCardSnippet()),
-        '/snippet/complete_dashboard': (context) => const Scaffold(backgroundColor: Colors.transparent, body: CompleteDashboardSnippet()),
+          backgroundColor: Colors.transparent,
+          body: ZStackShowcaseSnippet(),
+        ),
+        '/snippet/settings_view_with_provider': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SettingsViewWithProviderSnippet(),
+        ),
+        '/snippet/responsive_grid': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ResponsiveGridSnippet(),
+        ),
+        '/snippet/themed_components': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: ThemedComponentsSnippet(),
+        ),
+        '/snippet/optimized_list': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: OptimizedListSnippet(),
+        ),
+        '/snippet/safe_card': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeCardSnippet(),
+        ),
+        '/snippet/complete_dashboard': (context) => const Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CompleteDashboardSnippet(),
+        ),
       },
     );
   }
@@ -533,7 +611,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
   /// Helper: Builds an alignment demo card.
   ///
   /// Shows how VStack children align based on the specified alignment mode.
-  Widget _buildAlignmentDemo(String title, CrossAxisAlignment crossAxisAlignment) {
+  Widget _buildAlignmentDemo(
+    String title,
+    CrossAxisAlignment crossAxisAlignment,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -813,9 +894,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Text(label, style: const TextStyle(fontSize: 16)),
-          ),
+          Expanded(child: Text(label, style: const TextStyle(fontSize: 16))),
           PrimitiveToggleSwitch(
             value: value,
             onChanged: onChanged,

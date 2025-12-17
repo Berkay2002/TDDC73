@@ -9,9 +9,7 @@ class SimpleCardSnippet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: PrimitiveCard(
-        child: const Text('Hello, Primitive UI!'),
-      ),
+      child: PrimitiveCard(child: const Text('Hello, Primitive UI!')),
     );
   }
 }
@@ -26,10 +24,7 @@ class CustomStyledCardSnippet extends StatelessWidget {
         borderRadius: 12.0,
         elevation: 4.0,
         padding: const EdgeInsets.all(20.0),
-        child: const Text(
-          'Custom Styled Card',
-          style: TextStyle(fontSize: 18),
-        ),
+        child: const Text('Custom Styled Card', style: TextStyle(fontSize: 18)),
       ),
     );
   }
@@ -67,11 +62,7 @@ class VStackSimpleSnippet extends StatelessWidget {
       child: PrimitiveCard(
         child: VStack(
           spacing: 16.0,
-          children: const [
-            Text('Item 1'),
-            Text('Item 2'),
-            Text('Item 3'),
-          ],
+          children: const [Text('Item 1'), Text('Item 2'), Text('Item 3')],
         ),
       ),
     );
@@ -106,11 +97,7 @@ class ZStackSimpleSnippet extends StatelessWidget {
       child: ZStack(
         alignment: Alignment.center,
         children: [
-          Container(
-            width: 200,
-            height: 200,
-            color: Colors.blue,
-          ),
+          Container(width: 200, height: 200, color: Colors.blue),
           const Icon(Icons.star, size: 100, color: Colors.yellow),
         ],
       ),
@@ -183,10 +170,7 @@ class CardWithVStackSnippet extends StatelessWidget {
           children: const [
             Text(
               'Title',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Text('Subtitle'),
             Text('Content goes here...'),
@@ -263,10 +247,7 @@ class InfoCardSnippet extends StatelessWidget {
             const Icon(Icons.info, size: 40, color: Colors.blue),
             const Text(
               'Information',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Text(
               'This is an important message.',
@@ -346,9 +327,7 @@ class ScrollableListSnippet extends StatelessWidget {
           spacing: 16.0,
           children: List.generate(
             20,
-            (index) => PrimitiveCard(
-              child: Text('Item ${index + 1}'),
-            ),
+            (index) => PrimitiveCard(child: Text('Item ${index + 1}')),
           ),
         ),
       ),
@@ -368,10 +347,16 @@ class StretchedLayoutSnippet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             PrimitiveCard(
-              child: Container(height: 50, child: const Center(child: Text('Full Width 1'))),
+              child: Container(
+                height: 50,
+                child: const Center(child: Text('Full Width 1')),
+              ),
             ),
             PrimitiveCard(
-              child: Container(height: 50, child: const Center(child: Text('Full Width 2'))),
+              child: Container(
+                height: 50,
+                child: const Center(child: Text('Full Width 2')),
+              ),
             ),
           ],
         ),
@@ -499,13 +484,15 @@ class _AnimatedCardSnippetState extends State<AnimatedCardSnippet>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
-    _elevationAnimation = Tween<double>(begin: 2.0, end: 8.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _elevationAnimation = Tween<double>(
+      begin: 2.0,
+      end: 8.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -529,7 +516,10 @@ class _AnimatedCardSnippetState extends State<AnimatedCardSnippet>
               child: PrimitiveCard(
                 elevation: _elevationAnimation.value,
                 padding: const EdgeInsets.all(32),
-                child: const Text('Tap Me (Animated)', style: TextStyle(fontSize: 18)),
+                child: const Text(
+                  'Tap Me (Animated)',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             );
           },
@@ -542,7 +532,8 @@ class _AnimatedCardSnippetState extends State<AnimatedCardSnippet>
 class ComplexFormLayoutSnippet extends StatefulWidget {
   const ComplexFormLayoutSnippet({super.key});
   @override
-  State<ComplexFormLayoutSnippet> createState() => _ComplexFormLayoutSnippetState();
+  State<ComplexFormLayoutSnippet> createState() =>
+      _ComplexFormLayoutSnippetState();
 }
 
 class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
@@ -569,13 +560,9 @@ class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
             _buildSection(
               title: 'Personal Information',
               children: const [
-                TextField(
-                  decoration: InputDecoration(labelText: 'Name'),
-                ),
+                TextField(decoration: InputDecoration(labelText: 'Name')),
                 SizedBox(height: 16),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
+                TextField(decoration: InputDecoration(labelText: 'Email')),
               ],
             ),
 
@@ -627,10 +614,7 @@ class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           ...children,
         ],
@@ -654,19 +638,21 @@ class _ComplexFormLayoutSnippetState extends State<ComplexFormLayoutSnippet> {
 
   void _saveSettings() {
     // Save settings logic
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Settings saved!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Settings saved!')));
   }
 }
 
 class ConditionalRenderingSnippet extends StatefulWidget {
   const ConditionalRenderingSnippet({super.key});
   @override
-  State<ConditionalRenderingSnippet> createState() => _ConditionalRenderingSnippetState();
+  State<ConditionalRenderingSnippet> createState() =>
+      _ConditionalRenderingSnippetState();
 }
 
-class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippet> {
+class _ConditionalRenderingSnippetState
+    extends State<ConditionalRenderingSnippet> {
   bool _isLoading = false;
   bool _hasError = false;
   List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
@@ -681,9 +667,7 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
           // Conditionally show loading state
           if (_isLoading)
             const PrimitiveCard(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: Center(child: CircularProgressIndicator()),
             ),
 
           // Conditionally show error
@@ -695,19 +679,14 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
                 children: [
                   const Icon(Icons.error, color: Colors.red),
                   const Text('Error loading data'),
-                  ElevatedButton(
-                    onPressed: _retry,
-                    child: const Text('Retry'),
-                  ),
+                  ElevatedButton(onPressed: _retry, child: const Text('Retry')),
                 ],
               ),
             ),
 
           // Show items if not loading and no error
           if (!_isLoading && !_hasError)
-            ..._items.map((item) => PrimitiveCard(
-              child: Text(item),
-            )),
+            ..._items.map((item) => PrimitiveCard(child: Text(item))),
 
           // Show empty state
           if (!_isLoading && !_hasError && _items.isEmpty)
@@ -721,7 +700,7 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
                 ],
               ),
             ),
-          
+
           ElevatedButton(
             onPressed: () {
               setState(() {
@@ -741,7 +720,7 @@ class _ConditionalRenderingSnippetState extends State<ConditionalRenderingSnippe
               });
             },
             child: const Text('Toggle State'),
-          )
+          ),
         ],
       ),
     );
@@ -772,9 +751,9 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
           title: 'Forest Landscape',
           subtitle: 'A serene view of nature',
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Image Card Tapped!')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Image Card Tapped!')));
           },
         ),
       ),
@@ -797,11 +776,7 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
             // Background image
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                height: 200,
-              ),
+              child: Image.network(imageUrl, fit: BoxFit.cover, height: 200),
             ),
 
             // Gradient overlay
@@ -811,10 +786,7 @@ class ImageCardWithOverlaySnippet extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.7),
-                  ],
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
                 ),
               ),
             ),
@@ -919,10 +891,7 @@ class _PrimitiveButtonSnippetState extends State<PrimitiveButtonSnippet> {
               spacing: 12,
               runSpacing: 12,
               children: [
-                PrimitiveButton(
-                  onPressed: () {},
-                  child: const Text('Primary'),
-                ),
+                PrimitiveButton(onPressed: () {}, child: const Text('Primary')),
                 PrimitiveButton(
                   variant: PrimitiveButtonVariant.secondary,
                   onPressed: () {},
@@ -1068,17 +1037,17 @@ class PrimitiveInputSnippet extends StatelessWidget {
               ),
 
               const SizedBox(height: 24),
-              Text('States & Slots', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'States & Slots',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               const PrimitiveInput(
                 placeholder: 'Disabled Input',
                 enabled: false,
               ),
               const SizedBox(height: 12),
-              const PrimitiveInput(
-                placeholder: 'Error State',
-                hasError: true,
-              ),
+              const PrimitiveInput(placeholder: 'Error State', hasError: true),
               const SizedBox(height: 12),
               const PrimitiveInput(
                 placeholder: 'Search...',
@@ -1103,10 +1072,7 @@ class Settings {
   bool darkMode;
   bool notifications;
 
-  Settings({
-    this.darkMode = false,
-    this.notifications = true,
-  });
+  Settings({this.darkMode = false, this.notifications = true});
 }
 
 class SettingsNotifier extends ChangeNotifier {
@@ -1180,9 +1146,8 @@ class ResponsiveGridSnippet extends StatelessWidget {
       child: ResponsiveGrid(
         children: List.generate(
           6, // Reduced items for better demo visibility
-          (index) => PrimitiveCard(
-            child: Center(child: Text('Card ${index + 1}')),
-          ),
+          (index) =>
+              PrimitiveCard(child: Center(child: Text('Card ${index + 1}'))),
         ),
       ),
     );
@@ -1231,13 +1196,8 @@ class ThemedComponentsSnippet extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            AppTheme.buildSurfaceCard(
-              child: const Text('Surface Themed Card'),
-            ),
-            AppTheme.buildPrimaryToggle(
-              value: true,
-              onChanged: (_) {},
-            ),
+            AppTheme.buildSurfaceCard(child: const Text('Surface Themed Card')),
+            AppTheme.buildPrimaryToggle(value: true, onChanged: (_) {}),
           ],
         ),
       ),
@@ -1301,9 +1261,7 @@ class _OptimizedListSnippetState extends State<OptimizedListSnippet> {
           return Padding(
             key: ValueKey(_items[index]), // Important for performance
             padding: const EdgeInsets.only(bottom: 16),
-            child: PrimitiveCard(
-              child: Text(_items[index]),
-            ),
+            child: PrimitiveCard(child: Text(_items[index])),
           );
         },
       ),
@@ -1321,9 +1279,7 @@ class SafeCardSnippet extends StatelessWidget {
         child: VStack(
           spacing: 16.0,
           children: [
-            const SafeCard(
-              child: Text('Content loaded successfully!'),
-            ),
+            const SafeCard(child: Text('Content loaded successfully!')),
             const SafeCard(
               errorMessage: 'Failed to load data. Please try again.',
             ),
@@ -1338,11 +1294,7 @@ class SafeCard extends StatelessWidget {
   final Widget? child;
   final String? errorMessage;
 
-  const SafeCard({
-    super.key,
-    this.child,
-    this.errorMessage,
-  });
+  const SafeCard({super.key, this.child, this.errorMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -1390,7 +1342,10 @@ class PrimitiveCardSnippet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Elevations', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Elevations',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 elevation: 2.0,
@@ -1407,7 +1362,10 @@ class PrimitiveCardSnippet extends StatelessWidget {
                 child: const Text('High elevation (8.0)'),
               ),
               const SizedBox(height: 24),
-              Text('Custom Styles', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Custom Styles',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 color: const Color(0xFFE3F2FD),
@@ -1457,17 +1415,25 @@ class _PrimitiveSliderSnippetState extends State<PrimitiveSliderSnippet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Basic Slider', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Basic Slider',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             PrimitiveSlider(
               value: _value1,
               onChanged: (value) => setState(() => _value1 = value),
             ),
-            Text('Value: ${_value1.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 12)),
+            Text(
+              'Value: ${_value1.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 12),
+            ),
 
             const SizedBox(height: 24),
-            Text('Custom Range (0-100)', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Custom Range (0-100)',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             PrimitiveSlider(
               value: _value2,
@@ -1476,11 +1442,16 @@ class _PrimitiveSliderSnippetState extends State<PrimitiveSliderSnippet> {
               activeColor: Colors.purple,
               onChanged: (value) => setState(() => _value2 = value),
             ),
-            Text('Value: ${_value2.toStringAsFixed(0)}',
-              style: const TextStyle(fontSize: 12)),
+            Text(
+              'Value: ${_value2.toStringAsFixed(0)}',
+              style: const TextStyle(fontSize: 12),
+            ),
 
             const SizedBox(height: 24),
-            Text('Custom Thumb', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Custom Thumb',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             PrimitiveSlider(
               value: _value3,
@@ -1490,8 +1461,10 @@ class _PrimitiveSliderSnippetState extends State<PrimitiveSliderSnippet> {
               thumbColor: Colors.green,
               onChanged: (value) => setState(() => _value3 = value),
             ),
-            Text('Value: ${_value3.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 12)),
+            Text(
+              'Value: ${_value3.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 12),
+            ),
           ],
         ),
       ),
@@ -1504,10 +1477,12 @@ class PrimitiveCircularProgressSnippet extends StatefulWidget {
   const PrimitiveCircularProgressSnippet({super.key});
 
   @override
-  State<PrimitiveCircularProgressSnippet> createState() => _PrimitiveCircularProgressSnippetState();
+  State<PrimitiveCircularProgressSnippet> createState() =>
+      _PrimitiveCircularProgressSnippetState();
 }
 
-class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProgressSnippet> {
+class _PrimitiveCircularProgressSnippetState
+    extends State<PrimitiveCircularProgressSnippet> {
   double _progress = 0.65;
 
   @override
@@ -1518,7 +1493,10 @@ class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProg
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Determinate Progress', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Determinate Progress',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1531,8 +1509,10 @@ class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProg
                       strokeWidth: 6.0,
                     ),
                     const SizedBox(height: 8),
-                    Text('${(_progress * 100).toInt()}%',
-                      style: const TextStyle(fontSize: 12)),
+                    Text(
+                      '${(_progress * 100).toInt()}%',
+                      style: const TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
                 Column(
@@ -1544,8 +1524,7 @@ class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProg
                       color: Colors.green,
                     ),
                     const SizedBox(height: 8),
-                    const Text('Custom Color',
-                      style: TextStyle(fontSize: 12)),
+                    const Text('Custom Color', style: TextStyle(fontSize: 12)),
                   ],
                 ),
               ],
@@ -1556,7 +1535,10 @@ class _PrimitiveCircularProgressSnippetState extends State<PrimitiveCircularProg
               onChanged: (value) => setState(() => _progress = value),
             ),
             const SizedBox(height: 24),
-            Text('Indeterminate', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Indeterminate',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             const PrimitiveCircularProgress(
               size: 60.0,
@@ -1575,10 +1557,12 @@ class PrimitiveToggleSwitchSnippet extends StatefulWidget {
   const PrimitiveToggleSwitchSnippet({super.key});
 
   @override
-  State<PrimitiveToggleSwitchSnippet> createState() => _PrimitiveToggleSwitchSnippetState();
+  State<PrimitiveToggleSwitchSnippet> createState() =>
+      _PrimitiveToggleSwitchSnippetState();
 }
 
-class _PrimitiveToggleSwitchSnippetState extends State<PrimitiveToggleSwitchSnippet> {
+class _PrimitiveToggleSwitchSnippetState
+    extends State<PrimitiveToggleSwitchSnippet> {
   bool _switch1 = false;
   bool _switch2 = true;
   bool _switch3 = false;
@@ -1597,23 +1581,45 @@ class _PrimitiveToggleSwitchSnippetState extends State<PrimitiveToggleSwitchSnip
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Toggle Switches', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Toggle Switches',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 24),
-            _buildToggleRow('Default', _switch1, (v) => setState(() => _switch1 = v)),
+            _buildToggleRow(
+              'Default',
+              _switch1,
+              (v) => setState(() => _switch1 = v),
+            ),
             const SizedBox(height: 16),
-            _buildToggleRow('Custom Color', _switch2, (v) => setState(() => _switch2 = v),
-              activeColor: Colors.green),
+            _buildToggleRow(
+              'Custom Color',
+              _switch2,
+              (v) => setState(() => _switch2 = v),
+              activeColor: Colors.green,
+            ),
             const SizedBox(height: 16),
-            _buildToggleRow('Large Size', _switch3, (v) => setState(() => _switch3 = v),
-              width: 60.0, height: 34.0),
+            _buildToggleRow(
+              'Large Size',
+              _switch3,
+              (v) => setState(() => _switch3 = v),
+              width: 60.0,
+              height: 34.0,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildToggleRow(String label, bool value, ValueChanged<bool> onChanged,
-      {Color? activeColor, double? width, double? height}) {
+  Widget _buildToggleRow(
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged, {
+    Color? activeColor,
+    double? width,
+    double? height,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -1644,7 +1650,10 @@ class HStackSnippet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Basic HStack', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Basic HStack',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 child: HStack(
@@ -1657,7 +1666,10 @@ class HStackSnippet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('Center Alignment', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Center Alignment',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 child: HStack(
@@ -1671,7 +1683,10 @@ class HStackSnippet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('With Icons & Text', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'With Icons & Text',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 child: HStack(
@@ -1697,7 +1712,13 @@ class HStackSnippet extends StatelessWidget {
       height: 60,
       color: color,
       child: Center(
-        child: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
@@ -1717,7 +1738,10 @@ class VStackShowcaseSnippet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Basic VStack', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Basic VStack',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 child: VStack(
@@ -1730,7 +1754,10 @@ class VStackShowcaseSnippet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('Center Alignment', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Center Alignment',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               PrimitiveCard(
                 child: VStack(
@@ -1751,10 +1778,16 @@ class VStackShowcaseSnippet extends StatelessWidget {
                   spacing: 8.0,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(height: 40, color: Colors.purple.shade100,
-                      child: const Center(child: Text('Full Width'))),
-                    Container(height: 40, color: Colors.orange.shade100,
-                      child: const Center(child: Text('Stretched'))),
+                    Container(
+                      height: 40,
+                      color: Colors.purple.shade100,
+                      child: const Center(child: Text('Full Width')),
+                    ),
+                    Container(
+                      height: 40,
+                      color: Colors.orange.shade100,
+                      child: const Center(child: Text('Stretched')),
+                    ),
                   ],
                 ),
               ),
@@ -1778,7 +1811,10 @@ class ZStackShowcaseSnippet extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Layered Boxes', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Layered Boxes',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: 200,
@@ -1817,7 +1853,10 @@ class ZStackShowcaseSnippet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            Text('Badge Overlay', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Badge Overlay',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: 100,
@@ -1832,7 +1871,11 @@ class ZStackShowcaseSnippet extends StatelessWidget {
                       color: Colors.grey,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.notifications, color: Colors.white, size: 40),
+                    child: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                      size: 40,
+                    ),
                   ),
                   Container(
                     width: 28,
@@ -1842,7 +1885,14 @@ class ZStackShowcaseSnippet extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
-                      child: Text('9', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        '9',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -1869,7 +1919,10 @@ class VStackFlexSnippet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('VCustomExpanded', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'VCustomExpanded',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               SizedBox(
                 height: 300,
@@ -1885,7 +1938,9 @@ class VStackFlexSnippet extends StatelessWidget {
                       VCustomExpanded(
                         child: Container(
                           color: Colors.green.shade200,
-                          child: const Center(child: Text('Expanded (fills remaining)')),
+                          child: const Center(
+                            child: Text('Expanded (fills remaining)'),
+                          ),
                         ),
                       ),
                       Container(
@@ -1898,7 +1953,10 @@ class VStackFlexSnippet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('VCustomFlexible with Flex Ratios', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'VCustomFlexible with Flex Ratios',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               SizedBox(
                 height: 300,
@@ -1925,7 +1983,10 @@ class VStackFlexSnippet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('Mixed: Fixed + Flexible', style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Mixed: Fixed + Flexible',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               SizedBox(
                 height: 300,
@@ -1941,7 +2002,9 @@ class VStackFlexSnippet extends StatelessWidget {
                       VCustomExpanded(
                         child: Container(
                           color: Colors.grey.shade200,
-                          child: const Center(child: Text('Content (expanded)')),
+                          child: const Center(
+                            child: Text('Content (expanded)'),
+                          ),
                         ),
                       ),
                       Container(
@@ -1964,7 +2027,8 @@ class VStackFlexSnippet extends StatelessWidget {
 class CompleteDashboardSnippet extends StatefulWidget {
   const CompleteDashboardSnippet({super.key});
   @override
-  State<CompleteDashboardSnippet> createState() => _CompleteDashboardSnippetState();
+  State<CompleteDashboardSnippet> createState() =>
+      _CompleteDashboardSnippetState();
 }
 
 class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
@@ -2014,10 +2078,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
                         ),
                         Text(
                           'Refresh data every 30 seconds',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -2060,10 +2121,7 @@ class _CompleteDashboardSnippetState extends State<CompleteDashboardSnippet> {
             value,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          Text(
-            label,
-            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-          ),
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
         ],
       ),
     );
