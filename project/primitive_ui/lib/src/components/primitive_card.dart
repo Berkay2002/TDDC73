@@ -114,8 +114,9 @@ class _PrimitiveCardState extends State<PrimitiveCard> {
   @override
   Widget build(BuildContext context) {
     // Reduce elevation when pressed to simulate depth
-    final double effectiveElevation =
-        _isPressed ? (widget.elevation / 2) : widget.elevation;
+    final double effectiveElevation = _isPressed
+        ? (widget.elevation / 2)
+        : widget.elevation;
 
     final targetStyle = _CardStyle(
       color: widget.color,
@@ -180,8 +181,11 @@ class _CardPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Ensure border radius is non-negative
-    final double effectiveBorderRadius = borderRadius.clamp(0.0, double.infinity);
-    
+    final double effectiveBorderRadius = borderRadius.clamp(
+      0.0,
+      double.infinity,
+    );
+
     // Create rounded rectangle for the card shape
     final RRect cardRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, size.width, size.height),
@@ -197,8 +201,10 @@ class _CardPainter extends CustomPainter {
         0.0,
         _kMaxShadowOpacity,
       );
-      
-      final Color effectiveShadowColor = shadowColor.withValues(alpha: shadowOpacity);
+
+      final Color effectiveShadowColor = shadowColor.withValues(
+        alpha: shadowOpacity,
+      );
 
       // Draw shadow using drawShadow
       canvas.drawShadow(
