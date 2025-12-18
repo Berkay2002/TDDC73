@@ -6,7 +6,7 @@ A comprehensive demonstration app showcasing all components from the **Primitive
 
 This demo application showcases a custom Flutter GUI library built entirely from scratch using only primitive components: `CustomPaint`, `Canvas`, `GestureDetector`, and custom render objects.
 
-**Purpose:** Demonstrate all 4 components from Primitive UI in practical, interactive examples.
+**Purpose:** Demonstrate all 9 components from Primitive UI in practical, interactive examples.
 
 **Educational Value:** Shows how primitive-based components can be combined to create functional, beautiful UIs.
 
@@ -402,7 +402,7 @@ After exploring the demo:
 ## Learn More
 
 - **Primitive UI API Docs:** [../primitive_ui/README.md](../primitive_ui/README.md)
-- **Flutter Getting Started:** [../GETTING_STARTED_FLUTTER.md](../GETTING_STARTED_FLUTTER.md)
+- **Online Documentation:** https://tddc73.vercel.app
 - **Flutter Documentation:** https://flutter.dev/docs
 - **Source Code:** `lib/main.dart` (extensively commented)
 

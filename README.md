@@ -6,7 +6,7 @@ This repository contains all coursework for **TDDC73 Interaction Programming** a
 
 ## Repository Structure
 
-###  Lab 1: Multi-Framework UI Comparison
+### Lab 1: Multi-Framework UI Comparison
 
 **Location:** `lab_1/`
 
@@ -26,7 +26,7 @@ Implementing the same UI across multiple mobile frameworks to compare developmen
 
 ---
 
-###  Lab 2: Credit Card Form with Validation
+### Lab 2: Credit Card Form with Validation
 
 **Location:** `lab_2/`
 
@@ -51,7 +51,7 @@ Interactive credit card form with real-time validation and visual feedback.
 
 ---
 
-###  Lab 3: GitHub Trending App
+### Lab 3: GitHub Trending App
 
 **Location:** `lab_3/`
 
@@ -75,7 +75,7 @@ Application displaying trending GitHub repositories with filtering and search ca
 
 ---
 
-###  Project: Primitive UI Library (Grade 5)
+### Project: Primitive UI Library (Grade 5)
 
 **Location:** `project/`
 
@@ -93,7 +93,6 @@ project/
     test/                  # Widget tests
  primitive_demo/            # Demo application
     lib/main.dart
- GETTING_STARTED_FLUTTER.md # Flutter tutorial for beginners
 ```
 
 **Components Implemented:**
@@ -130,8 +129,6 @@ flutter run
 - **API Documentation:** [project/primitive_ui/README.md](project/primitive_ui/README.md)
 - **Demo Guide:** [project/primitive_demo/README.md](project/primitive_demo/README.md)
 - **Documentation Site:** [docs-site/](docs-site/)
-
-**Requirements:** [grade-5.md](grade-5.md)
 
 ---
 
@@ -264,9 +261,6 @@ cd lab_1/kotlin_compose  # or kotlin_xml
 ## Documentation
 
 - **[docs-site/](docs-site/)** - Nextra documentation site with API docs
-- **[grade-5.md](grade-5.md)** - Grade 5 project requirements
-- **[project.md](project.md)** - Alternative project specifications
-- **[ui-test.md](ui-test.md)** - UI testing guidelines
 
 ---
 
@@ -310,23 +304,11 @@ cd lab_1/kotlin_compose  # or kotlin_xml
 
 ---
 
-## Academic Integrity
-
-All code in this repository is original work created for the TDDC73 course. External resources and references are properly cited in individual project documentation.
-
----
-
 ## Contact
 
 **Institution:** Linköping University  
 **Course:** TDDC73 - Interaction Programming  
 **Year:** 2025
-
----
-
-## License
-
-All projects in this repository are created for educational purposes as part of TDDC73 coursework.
 
 ---
 
@@ -337,8 +319,8 @@ All projects in this repository are created for educational purposes as part of 
 | **Lab 1** | Multi-framework UI | `lab_1/` | [Screenshots](#-lab-1-multi-framework-ui-comparison) |
 | **Lab 2** | Credit card form | `lab_2/` | [Screenshots](#-lab-2-credit-card-form-with-validation) |
 | **Lab 3** | GitHub trending | `lab_3/` | [Screenshots](#-lab-3-github-trending-app) |
-| **Project** | Primitive UI library | `project/` | [Live Demo](https://tddc-73.vercel.app/demo) |
+| **Project** | Primitive UI library | `project/` | [Live Demo](https://tddc73.vercel.app/examples) |
 
 ---
 
-**Last Updated:** December 5, 2025
+**Last Updated:** December 18, 2025

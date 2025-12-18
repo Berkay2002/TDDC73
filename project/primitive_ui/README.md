@@ -31,7 +31,7 @@ Primitive UI components are designed to be accessible and WAI-ARIA compliant whe
 
 ## Components
 
-Primitive UI includes 7 core components: 4 UI components and 3 layout components.
+Primitive UI includes 9 core components: 6 UI components and 3 layout components.
 
 ### UI Components
 

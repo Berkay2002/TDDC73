@@ -2,7 +2,7 @@
 
 Official documentation website for Primitive UI - built with Next.js 16 and Nextra 4.
 
-##  Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -21,7 +21,7 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-##  Development
+## Development
 
 ### Scripts
 
@@ -34,51 +34,50 @@ npm run lint     # Run ESLint
 
 ### Adding Content
 
-1. Create MDX files in `pages/` directory
-2. Update `_meta.js` files for navigation
+1. Create MDX files in `app/(docs)/` directory
+2. Update `_meta.global.js` files for navigation
 3. Use Nextra components for enhanced formatting
 
 ### Project Structure
 
 - `app/` - Next.js app directory with root layout
-- `pages/` - MDX documentation files (Nextra content)
+- `app/(docs)/` - MDX documentation files (Nextra content)
 - `components/` - Custom React components
 - `public/` - Static assets
-- `theme.config.tsx` - Nextra theme configuration
+- `lib/` - Utility functions and version management
 
-##  Features
+## Features
 
--  Full-text search with Pagefind
--  Version switching component
--  DartPad integration for live examples
--  Dark mode support
--  Responsive design
--  Syntax highlighting for Dart/Flutter
--  Interactive playgrounds
+- Full-text search with Pagefind
+- Version switching component
+- DartPad integration for live examples
+- Dark mode support
+- Responsive design
+- Syntax highlighting for Dart/Flutter
+- Interactive playgrounds
 
-##  Documentation Structure
+## Documentation Structure
 
-### Completed Pages
+### Documentation Sections
 
--  Home page (`pages/index.mdx`)
--  Getting Started (`pages/getting-started.mdx`)
--  Installation (`pages/installation.mdx`)
--  Component docs:
+- Home page (`app/(docs)/page.mdx`)
+- Getting Started (`app/(docs)/getting-started/`)
+- Accessibility guide (`app/(docs)/accessibility/`)
+- Architecture docs (`app/(docs)/architecture/`)
+- Component docs (`app/(docs)/components/`):
+  - PrimitiveButton
   - PrimitiveCard
+  - PrimitiveCircularProgress
+  - PrimitiveInput
+  - PrimitiveSlider
   - PrimitiveToggleSwitch
+  - HStack
   - VStack
   - ZStack
+- Examples (`app/(docs)/examples/`)
+- Releases (`app/(docs)/releases/`)
 
-### To Be Created
-
-- [ ] Architecture pages (primitives-explained, rendering-pipeline, layout-system, design-decisions)
-- [ ] Examples pages (basic-usage, advanced-patterns, real-world-apps)
-- [ ] Playground page
-- [ ] API Reference page
-- [ ] Troubleshooting page
-- [ ] FAQ page
-
-##  Deployment
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -93,7 +92,7 @@ npm run build
 npm run start
 ```
 
-##  Tech Stack
+## Tech Stack
 
 - **Framework:** Next.js 16
 - **Documentation:** Nextra 4
@@ -102,10 +101,10 @@ npm run start
 - **Styling:** Tailwind CSS 4
 - **Deployment:** Vercel
 
-##  License
+## License
 
 MIT - Created for TDDC73 at Linköping University
 
-##  Contributing
+## Contributing
 
 This is an educational project. Feel free to fork and adapt for your own learning!
