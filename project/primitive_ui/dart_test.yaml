@@ -1,0 +1,19 @@
+# Test configuration for primitive_ui
+# This provides better test output formatting
+
+# Show test output with more details
+verbose_trace: false
+
+# Platforms to run tests on
+platforms: [vm]
+
+# Timeout for tests (in seconds)
+timeout: 30s
+
+# Reporter output format
+# Options: compact, expanded, json
+# We'll use expanded for better visibility during demo
+reporter: expanded
+
+# Exclude certain files/patterns if needed
+exclude_tags: skip

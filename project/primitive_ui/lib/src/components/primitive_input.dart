@@ -1,22 +1,16 @@
+// ignore_for_file: deprecated_member_use, curly_braces_in_flow_control_structures, unreachable_switch_default, unused_field
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-enum PrimitiveInputVariant {
-  outline,
-  filled,
-  flushed,
-}
+enum PrimitiveInputVariant { outline, filled, flushed }
 
-enum PrimitiveInputSize {
-  sm,
-  md,
-  lg,
-}
+enum PrimitiveInputSize { sm, md, lg }
 
 class PrimitiveInput extends StatefulWidget {
   final TextEditingController? controller;
   final String? placeholder;
-  final String? label; // Rendered outside or inside? Shadcn usually puts label outside. We'll handle placeholder only for "Input".
+  final String?
+  label; // Rendered outside or inside? Shadcn usually puts label outside. We'll handle placeholder only for "Input".
   final bool obscureText;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
@@ -92,7 +86,7 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
     Color borderColor;
     Color backgroundColor;
     double borderWidth = 1.0;
-    
+
     // Base Colors
     if (widget.variant == PrimitiveInputVariant.filled) {
       backgroundColor = colorScheme.surfaceContainerHighest.withOpacity(0.5);
@@ -135,13 +129,19 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
       case PrimitiveInputSize.lg:
         height = 48;
         fontSize = 16;
-        contentPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 12);
+        contentPadding = const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        );
         break;
       case PrimitiveInputSize.md:
       default:
         height = 40;
         fontSize = 14;
-        contentPadding = const EdgeInsets.symmetric(horizontal: 12, vertical: 10);
+        contentPadding = const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 10,
+        );
         break;
     }
 
@@ -149,7 +149,9 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
     final borderDecoration = BoxDecoration(
       color: backgroundColor,
       border: widget.variant == PrimitiveInputVariant.flushed
-          ? Border(bottom: BorderSide(color: borderColor, width: borderWidth))
+          ? Border(
+              bottom: BorderSide(color: borderColor, width: borderWidth),
+            )
           : Border.all(color: borderColor, width: borderWidth),
       borderRadius: widget.variant == PrimitiveInputVariant.flushed
           ? null
@@ -158,7 +160,9 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
 
     final textStyle = TextStyle(
       fontSize: fontSize,
-      color: widget.enabled ? colorScheme.onSurface : colorScheme.onSurface.withOpacity(0.38),
+      color: widget.enabled
+          ? colorScheme.onSurface
+          : colorScheme.onSurface.withOpacity(0.38),
     );
 
     final placeholderStyle = TextStyle(
@@ -169,14 +173,18 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      cursor: widget.enabled ? SystemMouseCursors.text : SystemMouseCursors.forbidden,
+      cursor: widget.enabled
+          ? SystemMouseCursors.text
+          : SystemMouseCursors.forbidden,
       child: GestureDetector(
         onTap: widget.enabled ? () => _focusNode.requestFocus() : null,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           height: height,
           decoration: borderDecoration,
-          padding: EdgeInsets.symmetric(horizontal: widget.variant == PrimitiveInputVariant.flushed ? 0 : 0),
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.variant == PrimitiveInputVariant.flushed ? 0 : 0,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -199,9 +207,12 @@ class _PrimitiveInputState extends State<PrimitiveInput> {
                     alignment: Alignment.centerLeft,
                     children: [
                       // Placeholder
-                      if ((_controller.text.isEmpty) && widget.placeholder != null)
+                      if ((_controller.text.isEmpty) &&
+                          widget.placeholder != null)
                         Padding(
-                          padding: const EdgeInsets.only(left: 1), // Minor optical adjustment
+                          padding: const EdgeInsets.only(
+                            left: 1,
+                          ), // Minor optical adjustment
                           child: Text(
                             widget.placeholder!,
                             style: placeholderStyle,
